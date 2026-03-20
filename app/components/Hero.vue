@@ -1,32 +1,58 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue';
+
 // Hero component - structural wrapper
 const props = defineProps<{
   year?: string;
   subtitle?: string;
 }>();
+
+onMounted(() => {
+  // Empêcher le scroll initialement via la classe CSS
+  document.documentElement.classList.add('no-scroll');
+  document.body.classList.add('no-scroll');
+  
+  const timer = setTimeout(() => {
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+  }, 5000);
+
+  // Nettoyage au cas où le composant est démonté avant la fin du timer
+  onUnmounted(() => {
+    clearTimeout(timer);
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+  });
+});
 </script>
 
 <template>
-  <div class="hero">
-    <main class="hero-content">
+  <div class="h-screen w-full flex flex-col justify-between p-10 relative z-10 max-md:p-5">
+    <main class="flex-grow flex flex-col justify-center items-start text-left">
 
-      <div class="intro-handwritten animate-fade-in" style="animation-delay: 0.2s">
-        Hello, i am
+      <div class="font-handwriting text-[clamp(1.5rem,4vw,2.2rem)] text-white/40 -mb-4 tracking-wider animate-delay-[0.2s] animate-fade-in">
+        Hello, I am
       </div>
 
-      <AsciiBanner :delay="900" />
+      <AsciiBanner :delay="500" />
 
-      <div class="subtitle-wrap animate-fade-in" style="animation-delay: 4.5s">
-        <h2 class="hero-subtitle"><span class="handwritten-inline">An</span> Engineering Student & <span class="accent-text">Apprentice</span></h2>
-        <p class="tagline">
-          <span class="handwritten-inline">Seeking a</span> 3-month international internship in AI, Embedded Systems or Software Development.
-        </p>
+      <div class="flex flex-col items-start text-left animate-fade-in" style="animation-delay: 3.8s">
+        <h3 class="text-[clamp(1rem,2vw,1.25rem)] font-semibold tracking-widest text-primary mt-6">
+          <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline text-white/40 font-normal mr-1.5 leading-none">An</span> 
+          Engineering student in apprenticeship
+        </h3>
+      </div>
+      <div class="flex flex-col items-start text-left animate-fade-in" style="animation-delay: 5s">
+        <h3 class="text-[clamp(1rem,2vw,1.25rem)] font-semibold tracking-widest text-primary mt-6">
+          <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline text-white/40 font-normal mr-1.5 leading-none">Seeking a</span> 
+          3-month international internship in Computer Science.
+        </h3>
       </div>
     </main>
 
-    <footer class="hero-footer">
-      <div class="scroll-indicator">
-        <span class="scroll-text">Scroll</span>
+    <footer class="flex justify-center items-center">
+      <div class="flex flex-col items-center gap-[15px] animate-fade-in" style="animation-delay: 7s">
+        <span class="text-[0.6rem] tracking-[0.3em] text-secondary">Scroll</span>
         <div class="scroll-line"></div>
       </div>
     </footer>
@@ -34,100 +60,6 @@ const props = defineProps<{
 </template>
 
 <style scoped>
-.hero {
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 40px;
-  position: relative;
-  z-index: 10;
-}
-
-.hero-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: left;
-}
-
-.top-meta {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.4em;
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
-}
-
-.intro-handwritten {
-  font-family: 'Caveat', cursive;
-  font-size: clamp(2rem, 6vw, 3rem);
-  color: var(--text-secondary);
-  margin-bottom: -1rem;
-  margin-left: 0;
-  opacity: 0.8;
-  letter-spacing: 0.05em;
-}
-
-.hero-subtitle {
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--text-primary);
-  margin-top: 1.5rem;
-}
-
-.handwritten-inline {
-  font-family: 'Caveat', cursive;
-  font-size: clamp(1.4rem, 3.5vw, 2.1rem); 
-  vertical-align: baseline;
-  color: var(--text-secondary);
-  font-weight: 400;
-  margin-right: 0.3rem;
-}
-
-.tagline {
-  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-  color: var(--text-secondary);
-  margin-top: 0.8rem;
-  max-width: 600px;
-  line-height: 1.6;
-}
-
-.accent-text {
-  color: var(--text-secondary);
-  font-weight: 400;
-}
-
-.subtitle-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-}
-
-.hero-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.scroll-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-}
-
-.scroll-text {
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  color: var(--text-secondary);
-}
-
 .scroll-line {
   width: 1px;
   height: 60px;
@@ -160,11 +92,5 @@ const props = defineProps<{
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 768px) {
-  .hero {
-    padding: 20px;
-  }
 }
 </style>

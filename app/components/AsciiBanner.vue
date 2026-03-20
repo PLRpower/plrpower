@@ -37,7 +37,7 @@ let isFirefox = false;
 // Paramètres d'allumage (60 FPS)
 const CHAR_MAP = rawLines.map(line => line.split(''));
 const maxCols = rawLines[0].length;
-const totalAnimationTime = maxCols * 12; // Ajuste ce chiffre pour la vitesse globale
+const totalAnimationTime = maxCols * 10; // Ajuste ce chiffre pour la vitesse globale
 
 const charStates = CHAR_MAP.map((line, lIdx) => 
   line.map((char, cIdx) => {
@@ -52,7 +52,7 @@ const charStates = CHAR_MAP.map((line, lIdx) =>
       targetChar: char,
       currentOpacity: 0,
       startTime: (easedT * totalAnimationTime) + (Math.random() * 50),
-      duration: 500 + Math.random() * 180,
+      duration: 400 + Math.random() * 150,
       flickerFreq: 0.05 + Math.random() * 0.1,
       flickerPhase: Math.random() * Math.PI * 2,
       isFinished: false,
@@ -106,7 +106,7 @@ const draw = (timestamp: number) => {
       const dy = charY - (mouseY.value / dpr);
       const dist = Math.sqrt(dx*dx + dy*dy);
       
-      const isHovered = dist < 50; 
+      const isHovered = dist < 50;
       const charElapsed = elapsed - state.startTime;
 
       if (charElapsed < 0 && !isHovered) {
@@ -140,7 +140,7 @@ const draw = (timestamp: number) => {
         state.hoverChar = null;
         
         if (charElapsed >= state.duration) {
-          opacity = 0.7; // OPACITÉ RÉDUITE (VEILLE)
+          opacity = 0.9; // OPACITÉ RÉDUITE (VEILLE)
           state.isFinished = true;
         } else {
           stillAnimating = true;

@@ -1,12 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400..700&family=Space+Grotesk:wght@300..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --bg-color: #000000;
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.4);
-  --accent-color: #ffffff;
-  --font-main: 'Space Grotesk', sans-serif;
+  --text-primary: #cccccc;
+  --text-secondary: rgba(255, 255, 255, 0.35);
+  --accent-color: #cccccc;
+  --font-main: 'Montserrat', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --font-title: 'Space Grotesk', sans-serif;
   --grid-color: rgba(255, 255, 255, 0.02);
 }
 
@@ -23,6 +28,19 @@ body {
   font-family: var(--font-main);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+}
+
+.no-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
+}
+
+.font-handwriting {
+  font-family: 'Caveat', cursive !important;
 }
 
 /* Texture & Grid */

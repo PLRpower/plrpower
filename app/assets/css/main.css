@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400..700&family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400..700&family=Space+Grotesk:wght@300..700&display=block');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg-color: #000000;
-  --text-primary: #cccccc;
-  --text-secondary: rgba(255, 255, 255, 0.35);
-  --accent-color: #cccccc;
+  --bg-color: #030303;
+  --text-primary: #e2e2e2;
+  --text-secondary: rgba(255, 255, 255, 0.4);
+  --accent-color: #34d399; /* Emerald Green */
+  --accent-secondary: #6366f1; /* Indigo/Purple */
   --font-main: 'Montserrat', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-title: 'Space Grotesk', sans-serif;
@@ -21,13 +22,34 @@
   box-sizing: border-box;
 }
 
+.app-wrapper {
+  accent-color: var(--accent-color);
+}
+
 html,
 body {
   background-color: var(--bg-color);
   color: var(--text-primary);
   font-family: var(--font-main);
   overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px; /* Offset for the fixed navbar (80px + padding) */
   -webkit-font-smoothing: antialiased;
+  accent-color: var(--accent-color);
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 2px;
+  background: var(--accent-color);
+  margin-top: 0.5rem;
+  transition: width 0.3s ease;
+}
+
+.section-container:hover .section-title::after {
+  width: 60px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -72,14 +94,26 @@ h1, h2, h3, h4, h5, h6 {
 
 .glow {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  top: 30%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.04) 0%, transparent 70%);
   pointer-events: none;
   z-index: 2;
+  filter: blur(80px);
+}
+
+.glow-2 {
+  position: fixed;
+  bottom: -10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+  filter: blur(80px);
 }
 
 .vignette {
@@ -132,5 +166,5 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-fade-in {
   opacity: 0;
-  animation: fadeIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: fadeIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }

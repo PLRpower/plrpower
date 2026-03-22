@@ -123,7 +123,7 @@ const draw = (timestamp: number) => {
         if (!isFirefox) {
           const blur = 60 * glowScale;
           ctx.shadowBlur = blur;
-          ctx.shadowColor = `rgba(255, 255, 255, ${glowScale})`;
+          ctx.shadowColor = `rgba(52, 211, 153, ${glowScale})`;
           lastBlur = blur;
         }
         opacity = 1.0; 
@@ -140,7 +140,7 @@ const draw = (timestamp: number) => {
         state.hoverChar = null;
         
         if (charElapsed >= state.duration) {
-          opacity = 0.9; // OPACITÉ RÉDUITE (VEILLE)
+          opacity = 1.0; // FULL OPACITÉ (VEILLE)
           state.isFinished = true;
         } else {
           stillAnimating = true;
@@ -153,7 +153,7 @@ const draw = (timestamp: number) => {
               // Rétablissement du glow pour les navigateurs performants (Chrome/Safari/Edge)
               const animBlur = 50 * (1 - progress);
               ctx.shadowBlur = animBlur;
-              ctx.shadowColor = 'white';
+              ctx.shadowColor = '#34d399';
               lastBlur = animBlur;
               opacity = 0.6 + 0.4 * (1 - progress); 
               
@@ -175,7 +175,7 @@ const draw = (timestamp: number) => {
         }
       }
 
-      ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+      ctx.fillStyle = isHovered ? '#beffcc' : `rgba(255, 255, 255, ${opacity})`;
       
       if (!state.isFinished && !isHovered) {
         charToDraw = scramblePool[Math.floor(Math.random() * scramblePool.length)] || '.';
@@ -270,8 +270,9 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .ascii-wrapper {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   width: 100%;
+  min-height: 260px; /* Réserve l'espace pour éviter le saut vertical au chargement */
   contain: layout;
 }
 

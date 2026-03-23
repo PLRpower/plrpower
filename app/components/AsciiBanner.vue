@@ -195,10 +195,22 @@ const draw = (timestamp: number) => {
   }
 };
 
+let canvasRect: DOMRect | null = null;
+
+const updateRect = () => {
+  if (asciiCanvas.value) {
+    canvasRect = asciiCanvas.value.getBoundingClientRect();
+  }
+};
+
 const handleMouseMove = (e: MouseEvent) => {
   const canvas = asciiCanvas.value;
-  if (canvas) {
-    const rect = canvas.getBoundingClientRect();
+  if (!canvas) return;
+
+  if (!canvasRect) updateRect();
+  const rect = canvasRect;
+  
+  if (rect) {
     // Les coordonnées ici doivent correspondre à la taille interne (multipliée par dpr)
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
@@ -233,6 +245,9 @@ const handleResize = () => {
     // On garde le style CSS
     asciiCanvas.value.style.width = `${width}px`;
     asciiCanvas.value.style.height = `${height}px`;
+
+    // Met à jour le cache du rect
+    updateRect();
   }
 };
 

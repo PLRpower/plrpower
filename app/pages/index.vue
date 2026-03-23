@@ -32,7 +32,7 @@
             class="project-card"
           >
             <div v-if="project.image" class="project-image-wrapper">
-              <img :src="project.image" :alt="project.title" class="project-img" />
+              <NuxtImg :src="project.image" :alt="project.title" class="project-img" format="webp" loading="lazy" />
             </div>
             <div class="project-body">
               <div class="project-header">
@@ -252,7 +252,7 @@
         <!-- TOEIC -->
         <div class="award-item">
           <div class="award-icon-wrapper">
-            <img src="/images/awards/toeic.png" alt="TOEIC" class="award-icon" />
+            <NuxtImg src="/images/awards/toeic.webp" alt="TOEIC" class="award-icon" format="webp" loading="lazy" />
           </div>
           <div class="award-content">
             <span class="award-date">Mar 2025</span>
@@ -266,7 +266,7 @@
         <!-- Aquathon -->
         <div class="award-item">
           <div class="award-icon-wrapper">
-            <img src="/images/awards/aquathon.png" alt="Aquathon" class="award-icon" />
+            <NuxtImg src="/images/awards/aquathon.webp" alt="Aquathon" class="award-icon" format="webp" loading="lazy" />
           </div>
           <div class="award-content">
             <span class="award-date">Nov 2025</span>
@@ -280,7 +280,7 @@
         <!-- PIX -->
         <div class="award-item">
           <div class="award-icon-wrapper">
-            <img src="/images/awards/pix.png" alt="Pix" class="award-icon" />
+            <NuxtImg src="/images/awards/pix.webp" alt="Pix" class="award-icon" format="webp" loading="lazy" />
           </div>
           <div class="award-content">
             <span class="award-date">Mar 2023</span>
@@ -294,7 +294,7 @@
         <!-- AXA -->
         <div class="award-item">
           <div class="award-icon-wrapper">
-            <img src="/images/awards/axa.png" alt="AXA" class="award-icon" />
+            <NuxtImg src="/images/awards/axa.webp" alt="AXA" class="award-icon" format="webp" loading="lazy" />
           </div>
           <div class="award-content">
             <span class="award-date">2024 & 2025</span>
@@ -426,6 +426,15 @@ const projectsData = [
 
 const isSubmitting = ref(false);
 const submitStatus = ref<'success' | 'error' | null>(null);
+
+useSeoMeta({
+  title: 'Paul Thomas — AI, Embedded Systems & Full-Stack Developer',
+  description: 'Passionate Computer Science student specializing in AI, Embedded Systems, and Application Development. Seeking an international internship for 2026.',
+  ogTitle: 'Paul Thomas — Computer Science Student & Developer Portfolio',
+  ogDescription: 'Explore my projects in AI, Federated Learning, and Embedded Systems.',
+  ogImage: '/images/og-image.webp', // On utilisera une image par défaut
+  twitterCard: 'summary_large_image',
+});
 
 const handleContactSubmit = async (e: Event) => {
   const form = e.target as HTMLFormElement;
@@ -1217,27 +1226,43 @@ onMounted(() => {
   }
 
   .timeline {
-    padding-left: 1.5rem;
+    padding-left: 0.5rem;
   }
 
   .timeline::before {
-    left: 4.2rem; /* Adjusted for mobile */
+    left: 0.5rem;
   }
 
   .timeline-item {
     padding: 1.25rem 1.5rem;
+    margin-left: 1.5rem;
   }
 
   .timeline-item::before {
-    left: -2.3rem; /* Mobile alignment */
-    top: 2rem;
+    left: -1.5rem;
+    top: 2.2rem;
   }
 
   .item-duration {
-    left: -5.5rem;
-    width: 3.5rem;
-    font-size: 0.6rem;
-    top: 2rem;
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: none;
+    text-align: left;
+    width: auto;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 0.7rem;
+  }
+
+  .timeline-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .item-date {
+    font-size: 0.8rem;
   }
 }
 </style>

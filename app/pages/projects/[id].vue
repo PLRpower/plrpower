@@ -54,6 +54,26 @@ const project = computed(() => projects.find(p => p.id === projectId));
 if (!project.value) {
   throw showError({ statusCode: 404, statusMessage: 'Project not found' });
 }
+
+useSeoMeta({
+  title: `${project.value.title} | Paul Thomas — Portfolio`,
+  description: project.value.description,
+  ogTitle: project.value.title,
+  ogDescription: project.value.description,
+  ogImage: project.value.image,
+  twitterCard: 'summary_large_image',
+});
+
+useSchemaOrg([
+  defineWebPage({
+    name: project.value.title,
+    description: project.value.description,
+  }),
+  defineCreativeWork({
+    name: project.value.title,
+    description: project.value.description,
+  })
+]);
 </script>
 
 <template>
@@ -73,7 +93,7 @@ if (!project.value) {
 
     <div class="project-visual-wrapper" v-if="project.image">
       <div class="image-container">
-        <img :src="project.image" :alt="project.title" />
+        <NuxtImg :src="project.image" :alt="project.title" format="webp" />
       </div>
     </div>
 

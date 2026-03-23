@@ -9,12 +9,9 @@ const props = defineProps<{
 
 const route = useRoute();
 
-const isBot = ref(false);
+const isBot = useBot();
 
 onMounted(() => {
-  // Détection des bots / Lighthouse pour désactiver les délais
-  isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(navigator.userAgent);
-
   // Si on arrive avec un hash (ex: /#about) ou si c'est un bot, on ne bloque pas le scroll
   if (route.hash || isBot.value) {
     return;

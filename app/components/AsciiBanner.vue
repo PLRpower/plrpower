@@ -275,10 +275,13 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="ascii-wrapper" 
-       :style="{ opacity: isReady ? 1 : 0, transition: 'opacity 0.8s ease' }"
+       :style="{ opacity: isReady || instant ? 1 : 0, transition: 'opacity 0.8s ease' }"
        @mousemove="handleMouseMove"
        @mouseleave="handleMouseLeave">
-    <canvas ref="asciiCanvas" class="ascii-canvas"></canvas>
+    <div v-if="instant" class="ascii-static" aria-hidden="true">
+      <pre v-for="(line, idx) in rawLines" :key="idx">{{ line }}</pre>
+    </div>
+    <canvas v-else ref="asciiCanvas" class="ascii-canvas"></canvas>
   </div>
 </template>
 
@@ -294,5 +297,19 @@ onBeforeUnmount(() => {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.ascii-static {
+  color: white;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5vw;
+  line-height: 1.3;
+  user-select: none;
+  pointer-events: none;
+}
+
+.ascii-static pre {
+  margin: 0;
+  white-space: pre;
 }
 </style>

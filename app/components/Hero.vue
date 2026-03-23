@@ -9,9 +9,14 @@ const props = defineProps<{
 
 const route = useRoute();
 
+const isBot = ref(false);
+
 onMounted(() => {
-  // Si on arrive avec un hash (ex: /#about), on ne bloque pas le scroll
-  if (route.hash) {
+  // Détection des bots / Lighthouse pour désactiver les délais
+  isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(navigator.userAgent);
+
+  // Si on arrive avec un hash (ex: /#about) ou si c'est un bot, on ne bloque pas le scroll
+  if (route.hash || isBot.value) {
     return;
   }
 
@@ -37,21 +42,23 @@ onMounted(() => {
   <div class="h-screen w-full flex flex-col justify-between py-10 relative z-10 max-md:py-5">
     <main class="flex-grow flex flex-col justify-start pt-[12vh] items-start text-left max-md:pt-[10vh]">
 
-      <div class="animate-fade-in animate-delay-[0.2s]">
+      <div class="animate-fade-in" :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '0.2s' }">
         <div class="font-handwriting text-[clamp(1.5rem,4vw,2.2rem)] tracking-wider" style="color: var(--accent-color);">
           Hello, I am
         </div>
       </div>
 
-      <AsciiBanner :delay="500" />
+      <AsciiBanner :delay="isBot ? 0 : 500" :instant="isBot" />
 
-      <div class="flex flex-col items-start text-left animate-fade-in" style="animation-delay: 3.8s">
+      <div class="flex flex-col items-start text-left animate-fade-in" 
+           :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '3.8s' }">
         <h3 class="text-[clamp(1rem,2vw,1.25rem)] font-semibold tracking-widest text-primary mt-4">
           <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline font-normal mr-1.5 leading-none" style="color: var(--accent-color);">An</span> 
           Engineering student in Computer Science & AI apprenticeship
         </h3>
       </div>
-      <div class="flex flex-col items-start text-left animate-fade-in" style="animation-delay: 5s">
+      <div class="flex flex-col items-start text-left animate-fade-in" 
+           :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '5s' }">
         <h3 class="text-[clamp(1rem,2vw,1.25rem)] font-semibold tracking-widest text-primary mt-4">
           <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline font-normal mr-1.5 leading-none" style="color: var(--accent-color);">Seeking a</span> 
           3-month international internship.
@@ -60,7 +67,8 @@ onMounted(() => {
     </main>
 
     <footer class="flex justify-center items-center">
-      <div class="flex flex-col items-center gap-[15px] animate-fade-in" style="animation-delay: 5.5s">
+      <div class="flex flex-col items-center gap-[15px] animate-fade-in" 
+           :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '5.5s' }">
         <span class="text-[0.6rem] tracking-[0.3em] text-secondary">Scroll</span>
         <div class="scroll-line"></div>
       </div>

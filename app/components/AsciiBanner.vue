@@ -3,6 +3,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const props = defineProps<{
   delay?: number;
+  instant?: boolean;
 }>();
 
 const rawLines = [
@@ -37,25 +38,23 @@ let isFirefox = false;
 // Paramètres d'allumage (60 FPS)
 const CHAR_MAP = rawLines.map(line => line.split(''));
 const maxCols = rawLines[0].length;
-const totalAnimationTime = maxCols * 10; // Ajuste ce chiffre pour la vitesse globale
+const totalAnimationTime = maxCols * 10; // Original state
 
 const charStates = CHAR_MAP.map((line, lIdx) => 
   line.map((char, cIdx) => {
     // Ease-in-out progress (0 à 1)
     const t = cIdx / maxCols;
-    // On mélange vitesse linéaire et courbe cubique asymétrique
-    // Le centre est à 0.4 pour ralentir plus tôt à la fin
     const f = (x : number) => 0.1 * x + 0.2 * (4 * Math.pow(x - 0.3, 3) + 0.432);
     const easedT = (f(t) - f(0)) / (f(1) - f(0));
     
     return {
       targetChar: char,
       currentOpacity: 0,
-      startTime: (easedT * totalAnimationTime) + (Math.random() * 50),
-      duration: 400 + Math.random() * 150,
+      startTime: props.instant ? 0 : (easedT * totalAnimationTime) + (Math.random() * 50),
+      duration: props.instant ? 0 : 400 + Math.random() * 150,
       flickerFreq: 0.05 + Math.random() * 0.1,
       flickerPhase: Math.random() * Math.PI * 2,
-      isFinished: false,
+      isFinished: props.instant ? true : false,
       hoverChar: null as string | null
     };
   })
@@ -259,7 +258,7 @@ onMounted(() => {
       setTimeout(() => {
         requestAnimationFrame(draw);
         isReady.value = true;
-      }, props.delay || 0);
+      }, props.instant ? 0 : (props.delay || 0));
     } else {
       setTimeout(init, 50);
     }

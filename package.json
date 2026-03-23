@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@nuxt/icon": "^2.2.1",
+    "@nuxt/image": "^1.8.1",
+    "@nuxtjs/seo": "^2.0.2",
     "@resvg/resvg-js": "^2.6.2",
     "nuxt": "^4.4.2",
     "resend": "^6.9.4",

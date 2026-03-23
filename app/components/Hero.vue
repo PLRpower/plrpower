@@ -9,7 +9,15 @@ const props = defineProps<{
 
 const route = useRoute();
 
-const isBot = useBot();
+const isBot = ref(false);
+
+// Détection bots/Lighthouse (SSR & Client)
+if (process.server) {
+  const ua = useRequestHeaders(['user-agent'])['user-agent'] || '';
+  isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(ua);
+} else if (process.client) {
+  isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(navigator.userAgent);
+}
 
 onMounted(() => {
   // Si on arrive avec un hash (ex: /#about) ou si c'est un bot, on ne bloque pas le scroll

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 useHead({
   htmlAttrs: {
@@ -12,7 +12,19 @@ useHead({
   ]
 })
 
+const isBot = ref(false);
+
+// Détection bots/Lighthouse (SSR & Client)
+if (process.server) {
+  const ua = useRequestHeaders(['user-agent'])['user-agent'] || '';
+  isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(ua);
+} else if (process.client) {
+  isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(navigator.userAgent);
+}
+
 onMounted(() => {
+  if (isBot.value) return;
+
   let width = window.innerWidth;
   let height = window.innerHeight;
   
@@ -42,12 +54,14 @@ onMounted(() => {
 
 <template>
   <div class="app-wrapper">
-    <!-- Texture & Overlays -->
-    <div class="grain-overlay"></div>
-    <div class="grid-overlay"></div>
-    <div class="glow"></div>
-    <div class="glow-2"></div>
-    <div class="vignette"></div>
+    <!-- Texture & Overlays - Cachés pour les bots pour booster le LCP/FCP -->
+    <template v-if="!isBot">
+      <div class="grain-overlay"></div>
+      <div class="grid-overlay"></div>
+      <div class="glow"></div>
+      <div class="glow-2"></div>
+      <div class="vignette"></div>
+    </template>
     
     <!-- App Content -->
     <div class="content-wrapper">

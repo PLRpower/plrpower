@@ -1,0 +1,97 @@
+<template>
+  <section id="about" class="relative mt-32 md:mt-48 px-6 md:px-10 overflow-hidden">
+    <!-- Giant background number -->
+    <div class="about-big-number absolute -top-20 -right-4 md:right-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] light:text-black/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
+      01
+    </div>
+
+    <div class="max-w-[1200px] mx-auto relative z-10">
+      <!-- Section label -->
+      <div class="flex items-center gap-4 mb-6">
+        <span class="font-handwriting text-2xl text-accent/80">About</span>
+        <div class="w-12 h-px bg-accent/20"></div>
+      </div>
+
+      <!-- Section title reveal -->
+      <h2 class="font-display text-[clamp(2.2rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-tight text-primary mb-16">
+        <SectionTitleReveal text="Who I am" />
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start">
+        <!-- Photo column - breaks the grid intentionally -->
+        <div class="md:col-span-4 md:col-start-1 md:-mt-8">
+          <div class="about-photo relative group">
+            <NuxtImg 
+              src="/images/other/profile.webp" 
+              alt="Paul Thomas" 
+              class="w-full aspect-[3/4] object-cover grayscale-[0.4] contrast-[1.05] transition-all duration-1000 group-hover:grayscale-0 group-hover:contrast-[1.1]"
+              format="webp"
+              sizes="sm:100vw md:400px"
+              loading="lazy"
+            />
+            <!-- Photo overlay line -->
+            <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-accent via-[#14b8a6] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-1000 origin-left"></div>
+            <!-- Corner brackets -->
+            <div class="absolute top-3 left-3 w-5 h-5 border-t border-l border-accent/30 transition-all duration-500 group-hover:border-accent group-hover:w-7 group-hover:h-7 group-hover:top-2 group-hover:left-2"></div>
+            <div class="absolute bottom-3 right-3 w-5 h-5 border-b border-r border-accent/30 transition-all duration-500 group-hover:border-accent group-hover:w-7 group-hover:h-7 group-hover:bottom-2 group-hover:right-2"></div>
+          </div>
+          <p class="font-mono text-[0.6rem] text-secondary/30 tracking-[0.2em] mt-3 uppercase">Strasbourg, FR</p>
+        </div>
+
+        <!-- Text column -->
+        <div class="md:col-span-7 md:col-start-6 md:pt-12">
+          <p class="about-text text-[clamp(1rem,2vw,1.2rem)] leading-[2] text-secondary/80">
+            Passionate Computer Science student specializing in AI & Machine Learning, Embedded Systems, and Application Development. Currently working as an apprentice at the <span class="text-primary font-medium">LINEACT Research Laboratory</span>, focusing on Federated Learning.
+          </p>
+          <p class="about-text text-[clamp(1rem,2vw,1.2rem)] leading-[2] text-secondary/80 mt-6">
+            Seeking a <span class="text-accent font-medium">3-month internship abroad in 2027</span> to expand my technical expertise internationally.
+          </p>
+
+          <!-- Quick stats -->
+          <div class="flex gap-12 mt-12 pt-8 border-t border-white/[0.04] light:border-black/[0.04]">
+            <div v-for="stat in aboutStats" :key="stat.label" class="flex flex-col">
+              <span class="font-display text-3xl font-bold text-primary">{{ stat.value }}</span>
+              <span class="font-mono text-[0.6rem] text-secondary/40 tracking-[0.15em] uppercase mt-1">{{ stat.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup lang="ts">
+import { onMounted } from 'vue';
+
+const aboutStats = [
+  { value: '6+', label: 'Years Coding' },
+  { value: '15+', label: 'Projects' },
+  { value: '4', label: 'Awards' },
+];
+
+onMounted(async () => {
+  if (import.meta.client) {
+    const { gsap } = await import('gsap');
+    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+    gsap.registerPlugin(ScrollTrigger);
+
+    ScrollTrigger.batch('.about-text', {
+      onEnter: (elements) => {
+        gsap.fromTo(elements, 
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.08 }
+        );
+      },
+      start: 'top 88%',
+      once: true
+    });
+  }
+});
+</script>
+
+<style scoped>
+.about-text {
+  opacity: 0;
+  transform: translateY(30px);
+}
+</style>

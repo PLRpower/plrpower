@@ -1,20 +1,92 @@
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Design Tokens ─────────────────────────────────────────────────── */
+
 :root {
-  --bg-color: #030303;
+  --bg-color: #0a0a0a;
+  --bg-surface: #121212;
   --text-primary: #e2e2e2;
   --text-secondary: rgba(255, 255, 255, 0.4);
-  --accent-color: #34d399; /* Emerald Green */
-  --accent-secondary: #6366f1; /* Indigo/Purple */
+  --accent-color: #2dd4bf;       /* Teal */
+  --accent-secondary: #6366f1;   /* Indigo / Purple */
+  --accent-warm: #f59e0b;        /* Amber */
+  --accent-cyan: #22d3ee;        /* Cyan */
   --font-main: 'Montserrat', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-title: 'Space Grotesk', sans-serif;
-  --grid-color: rgba(255, 255, 255, 0.02);
+  --font-display: 'Syne', sans-serif;
+  --grid-color: rgba(255, 255, 255, 0.06);
+  --glow-emerald: rgba(45, 212, 191, 0.06);
+  --glow-indigo: rgba(99, 102, 241, 0.05);
+  --glow-warm: rgba(245, 158, 11, 0.03);
+  --selection-text: #000;
+  
+  --glow-1-c1: rgba(45, 212, 191, 0.04);
+  --glow-1-c2: rgba(45, 212, 191, 0.015);
+  --glow-2-c1: rgba(99, 102, 241, 0.035);
+  --glow-2-c2: rgba(99, 102, 241, 0.015);
+  --glow-3-c1: rgba(34, 211, 238, 0.03);
+  --glow-3-c2: rgba(34, 211, 238, 0.012);
+  --glow-4-c1: rgba(245, 158, 11, 0.025);
+  
+  --vignette-color: rgba(0, 0, 0, 0.6);
+  
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-border-hover: rgba(45, 212, 191, 0.15);
+  --glass-bg-hover: rgba(255, 255, 255, 0.05);
+  --glass-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04), 0 4px 24px -1px rgba(0, 0, 0, 0.3);
+  --glass-shadow-hover: inset 0 1px 0 0 rgba(255, 255, 255, 0.06), 0 8px 40px -4px rgba(0, 0, 0, 0.4), 0 0 60px -12px rgba(45, 212, 191, 0.06);
+  
+  --header-bg: rgba(3, 3, 3, 0.4);
+  --header-border: rgba(255, 255, 255, 0.06);
+  --header-shadow: 0 1px 0 0 rgba(45, 212, 191, 0.04), 0 4px 30px rgba(0, 0, 0, 0.3);
+  --panel-bg: rgba(3, 3, 3, 0.85);
+  --panel-border: rgba(255, 255, 255, 0.06);
+  --panel-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
 }
+
+.light {
+  --bg-color: #f8fafc;
+  --bg-surface: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --accent-color: #0d9488;
+  --accent-secondary: #4338ca;
+  --accent-warm: #d97706;
+  --accent-cyan: #0891b2;
+  --grid-color: rgba(0, 0, 0, 0.06);
+  --selection-text: #fff;
+
+  --glow-1-c1: rgba(13, 148, 136, 0.06);
+  --glow-1-c2: rgba(13, 148, 136, 0.02);
+  --glow-2-c1: rgba(67, 56, 202, 0.05);
+  --glow-2-c2: rgba(67, 56, 202, 0.02);
+  --glow-3-c1: rgba(8, 145, 178, 0.05);
+  --glow-3-c2: rgba(8, 145, 178, 0.02);
+  --glow-4-c1: rgba(217, 119, 6, 0.04);
+
+  --vignette-color: rgba(255, 255, 255, 0.8);
+
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border-hover: rgba(13, 148, 136, 0.3);
+  --glass-bg-hover: rgba(255, 255, 255, 0.9);
+  --glass-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), 0 4px 24px -1px rgba(0, 0, 0, 0.06);
+  --glass-shadow-hover: inset 0 1px 0 0 rgba(255, 255, 255, 1), 0 8px 40px -4px rgba(0, 0, 0, 0.12), 0 0 60px -12px rgba(13, 148, 136, 0.15);
+
+  --header-bg: rgba(255, 255, 255, 0.7);
+  --header-border: rgba(0, 0, 0, 0.06);
+  --header-shadow: 0 1px 0 0 rgba(13, 148, 136, 0.1), 0 4px 30px rgba(0, 0, 0, 0.05);
+  --panel-bg: rgba(255, 255, 255, 0.95);
+  --panel-border: rgba(0, 0, 0, 0.06);
+  --panel-shadow: -20px 0 60px rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Reset ─────────────────────────────────────────────────────────── */
 
 * {
   margin: 0;
@@ -22,38 +94,26 @@
   box-sizing: border-box;
 }
 
-.app-wrapper {
-  accent-color: var(--accent-color);
+::selection {
+  background-color: var(--accent-color);
+  color: var(--selection-text);
 }
 
-html,
+html {
+  scroll-padding-top: 100px;
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-primary);
-  font-family: var(--font-main);
+  font-family: var(--font-main), sans-serif;
   overflow-x: hidden;
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px; /* Offset for the fixed navbar (80px + padding) */
   -webkit-font-smoothing: antialiased;
-  accent-color: var(--accent-color);
-}
-
-.section-title::after {
-  content: '';
-  display: block;
-  width: 30px;
-  height: 2px;
-  background: var(--accent-color);
-  margin-top: 0.5rem;
-  transition: width 0.3s ease;
-}
-
-.section-container:hover .section-title::after {
-  width: 60px;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-title);
+  font-family: var(--font-title), sans-serif;
 }
 
 .no-scroll {
@@ -61,22 +121,24 @@ h1, h2, h3, h4, h5, h6 {
   height: 100vh !important;
 }
 
-.font-handwriting {
-  font-family: 'Caveat', cursive !important;
+/* ─── Lenis ─────────────────────────────────────────────────────────── */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
-/* Texture & Grid */
-.grain-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
+/* ─── Background · Dots Grid Overlay ────────────────────────────────── */
 
 .grid-overlay {
   position: fixed;
@@ -86,35 +148,105 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   z-index: 1;
   pointer-events: none;
-  background-size: 60px 60px;
-  background-image:
-    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--grid-color) 1px, rgba(255, 255, 255, 0) 1px);
+  background-size: 48px 48px;
+  /* mask-image removed for performance during zoom */
+  opacity: 0.65;
 }
+
+/* ─── Background · Grain Texture ────────────────────────────────────── */
+
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.015; /* Réduit pour un grain plus subtil */
+  /* Uses a 256x256 static PNG file instead of base64 to prevent visible tiling, 
+     while keeping the zero-math guarantee during zoom. */
+  /* noinspection CssUnknownTarget */
+  background-image: url("/noise.png");
+  background-size: 256px 256px;
+  background-repeat: repeat;
+  /* mix-blend-mode: overlay; removed to save GPU compositing cost */
+  contain: strict;
+}
+
+/* ─── Background · Ambient Glows ────────────────────────────────────── */
 
 .glow {
   position: fixed;
-  top: 30%;
-  right: -10%;
-  width: 60vw;
-  height: 60vw;
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.04) 0%, transparent 70%);
+  top: 15%;
+  right: -15%;
+  width: 65vw;
+  height: 65vw;
+  background: radial-gradient(
+    circle in oklab,
+    var(--glow-1-c1) 0%,
+    var(--glow-1-c2) 25%,
+    rgba(45, 212, 191, 0) 55%
+  );
   pointer-events: none;
   z-index: 2;
-  filter: blur(80px);
+  contain: layout style;
+  /* will-change + animation removed — 3 glows animating was eating GPU */
 }
 
 .glow-2 {
   position: fixed;
-  bottom: -10%;
-  left: -10%;
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.03) 0%, transparent 70%);
+  bottom: -15%;
+  left: -15%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(
+    circle in oklab,
+    var(--glow-2-c1) 0%,
+    var(--glow-2-c2) 25%,
+    rgba(99, 102, 241, 0) 55%
+  );
   pointer-events: none;
   z-index: 2;
-  filter: blur(80px);
+  contain: layout style;
 }
+
+.glow-3 {
+  position: fixed;
+  top: 40%;
+  left: -5%;
+  width: 45vw;
+  height: 45vw;
+  background: radial-gradient(
+    circle in oklab,
+    var(--glow-3-c1) 0%,
+    var(--glow-3-c2) 25%,
+    rgba(34, 211, 238, 0) 55%
+  );
+  pointer-events: none;
+  z-index: 2;
+  contain: layout style;
+}
+
+/* Third ambient glow — warm undertone top-left (static) */
+.glow::after {
+  content: '';
+  position: absolute;
+  top: 60%;
+  left: -30%;
+  width: 40vw;
+  height: 40vw;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle in oklab,
+    var(--glow-4-c1) 0%,
+    rgba(245, 158, 11, 0) 55%
+  );
+  /* animation removed — was adding yet another composited layer */
+}
+
+/* ─── Background · Vignette ─────────────────────────────────────────── */
 
 .vignette {
   position: fixed;
@@ -122,49 +254,92 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   width: 100%;
   height: 100%;
-  box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.8);
+  background: radial-gradient(ellipse at center in oklab, rgba(0, 0, 0, 0) 40%, var(--vignette-color) 100%);
   pointer-events: none;
   z-index: 5;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
+/* ═══════════════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── Glass Card ────────────────────────────────────────────────────── */
+
+.glass-card {
+  padding: 1.5rem;
+  background: var(--glass-bg);
+  /* backdrop-filter removed — extremely expensive during scroll */
+  contain: layout style paint;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+.glass-card:hover {
+  border-color: var(--glass-border-hover);
+  background: var(--glass-bg-hover);
+  box-shadow: var(--glass-shadow-hover);
+}
+
+/* ─── Scroll-Linked Reveal (progressive disclosure) ─────────────────── */
+
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
+    animation: scroll-reveal-in linear both;
+    animation-timeline: view();
+    /* noinspection CssInvalidPropertyValue */
+    animation-range-start: entry 0%;
+    /* noinspection CssInvalidPropertyValue */
+    animation-range-end: entry 40%;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes asciiReveal {
-  from {
-    opacity: 0;
-    transform: scale(0.95) translateY(10px);
-    filter: blur(4px);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0);
+  @keyframes scroll-reveal-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
-@keyframes scrollIndicator {
-  0% {
-    transform: translateY(-100%);
-  }
+/* ─── Display Font Helper ───────────────────────────────────────────── */
 
-  100% {
-    transform: translateY(100%);
-  }
+.font-display {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-.animate-fade-in {
-  opacity: 0;
-  animation: fadeIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+/* ─── Custom Scrollbar ──────────────────────────────────────────────── */
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
+
+*::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.3);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-color);
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 128, 128, 0.3) transparent;
+}
+

@@ -1,54 +1,21 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue';
-
-// Hero component - structural wrapper
-const props = defineProps<{
-  year?: string;
-  subtitle?: string;
-}>();
-
-const route = useRoute();
-
 const isBot = ref(false);
 
 // Détection bots/Lighthouse (SSR & Client)
-if (process.server) {
+if (import.meta.server) {
   const ua = useRequestHeaders(['user-agent'])['user-agent'] || '';
   isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(ua);
-} else if (process.client) {
+} else if (import.meta.client) {
   isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(navigator.userAgent);
 }
-
-onMounted(() => {
-  // Si on arrive avec un hash (ex: /#about) ou si c'est un bot, on ne bloque pas le scroll
-  if (route.hash || isBot.value) {
-    return;
-  }
-
-  // Empêcher le scroll initialement via la classe CSS
-  document.documentElement.classList.add('no-scroll');
-  document.body.classList.add('no-scroll');
-  
-  const timer = setTimeout(() => {
-    document.documentElement.classList.remove('no-scroll');
-    document.body.classList.remove('no-scroll');
-  }, 5000);
-
-  // Nettoyage au cas où le composant est démonté avant la fin du timer
-  onUnmounted(() => {
-    clearTimeout(timer);
-    document.documentElement.classList.remove('no-scroll');
-    document.body.classList.remove('no-scroll');
-  });
-});
 </script>
 
 <template>
-  <div class="h-screen w-full flex flex-col justify-between py-10 relative z-10 max-md:py-5">
+  <div class="h-screen w-full max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col justify-between py-10 relative z-10 max-md:py-5">
     <main class="flex-grow flex flex-col justify-start pt-[12vh] items-start text-left max-md:pt-[10vh]">
 
       <div class="animate-fade-in" :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '0.2s' }">
-        <div class="font-handwriting text-[clamp(1.5rem,4vw,2.2rem)] tracking-wider" style="color: var(--accent-color);">
+        <div class="font-handwriting text-[clamp(1.5rem,4vw,2.2rem)] tracking-wider text-accent">
           Hello, I am
         </div>
       </div>
@@ -58,52 +25,63 @@ onMounted(() => {
       <div class="flex flex-col items-start text-left animate-fade-in" 
            :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '3.8s' }">
         <h3 class="text-[clamp(1rem,2vw,1.25rem)] font-semibold tracking-widest text-primary mt-4">
-          <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline font-normal mr-1.5 leading-none" style="color: var(--accent-color);">An</span> 
-          Engineering student in Computer Science & AI apprenticeship
+          <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline font-normal mr-1.5 leading-none text-accent">A</span>
+          Computer Science student & AI / ML engineering apprentice
         </h3>
       </div>
       <div class="flex flex-col items-start text-left animate-fade-in" 
            :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '5s' }">
         <h3 class="text-[clamp(1rem,2vw,1.25rem)] font-semibold tracking-widest text-primary mt-4">
-          <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline font-normal mr-1.5 leading-none" style="color: var(--accent-color);">Seeking a</span> 
-          3-month international internship.
+          <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline font-normal mr-1.5 leading-none text-accent">Seeking a</span> 
+          3-month international internship in 2027.
         </h3>
+      </div>
+
+      <div class="mt-10 animate-fade-in flex flex-wrap gap-3" :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '5.5s' }">
+        <a href="/CV_Paul_Thomas.pdf" download 
+           class="flex items-center gap-2 px-4 py-2.5 border border-[#2dd4bf]/30 bg-[#2dd4bf]/[0.08] text-[#2dd4bf] font-mono text-[0.75rem] no-underline hover:bg-[#2dd4bf]/[0.15] hover:border-[#2dd4bf]/50 hover:shadow-[0_0_15px_rgba(45, 212, 191,0.2)] hover:-translate-y-0.5 transition-all duration-300">
+          <Icon name="uil:file-download" size="16px" />
+          Download CV
+        </a>
+        <a href="https://github.com/PLRpower" target="_blank" rel="noopener noreferrer" 
+           class="flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] light:border-black/10 light:bg-black/5 font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
+          <Icon name="uil:github" size="16px" />
+          Github
+        </a>
+        <a href="https://www.linkedin.com/in/paul-thomas-strasbourg/" target="_blank" rel="noopener noreferrer" 
+           class="flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] light:border-black/10 light:bg-black/5 font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
+          <Icon name="uil:linkedin" size="16px" />
+          LinkedIn
+        </a>
+        <a href="mailto:paul.thomas.stras@gmail.com" 
+           class="flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] light:border-black/10 light:bg-black/5 font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
+          <Icon name="uil:envelope" size="16px" />
+          Email
+        </a>
       </div>
     </main>
 
     <footer class="flex justify-center items-center">
       <div class="flex flex-col items-center gap-[15px] animate-fade-in" 
-           :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '5.5s' }">
+           :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '6s' }">
         <span class="text-[0.6rem] tracking-[0.3em] text-secondary">Scroll</span>
-        <div class="scroll-line"></div>
+        <div class="w-px h-[60px] bg-gradient-to-b from-accent to-transparent relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-full bg-white light:bg-slate-900 animate-scroll-indicator"></div>
+        </div>
       </div>
     </footer>
   </div>
 </template>
 
 <style scoped>
-.scroll-line {
-  width: 1px;
-  height: 60px;
-  background: linear-gradient(to bottom, var(--accent-color), transparent);
-  position: relative;
-  overflow: hidden;
-}
-
-.scroll-line::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  animation: scrollIndicator 2s cubic-bezier(0.15, 0.41, 0.69, 0.94) infinite;
-}
-
+/* Les animations complexes sont conservées en CSS pour la lisibilité */
 @keyframes scrollIndicator {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100%); }
+}
+
+.animate-scroll-indicator {
+  animation: scrollIndicator 2s cubic-bezier(0.15, 0.41, 0.69, 0.94) infinite;
 }
 
 .animate-fade-in {

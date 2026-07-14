@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
+const colorMode = useColorMode();
 const props = defineProps<{
   delay?: number;
   instant?: boolean;
@@ -33,16 +34,15 @@ const scramblePool = ['.', '*', '+', 'x'];
 const hoverPool = ['#', '@', '%', '&', 'W', '$'];
 
 let animationFrameId: number;
-let isFirefox = false;
+let isVisible = true;
 
 // Paramètres d'allumage (60 FPS)
 const CHAR_MAP = rawLines.map(line => line.split(''));
-const maxCols = rawLines[0].length;
+const maxCols = rawLines[0]?.length || 0;
 const totalAnimationTime = maxCols * 10; // Original state
 
 const charStates = CHAR_MAP.map((line, lIdx) => 
   line.map((char, cIdx) => {
-    // Ease-in-out progress (0 à 1)
     const t = cIdx / maxCols;
     const f = (x : number) => 0.1 * x + 0.2 * (4 * Math.pow(x - 0.3, 3) + 0.432);
     const easedT = (f(t) - f(0)) / (f(1) - f(0));
@@ -54,7 +54,7 @@ const charStates = CHAR_MAP.map((line, lIdx) =>
       duration: props.instant ? 0 : 400 + Math.random() * 150,
       flickerFreq: 0.05 + Math.random() * 0.1,
       flickerPhase: Math.random() * Math.PI * 2,
-      isFinished: props.instant ? true : false,
+      isFinished: props.instant,
       hoverChar: null as string | null
     };
   })
@@ -66,9 +66,12 @@ const isAnimationFinished = ref(false);
 let initialStartTime = 0;
 let dpr = 1;
 
+let _cachedFontSize = 0;
+let _cachedCharWidth = 0;
+
 const draw = (timestamp: number) => {
-  if (!asciiCanvas.value) return;
-  const ctx = asciiCanvas.value.getContext('2d');
+  if (!isVisible || !asciiCanvas.value) return;
+  const ctx = asciiCanvas.value.getContext('2d', { alpha: true });
   if (!ctx) return;
 
   if (!initialStartTime) initialStartTime = timestamp;
@@ -77,7 +80,6 @@ const draw = (timestamp: number) => {
   const canvas = asciiCanvas.value;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
-  // On divise par le dpr pour que la taille logique reste la même
   const logicalWidth = canvas.width / dpr;
   const fontSize = logicalWidth * 0.005; 
   
@@ -87,25 +89,26 @@ const draw = (timestamp: number) => {
   ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
   ctx.textBaseline = 'top';
   
-  const charWidth = ctx.measureText('M').width;
+  if (!_cachedFontSize || _cachedFontSize !== fontSize) {
+    _cachedFontSize = fontSize;
+    _cachedCharWidth = ctx.measureText('M').width;
+  }
+  const charWidth = _cachedCharWidth;
   const lineHeight = fontSize * 1.3;
 
   let stillAnimating = false;
 
-  let lastBlur = 0;
-  ctx.shadowBlur = 0;
-
   charStates.forEach((line, lIdx) => {
+    const charY = lIdx * lineHeight;
     line.forEach((state, cIdx) => {
       if (state.targetChar === ' ') return;
       
       const charX = cIdx * charWidth;
-      const charY = lIdx * lineHeight;
       const dx = charX - (mouseX.value / dpr);
       const dy = charY - (mouseY.value / dpr);
-      const dist = Math.sqrt(dx*dx + dy*dy);
+      const distSq = dx*dx + dy*dy;
       
-      const isHovered = dist < 50;
+      const isHovered = distSq < 2500; // 50*50, avoid sqrt
       const charElapsed = elapsed - state.startTime;
 
       if (charElapsed < 0 && !isHovered) {
@@ -116,15 +119,7 @@ const draw = (timestamp: number) => {
       let charToDraw = state.targetChar;
       let opacity = state.currentOpacity;
 
-      const glowScale = Math.max(0, 1 - dist / 60);
-
       if (isHovered) {
-        if (!isFirefox) {
-          const blur = 60 * glowScale;
-          ctx.shadowBlur = blur;
-          ctx.shadowColor = `rgba(52, 211, 153, ${glowScale})`;
-          lastBlur = blur;
-        }
         opacity = 1.0; 
         
         if (!state.hoverChar) {
@@ -132,14 +127,10 @@ const draw = (timestamp: number) => {
         }
         charToDraw = state.hoverChar;
       } else {
-        if (lastBlur !== 0) {
-          ctx.shadowBlur = 0;
-          lastBlur = 0;
-        }
         state.hoverChar = null;
         
         if (charElapsed >= state.duration) {
-          opacity = 1.0; // FULL OPACITÉ (VEILLE)
+          opacity = 1.0;
           state.isFinished = true;
         } else {
           stillAnimating = true;
@@ -148,25 +139,9 @@ const draw = (timestamp: number) => {
           const flickerOn = flickerIntensity > -0.4;
           
           if (flickerOn) {
-            if (!isFirefox) {
-              // Rétablissement du glow pour les navigateurs performants (Chrome/Safari/Edge)
-              const animBlur = 50 * (1 - progress);
-              ctx.shadowBlur = animBlur;
-              ctx.shadowColor = '#34d399';
-              lastBlur = animBlur;
-              opacity = 0.6 + 0.4 * (1 - progress); 
-              
-              if (flickerIntensity > 0.8 && Math.random() > 0.6) {
-                ctx.shadowBlur = 80;
-                lastBlur = 80;
-                opacity = 1.0;
-              }
-            } else {
-              // Optimisation Firefox : Uniquement opacité
-              opacity = 0.4 + 0.6 * (1 - progress); 
-              if (flickerIntensity > 0.8 && Math.random() > 0.6) {
-                opacity = 1.0;
-              }
+            opacity = 0.4 + 0.6 * (1 - progress); 
+            if (flickerIntensity > 0.8 && Math.random() > 0.6) {
+              opacity = 1.0;
             }
           } else {
             opacity = 0;
@@ -174,7 +149,8 @@ const draw = (timestamp: number) => {
         }
       }
 
-      ctx.fillStyle = isHovered ? '#beffcc' : `rgba(255, 255, 255, ${opacity})`;
+      const isLight = colorMode.value === 'light';
+      ctx.fillStyle = isHovered ? '#2dd4bf' : `rgba(${isLight ? '15, 23, 42' : '255, 255, 255'}, ${opacity})`;
       
       if (!state.isFinished && !isHovered) {
         charToDraw = scramblePool[Math.floor(Math.random() * scramblePool.length)] || '.';
@@ -195,6 +171,7 @@ const draw = (timestamp: number) => {
 };
 
 let canvasRect: DOMRect | null = null;
+let observer: IntersectionObserver | null = null;
 
 const updateRect = () => {
   if (asciiCanvas.value) {
@@ -202,24 +179,32 @@ const updateRect = () => {
   }
 };
 
+let mouseMoveThrottled = false;
 const handleMouseMove = (e: MouseEvent) => {
+  if (mouseMoveThrottled) return;
+  mouseMoveThrottled = true;
+  
   const canvas = asciiCanvas.value;
-  if (!canvas) return;
+  if (!canvas) { mouseMoveThrottled = false; return; }
 
   if (!canvasRect) updateRect();
   const rect = canvasRect;
   
   if (rect) {
-    // Les coordonnées ici doivent correspondre à la taille interne (multipliée par dpr)
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
     
     mouseX.value = (e.clientX - rect.left) * scaleX;
     mouseY.value = (e.clientY - rect.top) * scaleY;
     
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = requestAnimationFrame(draw);
+    if (isAnimationFinished.value) {
+      // Only restart loop if animation was done
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(draw);
+    }
   }
+  
+  requestAnimationFrame(() => { mouseMoveThrottled = false; });
 };
 
 const handleMouseLeave = () => {
@@ -227,34 +212,53 @@ const handleMouseLeave = () => {
   mouseY.value = -1000;
 };
 
+let resizeTimeout: any = null;
 const handleResize = () => {
-  if (asciiCanvas.value) {
-    dpr = window.devicePixelRatio || 1;
-    const width = window.innerWidth;
-    
-    // On calcule la hauteur exacte nécessaire en fonction du nombre de lignes
-    // C'est le ratio utilisé dans draw() : fontSize = width * 0.005, lineHeight = fontSize * 1.3
-    const fontSize = width * 0.005;
-    const lineHeight = fontSize * 1.3;
-    const height = (rawLines.length + 2) * lineHeight; // +2 pour un léger padding
-    
-    asciiCanvas.value.width = width * dpr;
-    asciiCanvas.value.height = height * dpr;
-    
-    // On garde le style CSS
-    asciiCanvas.value.style.width = `${width}px`;
-    asciiCanvas.value.style.height = `${height}px`;
+  if (resizeTimeout) clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    if (asciiCanvas.value) {
+      dpr = window.devicePixelRatio || 1;
+      const width = window.innerWidth;
+      
+      // On calcule la hauteur exacte nécessaire en fonction du nombre de lignes
+      // C'est le ratio utilisé dans draw() : fontSize = width * 0.005, lineHeight = fontSize * 1.3
+      const fontSize = width * 0.005;
+      const lineHeight = fontSize * 1.3;
+      const height = (rawLines.length + 2) * lineHeight; // +2 pour un léger padding
+      
+      asciiCanvas.value.width = width * dpr;
+      asciiCanvas.value.height = height * dpr;
+      
+      // On garde le style CSS
+      asciiCanvas.value.style.width = `${width}px`;
+      asciiCanvas.value.style.height = `${height}px`;
 
-    // Met à jour le cache du rect
-    updateRect();
-  }
+      // Met à jour le cache du rect
+      updateRect();
+    }
+  }, 150); // Debounce de 150ms pour le zoom au trackpad
 };
 
 onMounted(() => {
   const init = () => {
     if (asciiCanvas.value) {
-      isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
       handleResize();
+
+      // Intersection Observer pour économiser le CPU
+      observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        
+        if (isVisible && !wasVisible) {
+          // Relancer l'animation si elle était arrêtée
+          animationFrameId = requestAnimationFrame(draw);
+        }
+      }, { threshold: 0.1 });
+      
+      observer.observe(asciiCanvas.value);
+
       setTimeout(() => {
         requestAnimationFrame(draw);
         isReady.value = true;
@@ -269,47 +273,29 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (animationFrameId) cancelAnimationFrame(animationFrameId);
+  if (observer) observer.disconnect();
   window.removeEventListener('resize', handleResize);
+});
+
+watch(() => colorMode.value, () => {
+  if (isAnimationFinished.value) {
+    animationFrameId = requestAnimationFrame(draw);
+  }
 });
 </script>
 
 <template>
-  <div class="ascii-wrapper" 
+  <div class="my-2 w-full min-h-[260px] [contain:layout]" 
        :style="{ opacity: isReady || instant ? 1 : 0, transition: 'opacity 0.8s ease' }"
-       @mousemove="handleMouseMove"
+       @mousemove.passive="handleMouseMove"
        @mouseleave="handleMouseLeave">
-    <div v-if="instant" class="ascii-static" aria-hidden="true">
-      <pre v-for="(line, idx) in rawLines" :key="idx">{{ line }}</pre>
+    <div v-if="instant" class="text-white light:text-primary font-mono text-[0.5vw] leading-tight select-none pointer-events-none" aria-hidden="true">
+      <pre v-for="(line, idx) in rawLines" :key="idx" class="m-0 pre-wrap">{{ line }}</pre>
     </div>
-    <canvas v-else ref="asciiCanvas" class="ascii-canvas"></canvas>
+    <canvas v-else ref="asciiCanvas" class="w-full h-auto block"></canvas>
   </div>
 </template>
 
 <style scoped>
-.ascii-wrapper {
-  margin: 0.5rem 0;
-  width: 100%;
-  min-height: 260px; /* Réserve l'espace pour éviter le saut vertical au chargement */
-  contain: layout;
-}
-
-.ascii-canvas {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.ascii-static {
-  color: white;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.5vw;
-  line-height: 1.3;
-  user-select: none;
-  pointer-events: none;
-}
-
-.ascii-static pre {
-  margin: 0;
-  white-space: pre;
-}
+/* Les styles très spécifiques comme min-height ou contain sont parfois plus clairs en CSS mais ici convertis en classes arbitraires Tailwind */
 </style>

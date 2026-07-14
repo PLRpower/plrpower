@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import tailwindcss from '@tailwindcss/vite'
+
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/seo',
     '@nuxt/fonts',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@nuxtjs/tailwindcss'
   ],
   colorMode: {
     classSuffix: '',
@@ -35,11 +36,8 @@ export default defineNuxtConfig({
       link: []
     }
   },
-  css: ['@/assets/css/main.css'],
+  css: ['~/assets/css/main.css'],
   vite: {
-    plugins: [
-      tailwindcss(),
-    ],
     optimizeDeps: {
       include: [
         '@vue/devtools-core',

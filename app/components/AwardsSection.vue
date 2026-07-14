@@ -16,7 +16,7 @@
       <!-- Typography List -->
       <div class="flex flex-col border-t border-white/[0.05] light:border-black/[0.05] award-item">
         <div v-for="award in awardsData" :key="award.title" 
-             class="group relative py-6 md:py-8 border-b border-white/[0.05] light:border-black/[0.05] flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-default transition-colors duration-500 hover:bg-white/[0.02] light:bg-black/[0.02] px-4 -mx-4 rounded-xl"
+             class="group relative py-6 md:py-8 border-b border-white/[0.05] light:border-black/[0.05] flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-default transition-colors duration-500 hover:bg-white/[0.02] light:hover:bg-black/[0.02] px-4 -mx-4 rounded-xl"
              @mouseenter="activeAward = award; isHoveringAward = true"
              @mouseleave="isHoveringAward = false">
           

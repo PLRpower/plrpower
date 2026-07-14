@@ -1,7 +1,44 @@
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --color-bg-primary: var(--bg-color);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-accent: var(--accent-color);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-warm: #f59e0b;
+  --color-accent-cyan: #22d3ee;
+  --color-grid: var(--grid-color);
+
+  --font-sans: 'Montserrat', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-handwriting: 'Caveat', cursive;
+  --font-title: 'Space Grotesk', sans-serif;
+  --font-display: 'Syne', sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.5s linear infinite;
+
+  --blur-xs: 2px;
+  --blur-2xl: 40px;
+  --blur-3xl: 64px;
+}
+
+@custom-variant light (.light &);
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; box-shadow: 0 0 20px rgba(45, 212, 191, 0.1); }
+  50% { opacity: 1; box-shadow: 0 0 40px rgba(45, 212, 191, 0.25); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
 
 /* ─── Design Tokens ─────────────────────────────────────────────────── */
 

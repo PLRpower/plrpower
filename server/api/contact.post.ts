@@ -2,6 +2,7 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// noinspection JSUnusedGlobalSymbols
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const { name, email, message } = body;

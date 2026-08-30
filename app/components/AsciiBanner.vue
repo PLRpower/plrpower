@@ -2,72 +2,136 @@
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
 const colorMode = useColorMode();
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   delay?: number;
   instant?: boolean;
-}>();
+  animated?: boolean;
+  color?: string;
+  pingPong?: boolean;
+}>(), {
+  delay: 0,
+  instant: false,
+  animated: true,
+  pingPong: false,
+});
 
 const rawLines = [
-  "                                                                          ++++++++                                                 +++++++                                                                                                                                   ",
-  "++++++++++++++++++++                                                          ++++                 ++++++++++++++++++++++++++++++     ++++                                                                                                                                  ",
-  "    ++++#        +++++*                                                       ++++                 +++          +++++         +++     ++++                                                                                                                                   ",
-  "    ++++#         #+++++                                                      ++++                 ++           +++++          ++     *+++                                                                                                                                   ",
-  "    ++++#          +++++                                                      *+++                 +*           +++++           +     *+++                                                                                                                                   ",
-  "    ++++#          +++++                                                      *+++                              +++++                 *+++                                                                                                                                   ",
-  "    ++++#          +++++     *+++++++++++       +++++++       +++++++#        *+++                              +++++                 *+++   *+++++++++              +++++++++++          +++++*   *+++++++++     ++++++++++          #+++++++++++           ++++++++++      ",
-  "    ++++#         +++++     ++++      ++++         ++++          ++++#        *+++                              +++++                 *+++ +++     #++++%         #++++       ++++*       #+++++ ++*     #++++* ++*     *++++        ++++*     *+++*       %++*     +++      ",
-  "    ++++#      *++++++      +++%       ++++        ++++          *+++#        *+++                              +++++                 *++++*         ++++        ++++%         *++++        +++++*        #+++++*        #++++       +++*       ++++       +++#      ++      ",
-  "    +++++++++++++++                    ++++        ++++          #+++#        *+++                              +++++                 *++++          ++++       ++++*           #++++       *+++*          ++++*          ++++                  ++++       ++++*             ",
-  "    ++++#                            *+++++        ++++          #+++#        *+++                              +++++                 *+++           ++++      *++++             ++++#      *+++%          ++++           ++++                 +++++       #++++++           ",
-  "    ++++#                        *+++* ++++        ++++          #+++#        *+++                              +++++                 *+++           ++++      *++++             ++++*      *+++           ++++           ++++            #+++* ++++         ++++++++        ",
-  "    ++++#                     ++++     ++++        ++++          *+++#        *+++                              +++++                 *+++           ++++      #++++             +++++      *+++           ++++           ++++         ++++     ++++            +++++++      ",
-  "    ++++#                   +++*       ++++        ++++          ++++#        *+++                              +++++                 *+++           ++++       ++++             ++++       *+++           ++++           ++++       ++++       ++++              *+++++%    ",
-  "    ++++#                  ++++       +++++        ++++*        *++++*        *+++                              +++++                 *+++           ++++       #++++           ++++*       *+++           ++++           ++++      ++++       %++++       +         +++*    ",
-  "    ++++*                 %++++      ++++++        #++++       ++#+++*        ++++                             *+++++                 ++++#          ++++%       *++++         ++++         ++++#          ++++%          ++++      ++++      #+*+++%      ++        +++#    ",
-  "  #+++++++                 +++++++*++* *++++#*+     *+++++*+*+++  ++++       ++++++                          *++++++++*              *+++++         *+++++         *++++*   *++++*         *+++++         *+++++         *+++++     #+++++**+++  ++++*#+%  ++++     +++#     ",
-  "+++++++++++++++               *++++*     #++++*         ++++++     +++++++ *++++++++++*                    *++++++++++++++*         +++++++++++    +++++++++++         *+++++++#          ++++++++++*    ++++++++++*    ++++++++++*    *+++++#     ++++*    +  *++++++       "
+  "                                                                          ++++++++                                                 +++++++                                                                                                                               ",
+  "++++++++++++++++++++                                                          ++++                 ++++++++++++++++++++++++++++++     ++++                                                                                                                               ",
+  "    ++++#        +++++*                                                       ++++                 +++          +++++         +++     ++++                                                                                                                               ",
+  "    ++++#         #+++++                                                      ++++                 ++           +++++          ++     *+++                                                                                                                               ",
+  "    ++++#          +++++                                                      *+++                 +*           +++++           +     *+++                                                                                                                               ",
+  "    ++++#          +++++                                                      *+++                              +++++                 *+++                                                                                                                               ",
+  "    ++++#          +++++     *+++++++++++       +++++++       +++++++#        *+++                              +++++                 *+++   *+++++++++              +++++++++++          +++++*   *+++++++++     ++++++++++          #+++++++++++           ++++++++++  ",
+  "    ++++#         +++++     ++++      ++++         ++++          ++++#        *+++                              +++++                 *+++ +++     #++++%         #++++       ++++*       #+++++ ++*     #++++* ++*     *++++        ++++*     *+++*       %++*     +++  ",
+  "    ++++#      *++++++      +++%       ++++        ++++          *+++#        *+++                              +++++                 *++++*         ++++        ++++%         *++++        +++++*        #+++++*        #++++       +++*       ++++       +++#      ++  ",
+  "    +++++++++++++++                    ++++        ++++          #+++#        *+++                              +++++                 *++++          ++++       ++++*           #++++       *+++*          ++++*          ++++                  ++++       ++++*         ",
+  "    ++++#                            *+++++        ++++          #+++#        *+++                              +++++                 *+++           ++++      *++++             ++++#      *+++%          ++++           ++++                 +++++       #++++++       ",
+  "    ++++#                        *+++* ++++        ++++          #+++#        *+++                              +++++                 *+++           ++++      *++++             ++++*      *+++           ++++           ++++            #+++* ++++         ++++++++    ",
+  "    ++++#                     ++++     ++++        ++++          *+++#        *+++                              +++++                 *+++           ++++      #++++             +++++      *+++           ++++           ++++         ++++     ++++            +++++++  ",
+  "    ++++#                   +++*       ++++        ++++          ++++#        *+++                              +++++                 *+++           ++++       ++++             ++++       *+++           ++++           ++++       ++++       ++++              *+++++%",
+  "    ++++#                  ++++       +++++        ++++*        *++++*        *+++                              +++++                 *+++           ++++       #++++           ++++*       *+++           ++++           ++++      ++++       %++++       +         +++*",
+  "    ++++*                 %++++      ++++++        #++++       ++#+++*        ++++                             *+++++                 ++++#          ++++%       *++++         ++++         ++++#          ++++%          ++++      ++++      #+*+++%      ++        +++#",
+  "  #+++++++                 +++++++*++* *++++#*+     *+++++*+*+++  ++++       ++++++                          *++++++++*              *+++++         *+++++         *++++*   *++++*         *+++++         *+++++         *+++++     #+++++**+++  ++++*#+%  ++++     +++# ",
+  "+++++++++++++++               *++++*     #++++*         ++++++     +++++++ *++++++++++*                    *++++++++++++++*         +++++++++++    +++++++++++         *+++++++#          ++++++++++*    ++++++++++*    ++++++++++*    *+++++#     ++++*    +  *++++++   "
 ];
 
+const containerRef = ref<HTMLElement | null>(null);
 const asciiCanvas = ref<HTMLCanvasElement | null>(null);
 const isReady = ref(false);
-const scramblePool = ['.', '*', '+', 'x'];
-const hoverPool = ['#', '@', '%', '&', 'W', '$'];
+
+const BLOOM_RAMP = ['@', '#', '$', '%', '&', 'W', 'M', '8', '0', 'X', 'Z', '*', '+', '=', '~', ':', '·'];
+const HOVER_RAMP = ['#', '@', '%', '&', 'W', '$', '8', '0', 'X', '+'];
+const AMBIENT_RAMP = ['.', ':', '+', '*', '·'];
 
 let animationFrameId: number;
 let isVisible = true;
 
-// Paramètres d'allumage (60 FPS)
-const CHAR_MAP = rawLines.map(line => line.split(''));
 const maxCols = rawLines[0]?.length || 0;
-const totalAnimationTime = maxCols * 10; // Original state
+const totalRows = rawLines.length;
 
-const charStates = CHAR_MAP.map((line, lIdx) => 
-  line.map((char, cIdx) => {
-    const t = cIdx / maxCols;
-    const f = (x : number) => 0.1 * x + 0.2 * (4 * Math.pow(x - 0.3, 3) + 0.432);
-    const easedT = (f(t) - f(0)) / (f(1) - f(0));
+// Timing parameters for sharp, narrow wave reveal
+const TOTAL_SWEEP_DURATION = 1200; // ms for wave to cross entire banner
+const BLOOM_DURATION = 150; // ms for individual character bloom phase (narrow beam)
+
+interface CharCellState {
+  targetChar: string;
+  isSpace: boolean;
+  revealStart: number;
+  bloomDuration: number;
+  clampedWave: number;
+  flickerFreq: number;
+  flickerPhase: number;
+  isFinished: boolean;
+  hoverChar: string | null;
+  kineticEnergy: number;
+  dispX: number;
+  dispY: number;
+  ambientGlitchUntil: number;
+  ambientGlitchChar: string;
+  satOffset: number;
+  lightnessOffset: number;
+  glowStrength: number;
+}
+
+const charStates: CharCellState[][] = rawLines.map((line, lIdx) =>
+  line.split('').map((char, cIdx) => {
+    const isSpace = char === ' ';
+    const normX = cIdx / Math.max(1, maxCols - 1);
+    const normY = lIdx / Math.max(1, totalRows - 1);
     
+    // Wavefront with dynamic diagonal curvature
+    const waveDist = normX * 0.85 + normY * 0.15 + Math.sin(normX * 10 + normY * 3) * 0.025;
+    const clampedWave = Math.max(0, Math.min(1, waveDist));
+    
+    const revealStart = props.instant ? 0 : (clampedWave * TOTAL_SWEEP_DURATION) + (Math.random() * 20);
+    const bloomDuration = props.instant ? 0 : BLOOM_DURATION + (Math.random() * 40);
+
+    // Highly pronounced deterministic visual footprint per character
+    const seed = Math.sin(cIdx * 12.9898 + lIdx * 78.233) * 43758.5453;
+    const randVal = seed - Math.floor(seed);
+    const randVal2 = Math.abs((Math.sin(cIdx * 39.34 + lIdx * 11.78) * 24634.63) % 1);
+    const satOffset = (randVal - 0.5) * 55; // -27% to +27%
+    const lightnessOffset = (randVal2 - 0.5) * 50; // -25% to +25%
+    const glowStrength = 0.6 + randVal * 0.8;
+
     return {
       targetChar: char,
-      currentOpacity: 0,
-      startTime: props.instant ? 0 : (easedT * totalAnimationTime) + (Math.random() * 50),
-      duration: props.instant ? 0 : 400 + Math.random() * 150,
-      flickerFreq: 0.05 + Math.random() * 0.1,
+      isSpace,
+      revealStart,
+      bloomDuration,
+      clampedWave,
+      flickerFreq: 0.1 + Math.random() * 0.15,
       flickerPhase: Math.random() * Math.PI * 2,
-      isFinished: props.instant,
-      hoverChar: null as string | null
+      isFinished: !!props.instant,
+      hoverChar: null,
+      kineticEnergy: 0,
+      dispX: 0,
+      dispY: 0,
+      ambientGlitchUntil: 0,
+      ambientGlitchChar: '',
+      satOffset,
+      lightnessOffset,
+      glowStrength
     };
   })
 );
 
+// Mouse and interaction state
 const mouseX = ref(-1000);
 const mouseY = ref(-1000);
+let targetMouseX = -1000;
+let targetMouseY = -1000;
+let lastMouseX = -1000;
+let lastMouseY = -1000;
+let lastMouseTime = 0;
+let mouseVelocity = 0;
+
 const isAnimationFinished = ref(false);
 let initialStartTime = 0;
 let dpr = 1;
 
-let _cachedFontSize = 0;
-let _cachedCharWidth = 0;
+let nextAmbientGlitchTime = 0;
 
 const draw = (timestamp: number) => {
   if (!isVisible || !asciiCanvas.value) return;
@@ -76,102 +140,295 @@ const draw = (timestamp: number) => {
 
   if (!initialStartTime) initialStartTime = timestamp;
   const elapsed = timestamp - initialStartTime;
-  
+
   const canvas = asciiCanvas.value;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+
   const logicalWidth = canvas.width / dpr;
-  const fontSize = logicalWidth * 0.005; 
-  
+  const logicalHeight = canvas.height / dpr;
+  const charWidth = logicalWidth / maxCols;
+  const fontSize = charWidth / 0.58;
+  const lineHeight = logicalHeight / totalRows;
+
   ctx.save();
   ctx.scale(dpr, dpr);
-  
+
   ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
   ctx.textBaseline = 'top';
-  
-  if (!_cachedFontSize || _cachedFontSize !== fontSize) {
-    _cachedFontSize = fontSize;
-    _cachedCharWidth = ctx.measureText('M').width;
+
+  // Smooth mouse interpolation for fluid magnetic feel
+  if (targetMouseX > -100) {
+    mouseX.value += (targetMouseX - mouseX.value) * 0.35;
+    mouseY.value += (targetMouseY - mouseY.value) * 0.35;
+  } else {
+    mouseX.value = -1000;
+    mouseY.value = -1000;
   }
-  const charWidth = _cachedCharWidth;
-  const lineHeight = fontSize * 1.3;
+
+  const isLight = colorMode.value === 'light';
+  const baseRgb = isLight ? '15, 23, 42' : '255, 255, 255';
 
   let stillAnimating = false;
+  let hasActiveKineticEnergy = false;
 
-  charStates.forEach((line, lIdx) => {
+  // Trigger occasional ambient quantum glitch when idle
+  if (isAnimationFinished.value && timestamp > nextAmbientGlitchTime) {
+    const randomRow = Math.floor(Math.random() * totalRows);
+    const line = charStates[randomRow];
+    if (line) {
+      const nonSpaces = line.filter(c => !c.isSpace);
+      if (nonSpaces.length > 0) {
+        const targetCell = nonSpaces[Math.floor(Math.random() * nonSpaces.length)];
+        if (targetCell) {
+          targetCell.ambientGlitchUntil = timestamp + 140 + Math.random() * 120;
+          targetCell.ambientGlitchChar = AMBIENT_RAMP[Math.floor(Math.random() * AMBIENT_RAMP.length)] || '+';
+        }
+      }
+    }
+    nextAmbientGlitchTime = timestamp + 600 + Math.random() * 900;
+  }
+
+  const curMouseX = mouseX.value / dpr;
+  const curMouseY = mouseY.value / dpr;
+  const hoverRadius = 42;
+  const hoverRadiusSq = hoverRadius * hoverRadius;
+
+  for (let lIdx = 0; lIdx < totalRows; lIdx++) {
+    const line = charStates[lIdx];
+    if (!line) continue;
     const charY = lIdx * lineHeight;
-    line.forEach((state, cIdx) => {
-      if (state.targetChar === ' ') return;
-      
-      const charX = cIdx * charWidth;
-      const dx = charX - (mouseX.value / dpr);
-      const dy = charY - (mouseY.value / dpr);
-      const distSq = dx*dx + dy*dy;
-      
-      const isHovered = distSq < 2500; // 50*50, avoid sqrt
-      const charElapsed = elapsed - state.startTime;
 
-      if (charElapsed < 0 && !isHovered) {
-        stillAnimating = true;
-        return;
+    for (let cIdx = 0; cIdx < maxCols; cIdx++) {
+      const state = line[cIdx];
+      if (!state) continue;
+
+      if (state.isSpace) {
+        // Empty space: skip
+        continue;
+      }
+
+      const charX = cIdx * charWidth;
+      const dx = charX - curMouseX;
+      const dy = charY - curMouseY;
+      const distSq = dx * dx + dy * dy;
+      const isHovered = curMouseX > -100 && distSq < hoverRadiusSq;
+
+      // Magnetic lens repulsion & kinetic dissipation
+      if (isHovered) {
+        const dist = Math.sqrt(distSq) || 1;
+        const normDist = 1 - (dist / hoverRadius);
+        const force = normDist * normDist * 2.2;
+        state.dispX += ((dx / dist) * force - state.dispX) * 0.3;
+        state.dispY += ((dy / dist) * force - state.dispY) * 0.3;
+
+        // Deposit energy
+        state.kineticEnergy = Math.min(1.0, state.kineticEnergy + 0.35 + mouseVelocity * 0.02);
+      } else {
+        state.dispX += (0 - state.dispX) * 0.15;
+        state.dispY += (0 - state.dispY) * 0.15;
+        state.kineticEnergy *= 0.91;
+      }
+
+      if (state.kineticEnergy > 0.02) {
+        hasActiveKineticEnergy = true;
       }
 
       let charToDraw = state.targetChar;
-      let opacity = state.currentOpacity;
+      let opacity = 1.0;
+      let isWaveActive = false;
+      let waveGlow = 0;
 
-      if (isHovered) {
-        opacity = 1.0; 
-        
-        if (!state.hoverChar) {
-          state.hoverChar = hoverPool[Math.floor(Math.random() * hoverPool.length)] || '#';
+      if (props.pingPong) {
+        stillAnimating = true;
+        const cycleTime = 4200;
+        const revealDuration = 1200;
+        const holdRevealed = 1000;
+        const dissolveDuration = 1200;
+        const cycleElapsed = elapsed % cycleTime;
+
+        if (cycleElapsed < revealDuration) {
+          // Forward sweep reveal
+          const charElapsed = cycleElapsed - state.revealStart;
+          if (charElapsed < 0) {
+            if (!isHovered && state.kineticEnergy < 0.05) continue;
+            opacity = 0;
+          } else if (charElapsed >= state.bloomDuration) {
+            opacity = 1.0;
+          } else {
+            isWaveActive = true;
+            const progress = Math.max(0, Math.min(1, charElapsed / state.bloomDuration));
+            const flicker = Math.sin(timestamp * state.flickerFreq + state.flickerPhase);
+            opacity = flicker > -0.55 ? 0.5 + 0.5 * progress : 0.15;
+            waveGlow = 1 - progress;
+            const rampIdx = Math.floor(Math.random() * BLOOM_RAMP.length);
+            charToDraw = BLOOM_RAMP[rampIdx] || state.targetChar;
+          }
+        } else if (cycleElapsed < revealDuration + holdRevealed) {
+          // Hold visible
+          opacity = 1.0;
+        } else if (cycleElapsed < revealDuration + holdRevealed + dissolveDuration) {
+          // Reverse sweep dissolve
+          const dissolveElapsed = cycleElapsed - (revealDuration + holdRevealed);
+          const reverseStart = ((1 - state.clampedWave) * dissolveDuration) + (Math.random() * 15);
+          const charElapsed = dissolveElapsed - reverseStart;
+
+          if (charElapsed < 0) {
+            opacity = 1.0;
+          } else if (charElapsed >= state.bloomDuration) {
+            if (!isHovered && state.kineticEnergy < 0.05) continue;
+            opacity = 0;
+          } else {
+            isWaveActive = true;
+            const progress = 1 - Math.max(0, Math.min(1, charElapsed / state.bloomDuration));
+            const flicker = Math.sin(timestamp * state.flickerFreq + state.flickerPhase);
+            opacity = flicker > -0.55 ? 0.2 + 0.8 * progress : 0.05;
+            waveGlow = 1 - progress;
+            const rampIdx = Math.floor(Math.random() * BLOOM_RAMP.length);
+            charToDraw = BLOOM_RAMP[rampIdx] || state.targetChar;
+          }
+        } else {
+          // Hold hidden before restart
+          if (!isHovered && state.kineticEnergy < 0.05) continue;
+          opacity = 0;
+        }
+      } else {
+        const charElapsed = elapsed - state.revealStart;
+
+        // Not yet reached by reveal wavefront
+        if (charElapsed < 0 && !isHovered && state.kineticEnergy < 0.05) {
+          stillAnimating = true;
+          continue;
+        }
+
+        if (charElapsed >= state.bloomDuration || state.isFinished) {
+          state.isFinished = true;
+          opacity = 1.0;
+        } else {
+          stillAnimating = true;
+          isWaveActive = true;
+          const progress = Math.max(0, Math.min(1, charElapsed / state.bloomDuration));
+          
+          // High frequency shutter flicker on the wavefront
+          const flicker = Math.sin(timestamp * state.flickerFreq + state.flickerPhase);
+          const flickerOn = flicker > -0.55;
+          
+          if (flickerOn) {
+            opacity = 0.5 + 0.5 * progress;
+          } else {
+            opacity = 0.15;
+          }
+          
+          waveGlow = 1 - progress; // Strong glow at leading edge of wave
+          
+          // Rapid bloom scramble
+          const rampIdx = Math.floor(Math.random() * BLOOM_RAMP.length);
+          charToDraw = BLOOM_RAMP[rampIdx] || state.targetChar;
+        }
+      }
+
+      // Handle hover & kinetic trail
+      if (isHovered || state.kineticEnergy > 0.1) {
+        if (!state.hoverChar || Math.random() < 0.25) {
+          state.hoverChar = HOVER_RAMP[Math.floor(Math.random() * HOVER_RAMP.length)] || '#';
         }
         charToDraw = state.hoverChar;
       } else {
         state.hoverChar = null;
-        
-        if (charElapsed >= state.duration) {
-          opacity = 1.0;
-          state.isFinished = true;
-        } else {
-          stillAnimating = true;
-          const progress = Math.min(charElapsed / state.duration, 1);
-          const flickerIntensity = Math.sin(timestamp * state.flickerFreq + state.flickerPhase);
-          const flickerOn = flickerIntensity > -0.4;
-          
-          if (flickerOn) {
-            opacity = 0.4 + 0.6 * (1 - progress); 
-            if (flickerIntensity > 0.8 && Math.random() > 0.6) {
-              opacity = 1.0;
-            }
-          } else {
-            opacity = 0;
-          }
-        }
       }
 
-      const isLight = colorMode.value === 'light';
-      ctx.fillStyle = isHovered ? '#2dd4bf' : `rgba(${isLight ? '15, 23, 42' : '255, 255, 255'}, ${opacity})`;
-      
-      if (!state.isFinished && !isHovered) {
-        charToDraw = scramblePool[Math.floor(Math.random() * scramblePool.length)] || '.';
+      // Handle ambient micro-glitch
+      if (state.ambientGlitchUntil > timestamp) {
+        charToDraw = state.ambientGlitchChar;
+        opacity = 0.9;
+        waveGlow = 0.6;
+        hasActiveKineticEnergy = true;
       }
 
-      ctx.fillText(charToDraw, charX, charY);
-    });
-  });
-  
+      // Render styles & glowing bloom
+      const drawX = charX + state.dispX;
+      const drawY = charY + state.dispY;
+
+      if (isHovered || state.kineticEnergy > 0.15 || waveGlow > 0.3) {
+        // Fixed hue (portfolio accent teal/emerald), variation through per-character static properties
+        const baseHue = 172;
+        const hoverIntensity = isHovered ? (1 - Math.sqrt(distSq) / hoverRadius) : state.kineticEnergy;
+
+        // Static per-character saturation & lightness offsets + proximity boost
+        const sat = Math.max(35, Math.min(100, (isLight ? 72 : 80) + state.satOffset));
+        const lightness = isLight
+          ? Math.max(16, Math.min(68, 32 + state.lightnessOffset * 0.75 + hoverIntensity * 22))
+          : Math.max(26, Math.min(96, 50 + state.lightnessOffset + hoverIntensity * 32));
+
+        const glowAlpha = Math.min(1, Math.max(opacity, waveGlow, state.kineticEnergy, 0.75));
+
+        ctx.fillStyle = `hsla(${baseHue}, ${sat}%, ${lightness}%, ${glowAlpha})`;
+        ctx.shadowColor = `hsla(${baseHue}, ${sat}%, ${isLight ? 40 : 60}%, 0.8)`;
+        ctx.shadowBlur = Math.min(12, (3 + waveGlow * 6 + hoverIntensity * 6) * state.glowStrength);
+        ctx.fillText(charToDraw, drawX, drawY);
+        ctx.shadowBlur = 0;
+      } else {
+        // Normal crisp settled state
+        ctx.fillStyle = `rgba(${baseRgb}, ${opacity})`;
+        ctx.fillText(charToDraw, drawX, drawY);
+      }
+    }
+  }
+
   ctx.restore();
 
   const isInteracting = mouseX.value > -100;
-  if (stillAnimating || isInteracting) {
+  if (stillAnimating || isInteracting || hasActiveKineticEnergy) {
     animationFrameId = requestAnimationFrame(draw);
   } else {
     isAnimationFinished.value = true;
+    // Keep a lightweight pulse loop running for ambient quantum effects
+    animationFrameId = requestAnimationFrame(draw);
   }
+};
+
+const drawStatic = () => {
+  if (!asciiCanvas.value) return;
+  const ctx = asciiCanvas.value.getContext('2d', { alpha: true });
+  if (!ctx) return;
+
+  const canvas = asciiCanvas.value;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const logicalWidth = canvas.width / dpr;
+  const logicalHeight = canvas.height / dpr;
+  const charWidth = logicalWidth / maxCols;
+  const lineHeight = logicalHeight / totalRows;
+
+  ctx.save();
+  ctx.scale(dpr, dpr);
+
+  const isLight = colorMode.value === 'light';
+  ctx.fillStyle = props.color || (isLight ? 'rgba(15, 23, 42, 1)' : 'rgba(255, 255, 255, 1)');
+
+  const blockW = Math.max(0.8, charWidth * 0.6);
+  const blockH = Math.max(0.9, lineHeight * 0.6);
+  const offsetX = (charWidth - blockW) / 2;
+  const offsetY = (lineHeight - blockH) / 2;
+
+  for (let lIdx = 0; lIdx < totalRows; lIdx++) {
+    const line = rawLines[lIdx];
+    if (!line) continue;
+    const charY = lIdx * lineHeight + offsetY;
+
+    for (let cIdx = 0; cIdx < maxCols; cIdx++) {
+      const char = line[cIdx];
+      if (!char || char === ' ') continue;
+      const charX = cIdx * charWidth + offsetX;
+      ctx.fillRect(charX, charY, blockW, blockH);
+    }
+  }
+
+  ctx.restore();
 };
 
 let canvasRect: DOMRect | null = null;
 let observer: IntersectionObserver | null = null;
+let resizeObserver: ResizeObserver | null = null;
 
 const updateRect = () => {
   if (asciiCanvas.value) {
@@ -181,86 +438,133 @@ const updateRect = () => {
 
 let mouseMoveThrottled = false;
 const handleMouseMove = (e: MouseEvent) => {
-  if (mouseMoveThrottled) return;
+  if (!props.animated || mouseMoveThrottled) return;
   mouseMoveThrottled = true;
-  
+
   const canvas = asciiCanvas.value;
   if (!canvas) { mouseMoveThrottled = false; return; }
 
   if (!canvasRect) updateRect();
   const rect = canvasRect;
-  
-  if (rect) {
+
+  if (rect && rect.width > 0 && rect.height > 0) {
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
-    
-    mouseX.value = (e.clientX - rect.left) * scaleX;
-    mouseY.value = (e.clientY - rect.top) * scaleY;
-    
+
+    const newX = (e.clientX - rect.left) * scaleX;
+    const newY = (e.clientY - rect.top) * scaleY;
+
+    const now = performance.now();
+    if (lastMouseTime > 0) {
+      const dt = Math.max(1, now - lastMouseTime);
+      const dMouseDist = Math.hypot(newX - lastMouseX, newY - lastMouseY);
+      mouseVelocity = Math.min(15, (dMouseDist / dt) * 1.5);
+    }
+    lastMouseX = newX;
+    lastMouseY = newY;
+    lastMouseTime = now;
+
+    targetMouseX = newX;
+    targetMouseY = newY;
+
     if (isAnimationFinished.value) {
-      // Only restart loop if animation was done
       cancelAnimationFrame(animationFrameId);
       animationFrameId = requestAnimationFrame(draw);
     }
   }
-  
+
   requestAnimationFrame(() => { mouseMoveThrottled = false; });
 };
 
 const handleMouseLeave = () => {
-  mouseX.value = -1000;
-  mouseY.value = -1000;
+  if (!props.animated) return;
+  targetMouseX = -1000;
+  targetMouseY = -1000;
+  mouseVelocity = 0;
+};
+
+const updateDimensions = () => {
+  if (!asciiCanvas.value || !containerRef.value) return;
+  dpr = window.devicePixelRatio || 1;
+  const rect = containerRef.value.getBoundingClientRect();
+  const width = rect.width || containerRef.value.clientWidth || window.innerWidth;
+  if (width === 0) return;
+
+  const charWidth = width / maxCols;
+  const fontSize = charWidth / 0.58;
+  const lineHeight = fontSize * 1.15;
+  const height = totalRows * lineHeight;
+
+  asciiCanvas.value.width = Math.round(width * dpr);
+  asciiCanvas.value.height = Math.round(height * dpr);
+
+  asciiCanvas.value.style.width = `${width}px`;
+  asciiCanvas.value.style.height = `${height}px`;
+
+  updateRect();
 };
 
 let resizeTimeout: any = null;
 const handleResize = () => {
   if (resizeTimeout) clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    if (asciiCanvas.value) {
-      dpr = window.devicePixelRatio || 1;
-      const width = window.innerWidth;
-      
-      // On calcule la hauteur exacte nécessaire en fonction du nombre de lignes
-      // C'est le ratio utilisé dans draw() : fontSize = width * 0.005, lineHeight = fontSize * 1.3
-      const fontSize = width * 0.005;
-      const lineHeight = fontSize * 1.3;
-      const height = (rawLines.length + 2) * lineHeight; // +2 pour un léger padding
-      
-      asciiCanvas.value.width = width * dpr;
-      asciiCanvas.value.height = height * dpr;
-      
-      // On garde le style CSS
-      asciiCanvas.value.style.width = `${width}px`;
-      asciiCanvas.value.style.height = `${height}px`;
-
-      // Met à jour le cache du rect
-      updateRect();
+    updateDimensions();
+    if (!props.animated) {
+      drawStatic();
+    } else if (isAnimationFinished.value) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(draw);
     }
-  }, 150); // Debounce de 150ms pour le zoom au trackpad
+  }, 100);
 };
 
 onMounted(() => {
   const init = () => {
-    if (asciiCanvas.value) {
-      handleResize();
+    if (asciiCanvas.value && containerRef.value) {
+      updateDimensions();
 
-      // Intersection Observer pour économiser le CPU
+      if (!props.animated) {
+        drawStatic();
+        isReady.value = true;
+
+        if (typeof ResizeObserver !== 'undefined') {
+          resizeObserver = new ResizeObserver(() => {
+            updateDimensions();
+            drawStatic();
+          });
+          resizeObserver.observe(containerRef.value);
+        }
+        return;
+      }
+
+      if (typeof ResizeObserver !== 'undefined') {
+        resizeObserver = new ResizeObserver(() => {
+          updateDimensions();
+          if (isAnimationFinished.value) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = requestAnimationFrame(draw);
+          }
+        });
+        resizeObserver.observe(containerRef.value);
+      }
+
       observer = new IntersectionObserver((entries) => {
         const entry = entries[0];
         if (!entry) return;
         const wasVisible = isVisible;
         isVisible = entry.isIntersecting;
-        
+
         if (isVisible && !wasVisible) {
-          // Relancer l'animation si elle était arrêtée
+          cancelAnimationFrame(animationFrameId);
           animationFrameId = requestAnimationFrame(draw);
         }
       }, { threshold: 0.1 });
-      
+
       observer.observe(asciiCanvas.value);
 
       setTimeout(() => {
-        requestAnimationFrame(draw);
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(draw);
         isReady.value = true;
       }, props.instant ? 0 : (props.delay || 0));
     } else {
@@ -274,22 +578,28 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (animationFrameId) cancelAnimationFrame(animationFrameId);
   if (observer) observer.disconnect();
+  if (resizeObserver) resizeObserver.disconnect();
+  if (resizeTimeout) clearTimeout(resizeTimeout);
   window.removeEventListener('resize', handleResize);
 });
 
 watch(() => colorMode.value, () => {
-  if (isAnimationFinished.value) {
+  if (!props.animated) {
+    drawStatic();
+  } else if (isAnimationFinished.value) {
+    cancelAnimationFrame(animationFrameId);
     animationFrameId = requestAnimationFrame(draw);
   }
 });
 </script>
 
 <template>
-  <div class="my-2 w-full min-h-[260px] [contain:layout]" 
+  <div ref="containerRef"
+       class="my-2 w-full max-w-[1180px] [contain:layout]" 
        :style="{ opacity: isReady || instant ? 1 : 0, transition: 'opacity 0.8s ease' }"
        @mousemove.passive="handleMouseMove"
        @mouseleave="handleMouseLeave">
-    <div v-if="instant" class="text-white light:text-primary font-mono text-[0.5vw] leading-tight select-none pointer-events-none" aria-hidden="true">
+    <div v-if="instant" class="text-white light:text-primary font-mono text-[clamp(0.35rem,0.7vw,0.75rem)] leading-tight select-none pointer-events-none" aria-hidden="true">
       <pre v-for="(line, idx) in rawLines" :key="idx" class="m-0 pre-wrap">{{ line }}</pre>
     </div>
     <canvas v-else ref="asciiCanvas" class="w-full h-auto block"></canvas>
@@ -297,5 +607,5 @@ watch(() => colorMode.value, () => {
 </template>
 
 <style scoped>
-/* Les styles très spécifiques comme min-height ou contain sont parfois plus clairs en CSS mais ici convertis en classes arbitraires Tailwind */
 </style>
+

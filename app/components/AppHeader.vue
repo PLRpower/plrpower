@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 
 const route = useRoute();
 const colorMode = useColorMode();
 const isScrolled = ref(false);
 const isMobileMenuOpen = ref(false);
+
+const isNotHome = computed(() => route.path !== '/' && route.path !== '');
 
 const navItems = [
   { name: 'About', href: '#about', num: '01' },
@@ -74,64 +76,82 @@ onUnmounted(() => {
   <!-- Main Header -->
   <header
     class="fixed top-0 left-0 w-full z-[1000] transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
-    :class="[
-      isScrolled
-        ? 'header--scrolled'
-        : 'header--top'
-    ]"
+    :class="isScrolled
+      ? 'bg-[var(--header-bg,rgba(3,3,3,0.4))] backdrop-blur-md border-b border-[var(--header-border,rgba(255,255,255,0.06))] shadow-[var(--header-shadow,0_4px_30px_rgba(0,0,0,0.3))] [contain:layout_style]'
+      : 'bg-transparent border-b border-transparent'"
   >
-    <div class="max-w-[1400px] mx-auto w-full flex items-center justify-end px-6 md:px-10 h-20">
+    <div class="max-w-[1400px] mx-auto w-full flex items-center justify-between px-6 md:px-10 h-20">
 
-      <!-- Desktop Navigation -->
-      <nav class="hidden md:flex items-center gap-1 animate-nav-fade-in">
+      <!-- Back to Home Link (Non-home pages) -->
+      <div class="flex items-center">
         <NuxtLink
-          v-for="item in navItems"
-          :key="item.href"
-          :to="getNavLink(item.href)"
-          class="nav-link group relative px-4 py-2 no-underline"
+          v-if="isNotHome"
+          to="/"
+          class="group inline-flex items-center gap-2 px-3 py-1.5 -ml-3 text-[0.8rem] tracking-[0.08em] text-secondary hover:text-primary transition-colors no-underline"
+          aria-label="Return to home"
           @click="handleNavClick"
         >
-          <span class="relative z-10 font-mono text-[0.8rem] tracking-[0.08em] uppercase text-secondary transition-colors duration-300 group-hover:text-primary">
-            {{ item.name }}
-          </span>
-          <!-- Gradient underline -->
-          <span class="absolute bottom-1 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r from-accent to-[#14b8a6] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] origin-left"></span>
+          <Icon name="uil:arrow-left" class="w-4 h-4 text-accent transition-transform duration-300 group-hover:-translate-x-1" />
+          <AsciiOdometerLink
+            as="span"
+            text="Home"
+            class="text-secondary group-hover:text-primary transition-colors"
+          />
         </NuxtLink>
-      </nav>
+      </div>
 
-      <!-- Theme Toggle Button -->
-      <ClientOnly>
+      <!-- Right Navigation & Controls -->
+      <div class="flex items-center ml-auto">
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-2 animate-nav-fade-in">
+          <div
+            v-for="item in navItems"
+            :key="item.href"
+            class="relative px-3 py-1.5"
+            @click="handleNavClick"
+          >
+            <AsciiOdometerLink
+              :to="getNavLink(item.href)"
+              :text="item.name"
+              class="text-[0.8rem] tracking-[0.08em] text-secondary hover:text-primary transition-colors"
+            />
+          </div>
+        </nav>
+
+        <!-- Theme Toggle Button -->
+        <ClientOnly>
+          <button
+            @click="toggleTheme"
+            class="relative z-[1010] w-10 h-10 flex items-center justify-center focus:outline-none transition-transform hover:scale-110 ml-2 md:ml-4 text-secondary hover:text-primary"
+            aria-label="Toggle theme"
+          >
+            <Icon v-if="$colorMode.value === 'dark'" name="ph:sun" class="w-5 h-5" />
+            <Icon v-else name="ph:moon" class="w-5 h-5" />
+          </button>
+        </ClientOnly>
+
+        <!-- Mobile Hamburger Button -->
         <button
-          @click="toggleTheme"
-          class="relative z-[1010] w-10 h-10 flex items-center justify-center focus:outline-none transition-transform hover:scale-110 ml-2 md:ml-4 text-secondary hover:text-primary"
-          aria-label="Toggle theme"
+          class="md:hidden relative z-[1010] w-10 h-10 flex items-center justify-center focus:outline-none ml-2"
+          aria-label="Toggle menu"
+          @click="toggleMobileMenu"
         >
-          <Icon v-if="$colorMode.value === 'dark'" name="ph:sun" class="w-5 h-5" />
-          <Icon v-else name="ph:moon" class="w-5 h-5" />
+          <span class="hamburger-lines relative w-6 h-4 flex flex-col justify-between">
+            <span
+              class="block h-[2px] w-full bg-primary transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] origin-center"
+              :class="isMobileMenuOpen ? 'translate-y-[7px] rotate-45 bg-accent' : ''"
+            ></span>
+            <span
+              class="block h-[2px] w-full bg-primary transition-all duration-300"
+              :class="isMobileMenuOpen ? 'opacity-0 scale-x-0' : 'opacity-100'"
+            ></span>
+            <span
+              class="block h-[2px] w-full bg-primary transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] origin-center"
+              :class="isMobileMenuOpen ? '-translate-y-[7px] -rotate-45 bg-accent' : ''"
+            ></span>
+          </span>
         </button>
-      </ClientOnly>
-
-      <!-- Mobile Hamburger Button -->
-      <button
-        class="md:hidden relative z-[1010] w-10 h-10 flex items-center justify-center focus:outline-none"
-        aria-label="Toggle menu"
-        @click="toggleMobileMenu"
-      >
-        <div class="hamburger-lines relative w-6 h-4 flex flex-col justify-between">
-          <span
-            class="block h-[2px] w-full rounded-full bg-primary transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] origin-center"
-            :class="isMobileMenuOpen ? 'translate-y-[7px] rotate-45 bg-accent' : ''"
-          ></span>
-          <span
-            class="block h-[2px] w-full rounded-full bg-primary transition-all duration-300"
-            :class="isMobileMenuOpen ? 'opacity-0 scale-x-0' : 'opacity-100'"
-          ></span>
-          <span
-            class="block h-[2px] w-full rounded-full bg-primary transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] origin-center"
-            :class="isMobileMenuOpen ? '-translate-y-[7px] -rotate-45 bg-accent' : ''"
-          ></span>
-        </div>
-      </button>
+      </div>
     </div>
 
     <!-- Bottom gradient line -->
@@ -144,7 +164,12 @@ onUnmounted(() => {
   </header>
 
   <!-- Mobile Menu Overlay -->
-  <Transition name="overlay">
+  <Transition
+    enter-active-class="transition-opacity duration-400 ease-out"
+    enter-from-class="opacity-0"
+    leave-active-class="transition-opacity duration-300 ease-in"
+    leave-to-class="opacity-0"
+  >
     <div
       v-if="isMobileMenuOpen"
       class="fixed inset-0 bg-black/50 z-[990] md:hidden"
@@ -153,7 +178,12 @@ onUnmounted(() => {
   </Transition>
 
   <!-- Mobile Menu Panel -->
-  <Transition name="mobile-panel">
+  <Transition
+    enter-active-class="transition-transform duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+    enter-from-class="translate-x-full"
+    leave-active-class="transition-transform duration-400 ease-[cubic-bezier(0.4,0,0.6,1)]"
+    leave-to-class="translate-x-full"
+  >
     <nav
       v-if="isMobileMenuOpen"
       class="fixed top-0 right-0 h-full w-[min(85vw,380px)] z-[995] md:hidden mobile-panel flex flex-col"
@@ -161,11 +191,26 @@ onUnmounted(() => {
       <!-- Panel content -->
       <div class="flex flex-col justify-center flex-1 px-10 py-24 gap-2">
         <NuxtLink
+          v-if="isNotHome"
+          to="/"
+          class="mobile-nav-item group no-underline flex items-baseline gap-4 py-3 border-b border-white/[0.06] mb-2"
+          @click="handleNavClick"
+        >
+          <span class="font-mono text-xs text-accent transition-colors duration-300">
+            00.
+          </span>
+          <span class="font-title text-2xl font-semibold text-accent tracking-tight transition-all duration-300 group-hover:translate-x-2">
+            Home
+          </span>
+          <span class="flex-1 h-px bg-gradient-to-r from-accent/20 to-transparent ml-2 self-center"></span>
+        </NuxtLink>
+
+        <NuxtLink
           v-for="(item, index) in navItems"
           :key="item.href"
           :to="getNavLink(item.href)"
           class="mobile-nav-item group no-underline flex items-baseline gap-4 py-3"
-          :style="{ animationDelay: `${index * 60 + 150}ms` }"
+          :style="{ animationDelay: `${(index + (isNotHome ? 1 : 0)) * 60 + 150}ms` }"
           @click="handleNavClick"
         >
           <span class="font-mono text-xs text-accent/60 transition-colors duration-300 group-hover:text-accent">
@@ -188,21 +233,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-/* Header states */
-.header--top {
-  background: transparent;
-  border-bottom: 1px solid transparent;
-}
-
-.header--scrolled {
-  background: var(--header-bg, rgba(3, 3, 3, 0.4));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--header-border, rgba(255, 255, 255, 0.06));
-  box-shadow: var(--header-shadow, 0 4px 30px rgba(0, 0, 0, 0.3));
-  contain: layout style;
-}
-
 /* Entry animation */
 @keyframes navFadeIn {
   from {
@@ -241,30 +271,6 @@ onUnmounted(() => {
   box-shadow: var(--panel-shadow, -20px 0 60px rgba(0, 0, 0, 0.5));
 }
 
-/* Mobile panel transition */
-.mobile-panel-enter-active {
-  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.mobile-panel-leave-active {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.6, 1);
-}
-.mobile-panel-enter-from,
-.mobile-panel-leave-to {
-  transform: translateX(100%);
-}
-
-/* Overlay transition */
-.overlay-enter-active {
-  transition: opacity 0.4s ease;
-}
-.overlay-leave-active {
-  transition: opacity 0.3s ease;
-}
-.overlay-enter-from,
-.overlay-leave-to {
-  opacity: 0;
-}
-
 /* Mobile nav item stagger animation */
 @keyframes mobileItemSlide {
   from {
@@ -280,18 +286,5 @@ onUnmounted(() => {
 .mobile-nav-item {
   opacity: 0;
   animation: mobileItemSlide 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-/* Nav link subtle hover bg */
-.nav-link::before {
-  content: '';
-  position: absolute;
-  inset: 4px 0;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0);
-  transition: background 0.3s ease;
-}
-.nav-link:hover::before {
-  background: rgba(255, 255, 255, 0.03);
 }
 </style>

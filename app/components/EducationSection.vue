@@ -1,45 +1,83 @@
 <template>
-  <section id="education" class="relative mt-48 md:mt-64 px-6 md:px-10 overflow-hidden">
-    <div class="absolute -top-16 -left-4 md:left-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] light:text-black/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
+  <section id="education" class="relative mt-32 md:mt-48 px-6 md:px-10 overflow-hidden">
+    <!-- Giant background number -->
+    <div class="absolute -top-8 md:-top-12 -left-4 md:left-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] light:text-black/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
       04
     </div>
 
     <div class="max-w-[1200px] mx-auto relative z-10">
-      <div class="md:flex items-start gap-12 lg:gap-16 relative">
-        <!-- Left: Sticky column -->
-        <div class="md:w-5/12 md:sticky md:top-32 mb-16 md:mb-0">
-          <div class="flex items-center gap-4 mb-6">
-            <span class="font-handwriting text-2xl text-accent/80">Education</span>
-            <div class="w-12 h-px bg-accent/20"></div>
-          </div>
-          <h2 class="font-display text-[clamp(2.2rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-tight text-primary">
-            <SectionTitleReveal text="Background" />
-          </h2>
-          
-          <!-- Abstract decorative element -->
-          <div class="mt-16 opacity-30 group hidden md:block">
-            <div class="w-48 h-48 rounded-full border border-accent/20 relative flex items-center justify-center">
-              <div class="w-32 h-32 rounded-full border-t border-b border-accent/40 animate-[spin_10s_linear_infinite]"></div>
-              <div class="w-16 h-16 rounded-full bg-accent/10 absolute flex items-center justify-center">
-                <div class="w-2 h-2 rounded-full bg-accent"></div>
-              </div>
+      <!-- Section Header -->
+      <div class="mb-16">
+        <div class="mb-6">
+          <span class="font-handwriting text-2xl text-accent/80">Education</span>
+        </div>
+        <h2 class="font-display text-[clamp(2.2rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-tight text-primary">
+          <SectionTitleReveal text="Academic Background" />
+        </h2>
+      </div>
+
+      <!-- Minimalist Layout: 2 Asymmetric Airy Blocks -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        <!-- Primary Block: CESI (8 cols) -->
+        <div class="lg:col-span-8 p-8 md:p-12 border border-white/[0.06] light:border-black/[0.06] bg-white/[0.01] light:bg-black/[0.01] flex flex-col justify-between group hover:border-accent/30 transition-all duration-500 relative overflow-hidden edu-item">
+          <!-- Subtle ambient glow on hover -->
+          <div class="absolute -top-24 -right-24 w-80 h-80 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-colors duration-700 pointer-events-none"></div>
+
+          <div>
+            <div class="flex items-center justify-between gap-4 mb-6">
+              <span class="font-mono text-xs text-accent tracking-widest uppercase font-semibold">2023 — 2028</span>
+              <span class="font-mono text-[0.65rem] text-secondary/50 border border-white/10 light:border-black/10 px-2.5 py-1 rounded-full">5-Year Master's (BAC+5)</span>
+            </div>
+
+            <h3 class="font-display text-2xl md:text-4xl font-bold text-primary mb-3 leading-tight">
+              Engineer's Degree in Computer Science
+            </h3>
+            
+            <p class="font-mono text-sm text-secondary/70 mb-6">
+              CESI École d'Ingénieurs · Strasbourg, France
+            </p>
+
+            <p class="text-sm md:text-base text-secondary/70 leading-relaxed max-w-2xl mb-8">
+              Specializing in <span class="text-primary font-medium">Artificial Intelligence & Machine Learning</span>, Embedded Systems, and Distributed Computing. Combined with an ongoing 3-year apprenticeship as a Research Engineer at <span class="text-primary font-medium">LINEACT Lab</span>.
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              <span v-for="tag in ['AI & Machine Learning', 'Federated Learning', 'Embedded Systems', 'Distributed Systems']" :key="tag"
+                    class="font-mono text-xs text-secondary/80 bg-white/[0.03] light:bg-black/[0.03] px-3 py-1.5 rounded-md border border-white/[0.05] light:border-black/[0.05]">
+                {{ tag }}
+              </span>
             </div>
           </div>
         </div>
 
-        <!-- Right: Scrollable column -->
-        <div class="md:w-7/12 flex flex-col gap-6">
-          <div v-for="(edu, idx) in educationData" :key="idx" 
-               class="edu-card relative p-6 md:p-8 lg:p-12 border border-white/[0.03] light:border-black/[0.03] bg-white/[0.01] light:bg-black/[0.01] group hover:bg-white/[0.02] light:bg-black/[0.02] hover:border-white/[0.06] light:border-black/[0.06] transition-all duration-500 overflow-hidden">
-            <span class="font-display text-[3.5rem] font-extrabold text-white/[0.02] light:text-black/[0.02] absolute top-4 right-6 group-hover:text-accent/[0.06] transition-colors duration-700 select-none">{{ edu.period.split(' – ')[1] || edu.period }}</span>
-            <div class="relative z-10">
-              <span class="font-mono text-[0.65rem] tracking-[0.3em] uppercase text-accent mb-4 block">{{ edu.period }}</span>
-              <h3 class="font-display text-lg sm:text-xl lg:text-2xl font-bold text-primary mb-3 leading-tight truncate tracking-tight" :title="edu.title">{{ edu.title }}</h3>
-              <p class="font-mono text-[0.85rem] text-secondary/60 mb-4">{{ edu.school }}</p>
-              <p v-if="edu.details" class="text-[0.9rem] text-secondary/50 leading-relaxed">{{ edu.details }}</p>
+        <!-- Secondary Block: High School (4 cols) -->
+        <div class="lg:col-span-4 p-8 md:p-10 border border-white/[0.04] light:border-black/[0.04] bg-white/[0.008] light:bg-black/[0.008] flex flex-col justify-between group hover:border-white/[0.1] transition-all duration-500 edu-item">
+          <div>
+            <div class="flex items-center justify-between gap-4 mb-6">
+              <span class="font-mono text-xs text-secondary/50 tracking-widest uppercase">2020 — 2023</span>
+              <span class="font-mono text-[0.65rem] text-secondary/40">Conferred</span>
             </div>
+
+            <h3 class="font-display text-xl md:text-2xl font-bold text-primary mb-3 leading-tight">
+              French Baccalauréat
+            </h3>
+            
+            <p class="font-mono text-sm text-secondary/60 mb-6">
+              Lycée Marie Curie · Strasbourg
+            </p>
+
+            <p class="text-sm text-secondary/60 leading-relaxed">
+              Specialized in <span class="text-primary/90">Academic Mathematics</span> and <span class="text-primary/90">Computer Science (NSI)</span>. Foundation in algorithms and programming.
+            </p>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-white/[0.04] light:border-black/[0.04] flex flex-wrap gap-2">
+            <span class="font-mono text-xs text-secondary/60 bg-white/[0.02] light:bg-black/[0.02] px-2.5 py-1 rounded-md border border-white/[0.04] light:border-black/[0.04]">Mathematics</span>
+            <span class="font-mono text-xs text-secondary/60 bg-white/[0.02] light:bg-black/[0.02] px-2.5 py-1 rounded-md border border-white/[0.04] light:border-black/[0.04]">Computer Science</span>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -48,32 +86,17 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-const educationData = [
-  {
-    title: "Engineer's Degree — Computer Science",
-    school: 'CESI École d\'Ingénieurs',
-    period: '2023 – 2028',
-    details: 'Specializing in AI & Machine Learning, Embedded Systems, and Application Development through an apprenticeship program.'
-  },
-  {
-    title: 'French Baccalauréat (High School Diploma)',
-    school: 'Lycée Marie Curie',
-    period: '2020 – 2023',
-    details: 'Specializations: Academic Mathematics and Advanced Computer Science'
-  }
-];
-
 onMounted(async () => {
   if (import.meta.client) {
     const { gsap } = await import('gsap');
     const { ScrollTrigger } = await import('gsap/ScrollTrigger');
     gsap.registerPlugin(ScrollTrigger);
 
-    ScrollTrigger.batch('.edu-card', {
+    ScrollTrigger.batch('.edu-item', {
       onEnter: (elements) => {
         gsap.fromTo(elements, 
           { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.08 }
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.12 }
         );
       },
       start: 'top 88%',
@@ -84,7 +107,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.edu-card {
+.edu-item {
   opacity: 0;
   transform: translateY(30px);
 }

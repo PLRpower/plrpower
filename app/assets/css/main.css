@@ -9,11 +9,11 @@
   --color-accent-warm: var(--accent-warm);
   --color-accent-cyan: var(--accent-cyan);
   
-  --font-sans: 'Montserrat', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
   --font-handwriting: 'Caveat', cursive;
   --font-title: 'Space Grotesk', sans-serif;
-  --font-display: 'Syne', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
@@ -149,34 +149,36 @@
   }
 
   body {
+    font-family: var(--font-sans), sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
   }
-}
 
-.no-scroll {
-  overflow: hidden !important;
-  height: 100vh !important;
-}
+  .no-scroll {
+    overflow: hidden !important;
+    height: 100vh !important;
+  }
 
-/* ─── Lenis ─────────────────────────────────────────────────────────── */
-html.lenis, html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
+  /* ─── Lenis ─────────────────────────────────────────────────────────── */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
 }
 
 /* ─── Background · Dots Grid Overlay ────────────────────────────────── */
@@ -208,7 +210,7 @@ html.lenis, html.lenis body {
   opacity: 0.015; /* Réduit pour un grain plus subtil */
   /* Uses a 256x256 static PNG file instead of base64 to prevent visible tiling, 
      while keeping the zero-math guarantee during zoom. */
-  /* noinspection CssUnknownTarget */
+  /*noinspection CssUnknownTarget*/
   background-image: url("/noise.png");
   background-size: 256px 256px;
   background-repeat: repeat;
@@ -304,43 +306,39 @@ html.lenis, html.lenis body {
    UTILITY CLASSES
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* ─── Glass Card ────────────────────────────────────────────────────── */
-
-.glass-card {
-  padding: 1.5rem;
-  background: var(--glass-bg);
-  /* backdrop-filter removed — extremely expensive during scroll */
-  contain: layout style paint;
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  box-shadow: var(--glass-shadow);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
-}
-
-.glass-card:hover {
-  border-color: var(--glass-border-hover);
-  background: var(--glass-bg-hover);
-  box-shadow: var(--glass-shadow-hover);
-}
-
-/* ─── Scroll-Linked Reveal (progressive disclosure) ─────────────────── */
-
-@supports (animation-timeline: view()) {
-  .scroll-reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: scroll-reveal-in linear both;
-    animation-timeline: view();
-    /* noinspection CssInvalidPropertyValue */
-    animation-range-start: entry 0%;
-    /* noinspection CssInvalidPropertyValue */
-    animation-range-end: entry 40%;
+@layer utilities {
+  /* ─── Glass Card ────────────────────────────────────────────────────── */
+  .glass-card {
+    padding: 1.5rem;
+    background: var(--glass-bg);
+    contain: layout style paint;
+    border: 1px solid var(--glass-border);
+    border-radius: 0;
+    box-shadow: var(--glass-shadow);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
   }
 
-  @keyframes scroll-reveal-in {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  .glass-card:hover {
+    border-color: var(--glass-border-hover);
+    background: var(--glass-bg-hover);
+    box-shadow: var(--glass-shadow-hover);
+  }
+
+  /* ─── Scroll-Linked Reveal (progressive disclosure) ─────────────────── */
+  @supports (animation-timeline: view()) {
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: scroll-reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+
+    @keyframes scroll-reveal-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   }
 }
@@ -350,7 +348,7 @@ html.lenis, html.lenis body {
 .font-display {
   font-family: var(--font-display), sans-serif;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.035em;
 }
 
 /* ─── Custom Scrollbar ──────────────────────────────────────────────── */
@@ -372,7 +370,7 @@ html.lenis, html.lenis body {
 
 *::-webkit-scrollbar-thumb {
   background-color: rgba(128, 128, 128, 0.3);
-  border-radius: 10px;
+  border-radius: 0;
 }
 
 *::-webkit-scrollbar-thumb:hover {

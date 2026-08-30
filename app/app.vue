@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 useHead({
-  htmlAttrs: { lang: 'fr' },
+  htmlAttrs: { lang: 'en' },
   title: 'Paul Thomas | Portfolio',
   meta: [
     { name: 'description', content: 'Portfolio of Paul Thomas - Web Developer' }
@@ -35,10 +35,13 @@ if (import.meta.server) {
       <div class="vignette"></div>
     </template>
     
-    <div class="relative z-10">
+    <div class="relative z-10 flex flex-col min-h-screen">
       <AppHeader />
       <NuxtRouteAnnouncer />
-      <NuxtPage />
+      <div class="flex-grow">
+        <NuxtPage />
+      </div>
+      <AppFooter />
     </div>
   </div>
 </template>

@@ -85,22 +85,26 @@ onBeforeUnmount(() => observer?.disconnect())
   transform-origin: left;
 }
 
-.is-ready:not(.is-visible) .word {
+/*noinspection CssUnusedSymbol*/
+.section-title-reveal.is-ready:not(.is-visible) .word {
   opacity: 0;
   transform: translateY(115%) rotate(3deg);
 }
 
-.is-ready.is-visible .word {
+/*noinspection CssUnusedSymbol*/
+.section-title-reveal.is-ready.is-visible .word {
   animation: word-rise 850ms cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: calc(var(--word-index) * 110ms);
 }
 
-.is-ready:not(.is-visible) .light-trail {
+/*noinspection CssUnusedSymbol*/
+.section-title-reveal.is-ready:not(.is-visible) .light-trail {
   opacity: 0;
   transform: scaleX(0);
 }
 
-.is-ready.is-visible .light-trail {
+/*noinspection CssUnusedSymbol*/
+.section-title-reveal.is-ready.is-visible .light-trail {
   animation: trail-draw 1s cubic-bezier(0.16, 1, 0.3, 1) 220ms both;
 }
 

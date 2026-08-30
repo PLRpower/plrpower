@@ -110,10 +110,11 @@ onBeforeUnmount(() => {
       v-for="(char, i) in displayChars" 
       :key="i"
       class="inline-block transition-colors duration-200"
-      :class="[
-        char === ' ' ? 'w-[0.3em]' : 'min-w-[0.05em]',
-        !charResolved[i] && isAnimating ? 'text-accent/70 font-mono' : ''
-      ]"
+      :class="{
+        'w-[0.3em]': char === ' ',
+        'min-w-[0.05em]': char !== ' ',
+        'text-accent/70 font-mono': !charResolved[i] && isAnimating
+      }"
       :style="{ transitionDelay: charResolved[i] ? '0ms' : `${i * 10}ms` }"
     >{{ char === ' ' ? '\u00A0' : char }}</span>
   </component>

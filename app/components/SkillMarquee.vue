@@ -14,8 +14,8 @@ withDefaults(defineProps<{
 <template>
   <div class="marquee-container relative overflow-hidden" :class="{ 'pause-on-hover': pauseOnHover }">
     <!-- Edge fades -->
-    <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#030303] to-transparent z-10 pointer-events-none"></div>
-    <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#030303] to-transparent z-10 pointer-events-none"></div>
+    <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-bg-primary to-transparent z-10 pointer-events-none"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-bg-primary to-transparent z-10 pointer-events-none"></div>
     
     <div 
       class="marquee-track flex gap-4 w-max"

@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 
+// noinspection JSUnusedGlobalSymbols
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -19,11 +20,10 @@ export default defineNuxtConfig({
   },
   fonts: {
     families: [
-      { name: 'Montserrat', weights: [400, 600] },
-      { name: 'JetBrains Mono', weights: [400] },
-      { name: 'Caveat', weights: [400] },
-      { name: 'Space Grotesk', weights: [600] },
-      { name: 'Syne', weights: [400, 600, 700, 800] }
+      { name: 'Geist', weights: [400, 500, 600, 700] },
+      { name: 'Geist Mono', weights: [400, 500] },
+      { name: 'Space Grotesk', weights: [500, 600, 700] },
+      { name: 'Caveat', weights: [400] }
     ]
   },
   site: {

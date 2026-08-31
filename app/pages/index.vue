@@ -1,5 +1,5 @@
 <template>
-  <div class="selection:bg-accent selection:text-black light:selection:text-white">
+  <div class="selection:bg-accent selection:text-black">
     <Hero />
     
     <LazyAboutSection />

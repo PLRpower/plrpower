@@ -24,8 +24,6 @@
   --blur-3xl: 64px;
 }
 
-@custom-variant light (.light &);
-
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
@@ -40,20 +38,6 @@
 }
 
 @layer base {
-  :root {
-    --bg-color: #030303;
-    --text-primary: #ffffff;
-    --text-secondary: #a1a1aa;
-    --accent-color: #2dd4bf;
-    --accent-secondary: #6366f1;
-    --accent-warm: #f59e0b;
-    --accent-cyan: #22d3ee;
-    --grid-color: rgba(255, 255, 255, 0.05);
-    --selection-text: #000;
-  }
-
-  /* ─── Design Tokens ─────────────────────────────────────────────────── */
-
   :root {
     --bg-color: #0a0a0a;
     --bg-surface: #121212;
@@ -92,43 +76,6 @@
     --panel-bg: rgba(3, 3, 3, 0.85);
     --panel-border: rgba(255, 255, 255, 0.06);
     --panel-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
-  }
-
-  .light {
-    --bg-color: #f8fafc;
-    --bg-surface: #ffffff;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --accent-color: #0d9488;
-    --accent-secondary: #4338ca;
-    --accent-warm: #d97706;
-    --accent-cyan: #0891b2;
-    --grid-color: rgba(0, 0, 0, 0.06);
-    --selection-text: #fff;
-
-    --glow-1-c1: rgba(13, 148, 136, 0.06);
-    --glow-1-c2: rgba(13, 148, 136, 0.02);
-    --glow-2-c1: rgba(67, 56, 202, 0.05);
-    --glow-2-c2: rgba(67, 56, 202, 0.02);
-    --glow-3-c1: rgba(8, 145, 178, 0.05);
-    --glow-3-c2: rgba(8, 145, 178, 0.02);
-    --glow-4-c1: rgba(217, 119, 6, 0.04);
-
-    --vignette-color: rgba(255, 255, 255, 0.8);
-
-    --glass-bg: rgba(255, 255, 255, 0.6);
-    --glass-border: rgba(0, 0, 0, 0.08);
-    --glass-border-hover: rgba(13, 148, 136, 0.3);
-    --glass-bg-hover: rgba(255, 255, 255, 0.9);
-    --glass-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), 0 4px 24px -1px rgba(0, 0, 0, 0.06);
-    --glass-shadow-hover: inset 0 1px 0 0 rgba(255, 255, 255, 1), 0 8px 40px -4px rgba(0, 0, 0, 0.12), 0 0 60px -12px rgba(13, 148, 136, 0.15);
-
-    --header-bg: rgba(255, 255, 255, 0.7);
-    --header-border: rgba(0, 0, 0, 0.06);
-    --header-shadow: 0 1px 0 0 rgba(13, 148, 136, 0.1), 0 4px 30px rgba(0, 0, 0, 0.05);
-    --panel-bg: rgba(255, 255, 255, 0.95);
-    --panel-border: rgba(0, 0, 0, 0.06);
-    --panel-shadow: -20px 0 60px rgba(0, 0, 0, 0.1);
   }
 
   /* ─── Reset ─────────────────────────────────────────────────────────── */

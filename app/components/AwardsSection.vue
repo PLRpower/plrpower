@@ -1,6 +1,6 @@
 <template>
   <section id="awards" class="relative mt-48 md:mt-64 px-6 md:px-10 overflow-hidden" @mousemove="updateHoverPos">
-    <div class="absolute -top-8 md:-top-12 -left-4 md:left-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] light:text-black/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
+    <div class="absolute -top-8 md:-top-12 -left-4 md:left-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
       06
     </div>
 
@@ -13,15 +13,15 @@
       </h2>
 
       <!-- Typography List -->
-      <div class="flex flex-col border-t border-white/[0.05] light:border-black/[0.05] award-item">
+      <div class="flex flex-col border-t border-white/[0.05] award-item">
         <div v-for="award in awardsData" :key="award.title" 
-             class="group relative py-6 md:py-8 border-b border-white/[0.05] light:border-black/[0.05] flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-default transition-colors duration-500 hover:bg-white/[0.02] light:hover:bg-black/[0.02] px-4 -mx-4"
+             class="group relative py-6 md:py-8 border-b border-white/[0.05] flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-default transition-colors duration-500 hover:bg-white/[0.02] px-4 -mx-4"
              @mouseenter="activeAward = award; isHoveringAward = true"
              @mouseleave="isHoveringAward = false">
           
           <div class="flex items-center gap-4 md:gap-12 w-full">
             <!-- Icon visible on mobile, hidden on desktop (desktop uses hover popup) -->
-            <div class="md:hidden w-12 h-12 shrink-0 bg-white/[0.03] light:bg-black/[0.03] flex items-center justify-center border border-white/[0.05] light:border-black/[0.05]">
+            <div class="md:hidden w-12 h-12 shrink-0 bg-white/[0.03] flex items-center justify-center border border-white/[0.05]">
               <NuxtImg :src="award.icon" class="w-7 h-7 object-contain" />
             </div>
             <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-12 flex-1">
@@ -39,14 +39,14 @@
         <Teleport to="body">
           <div v-if="activeAward" 
                ref="awardCursorRef"
-               class="fixed pointer-events-none z-50 overflow-hidden border border-white/10 light:border-black/10 bg-[#080808]/95 light:bg-white/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] light:shadow-[0_20px_50px_rgba(0,0,0,0.1)] items-center gap-5 p-5 w-[340px] hidden md:flex"
+               class="fixed pointer-events-none z-50 overflow-hidden border border-white/10 bg-[#080808]/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] items-center gap-5 p-5 w-[340px] hidden md:flex"
                :class="isHoveringAward ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
                :style="{ transition: 'opacity 0.2s, transform 0.2s', transform: 'translate(20px, -50%)' }">
-            <div class="w-16 h-16 shrink-0 bg-white/5 light:bg-black/5 flex items-center justify-center border border-white/5 light:border-black/5">
+            <div class="w-16 h-16 shrink-0 bg-white/5 flex items-center justify-center border border-white/5">
               <NuxtImg :src="activeAward.icon" class="w-10 h-10 object-contain grayscale-[0.2]" />
             </div>
             <div class="flex flex-col gap-1">
-              <span class="font-display font-bold text-[0.95rem] text-white light:text-primary leading-tight">{{ activeAward.title }}</span>
+              <span class="font-display font-bold text-[0.95rem] text-white leading-tight">{{ activeAward.title }}</span>
               <span class="text-[0.75rem] text-secondary/60 leading-relaxed">{{ activeAward.subtitle }}</span>
               <div class="mt-2 flex items-center gap-2 text-sm text-accent/90 font-mono font-bold">
                 Details <Icon name="ph:arrow-up-right-bold" size="18px" />

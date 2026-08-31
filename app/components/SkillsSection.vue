@@ -1,6 +1,6 @@
 <template>
   <section id="skills" class="relative mt-48 md:mt-64 px-6 md:px-10 overflow-hidden">
-    <div class="absolute -top-8 md:-top-12 -right-4 md:right-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] light:text-black/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
+    <div class="absolute -top-8 md:-top-12 -right-4 md:right-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
       05
     </div>
 
@@ -24,13 +24,13 @@
             <span class="font-mono text-[0.7rem] tracking-[0.2em] uppercase text-accent mb-4 block font-semibold">Core Expertise</span>
             <h3 class="font-display text-4xl md:text-5xl font-bold text-primary leading-tight mb-6 group-hover:text-accent transition-colors duration-500">AI / ML & Distributed Intelligence</h3>
             <ul class="flex flex-wrap gap-2.5">
-              <li v-for="skill in ['PyTorch', 'TensorFlow', 'Federated Learning', 'Computer Vision (OpenCV)', 'TinyML & Edge AI', 'Scikit-Learn', 'Transformers / LLMs', 'NumPy / Pandas', 'Data Analysis & Metrics']" :key="skill" class="px-4 py-2 bg-[#050505]/60 light:bg-white/80 backdrop-blur-md rounded-lg border border-white/5 light:border-black/5 text-[0.8rem] text-secondary/90 shadow-lg">{{ skill }}</li>
+              <li v-for="skill in ['PyTorch', 'TensorFlow', 'Federated Learning', 'Computer Vision (OpenCV)', 'TinyML & Edge AI', 'Scikit-Learn', 'Transformers / LLMs', 'NumPy / Pandas', 'Data Analysis & Metrics']" :key="skill" class="px-4 py-2 bg-[#050505]/60 backdrop-blur-md rounded-lg border border-white/5 text-[0.8rem] text-secondary/90 shadow-lg">{{ skill }}</li>
             </ul>
           </div>
         </div>
 
         <!-- Box 2: Medium (Systems & Embedded) -->
-        <div class="relative p-6 border border-white/[0.04] light:border-black/[0.04] bg-[#0a0a0a] light:bg-slate-100 group hover:bg-[#0f0f0f] light:hover:bg-slate-200/60 transition-all duration-500 overflow-hidden md:col-span-2 md:row-span-1 cursor-pointer" @click="ledOn = !ledOn">
+        <div class="relative p-6 border border-white/[0.04] bg-[#0a0a0a] group hover:bg-[#0f0f0f] transition-all duration-500 overflow-hidden md:col-span-2 md:row-span-1 cursor-pointer" @click="ledOn = !ledOn">
           <!-- Circuit pattern background -->
           <div class="absolute inset-0 opacity-[0.15] transition-opacity duration-300" :class="ledOn ? 'opacity-[0.25]' : ''" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.4) 1px, transparent 0); background-size: 24px 24px;"></div>
           
@@ -43,28 +43,28 @@
                   <div class="w-3.5 h-3.5 rounded-full border shadow-inner transition-all duration-300" :class="ledOn ? 'bg-[#2dd4bf] border-[#2dd4bf] shadow-[0_0_15px_rgba(45,212,191,0.8)]' : 'bg-[#1a1a1a] border-white/20'"></div>
                 </div>
               </div>
-              <h3 class="font-display text-2xl font-bold text-primary mb-4 group-hover:text-white light:text-primary transition-colors duration-300" :class="ledOn ? 'text-white light:text-primary' : ''">Systems & Embedded</h3>
+              <h3 class="font-display text-2xl font-bold text-primary mb-4 group-hover:text-white transition-colors duration-300" :class="ledOn ? 'text-white' : ''">Systems & Embedded</h3>
             </div>
             <div class="flex flex-wrap gap-2">
-              <span v-for="skill in ['C / C++', 'ROS / ROS2', 'ESP32', 'Arduino', 'Linux IPC & Kernel', 'RTOS', 'Sensor Fusion & Telemetry']" :key="skill" class="font-mono text-[0.75rem] text-secondary/70 bg-white/[0.03] light:bg-black/[0.03] px-3 py-1.5 rounded-md border border-white/[0.05] light:border-black/[0.05]">{{ skill }}</span>
+              <span v-for="skill in ['C / C++', 'ROS / ROS2', 'ESP32', 'Arduino', 'Linux IPC & Kernel', 'RTOS', 'Sensor Fusion & Telemetry']" :key="skill" class="font-mono text-[0.75rem] text-secondary/70 bg-white/[0.03] px-3 py-1.5 rounded-md border border-white/[0.05]">{{ skill }}</span>
             </div>
           </div>
         </div>
 
         <!-- Box 3: Small (Full-Stack & Software) -->
-        <div class="relative p-6 border border-white/[0.04] light:border-black/[0.04] bg-white/[0.015] light:bg-black/[0.015] group hover:bg-white/[0.03] light:bg-black/[0.03] transition-all duration-500 overflow-hidden md:col-span-1 md:row-span-1 flex flex-col justify-between">
+        <div class="relative p-6 border border-white/[0.04] bg-white/[0.015] group hover:bg-white/[0.03] transition-all duration-500 overflow-hidden md:col-span-1 md:row-span-1 flex flex-col justify-between">
           <div>
             <span class="font-mono text-[0.65rem] tracking-[0.2em] uppercase text-secondary/50 mb-3 block">Applied Skills</span>
-            <h3 class="font-display text-xl font-bold text-primary mb-3 group-hover:text-white light:text-primary transition-colors duration-300">Software & Web</h3>
+            <h3 class="font-display text-xl font-bold text-primary mb-3 group-hover:text-white transition-colors duration-300">Software & Web</h3>
             <p class="font-mono text-[0.7rem] text-secondary/50 leading-relaxed">TypeScript · Node.js · Nuxt<br>React · Python / FastAPI<br>PostgreSQL · REST & GraphQL</p>
           </div>
           <div class="font-mono text-[0.65rem] text-secondary/40 tracking-wider">FULL-STACK & APIS</div>
         </div>
 
         <!-- Box 4: Small (DevOps & Tools) -->
-        <div class="relative border border-white/[0.04] light:border-black/[0.04] bg-[#050505] light:bg-slate-50 overflow-hidden md:col-span-1 md:row-span-1 flex flex-col group hover:bg-[#0a0a0a] light:hover:bg-slate-100 transition-colors duration-500 rounded-lg">
+        <div class="relative border border-white/[0.04] bg-[#050505] overflow-hidden md:col-span-1 md:row-span-1 flex flex-col group hover:bg-[#0a0a0a] transition-colors duration-500 rounded-lg">
           <!-- Terminal Header -->
-          <div class="flex gap-2 px-4 py-3 border-b border-white/[0.05] light:border-black/[0.05] bg-[#0a0a0a] light:bg-slate-200/50">
+          <div class="flex gap-2 px-4 py-3 border-b border-white/[0.05] bg-[#0a0a0a]">
             <div class="w-2.5 h-2.5 rounded-full bg-red-500/50 group-hover:bg-red-500 transition-colors duration-300"></div>
             <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/50 group-hover:bg-yellow-500 transition-colors duration-300"></div>
             <div class="w-2.5 h-2.5 rounded-full bg-green-500/50 group-hover:bg-green-400 transition-colors duration-300"></div>

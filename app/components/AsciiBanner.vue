@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-const colorMode = useColorMode();
 const props = withDefaults(defineProps<{
   delay?: number;
   instant?: boolean;
@@ -165,8 +164,7 @@ const draw = (timestamp: number) => {
     mouseY.value = -1000;
   }
 
-  const isLight = colorMode.value === 'light';
-  const baseRgb = isLight ? '15, 23, 42' : '255, 255, 255';
+  const baseRgb = '255, 255, 255';
 
   let stillAnimating = false;
   let hasActiveKineticEnergy = false;
@@ -354,15 +352,13 @@ const draw = (timestamp: number) => {
         const hoverIntensity = isHovered ? (1 - Math.sqrt(distSq) / hoverRadius) : state.kineticEnergy;
 
         // Static per-character saturation & lightness offsets + proximity boost
-        const sat = Math.max(35, Math.min(100, (isLight ? 72 : 80) + state.satOffset));
-        const lightness = isLight
-          ? Math.max(16, Math.min(68, 32 + state.lightnessOffset * 0.75 + hoverIntensity * 22))
-          : Math.max(26, Math.min(96, 50 + state.lightnessOffset + hoverIntensity * 32));
+        const sat = Math.max(35, Math.min(100, 80 + state.satOffset));
+        const lightness = Math.max(26, Math.min(96, 50 + state.lightnessOffset + hoverIntensity * 32));
 
         const glowAlpha = Math.min(1, Math.max(opacity, waveGlow, state.kineticEnergy, 0.75));
 
         ctx.fillStyle = `hsla(${baseHue}, ${sat}%, ${lightness}%, ${glowAlpha})`;
-        ctx.shadowColor = `hsla(${baseHue}, ${sat}%, ${isLight ? 40 : 60}%, 0.8)`;
+        ctx.shadowColor = `hsla(${baseHue}, ${sat}%, 60%, 0.8)`;
         ctx.shadowBlur = Math.min(12, (3 + waveGlow * 6 + hoverIntensity * 6) * state.glowStrength);
         ctx.fillText(charToDraw, drawX, drawY);
         ctx.shadowBlur = 0;
@@ -402,8 +398,7 @@ const drawStatic = () => {
   ctx.save();
   ctx.scale(dpr, dpr);
 
-  const isLight = colorMode.value === 'light';
-  ctx.fillStyle = props.color || (isLight ? 'rgba(15, 23, 42, 1)' : 'rgba(255, 255, 255, 1)');
+  ctx.fillStyle = props.color || 'rgba(255, 255, 255, 1)';
 
   const blockW = Math.max(0.8, charWidth * 0.6);
   const blockH = Math.max(0.9, lineHeight * 0.6);
@@ -582,15 +577,6 @@ onBeforeUnmount(() => {
   if (resizeTimeout) clearTimeout(resizeTimeout);
   window.removeEventListener('resize', handleResize);
 });
-
-watch(() => colorMode.value, () => {
-  if (!props.animated) {
-    drawStatic();
-  } else if (isAnimationFinished.value) {
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = requestAnimationFrame(draw);
-  }
-});
 </script>
 
 <template>
@@ -599,7 +585,7 @@ watch(() => colorMode.value, () => {
        :style="{ opacity: isReady || instant ? 1 : 0, transition: 'opacity 0.8s ease' }"
        @mousemove.passive="handleMouseMove"
        @mouseleave="handleMouseLeave">
-    <div v-if="instant" class="text-white light:text-primary font-mono text-[clamp(0.35rem,0.7vw,0.75rem)] leading-tight select-none pointer-events-none" aria-hidden="true">
+    <div v-if="instant" class="text-white font-mono text-[clamp(0.35rem,0.7vw,0.75rem)] leading-tight select-none pointer-events-none" aria-hidden="true">
       <pre v-for="(line, idx) in rawLines" :key="idx" class="m-0 pre-wrap">{{ line }}</pre>
     </div>
     <canvas v-else ref="asciiCanvas" class="w-full h-auto block"></canvas>

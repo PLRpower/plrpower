@@ -1,7 +1,7 @@
 <template>
   <section id="experience" class="relative mt-32 md:mt-48 px-6 md:px-10 overflow-hidden">
     <!-- Giant background section number -->
-    <div class="absolute -top-8 md:-top-12 -right-4 md:right-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] light:text-black/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
+    <div class="absolute -top-8 md:-top-12 -right-4 md:right-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
       03
     </div>
 
@@ -24,7 +24,7 @@
           <!-- Timeline Items -->
           <div class="flex flex-col gap-2 relative">
             <!-- Continuous Background Line perfectly centered with dots (x = 29px) -->
-            <div class="absolute left-[29px] top-6 bottom-6 w-px bg-white/10 light:bg-black/10 pointer-events-none"></div>
+            <div class="absolute left-[29px] top-6 bottom-6 w-px bg-white/10 pointer-events-none"></div>
 
             <div 
               v-for="(exp, idx) in experiencesData" 
@@ -37,8 +37,8 @@
               class="group flex items-center gap-3 p-3.5 cursor-pointer select-none transition-all duration-300 text-left relative border"
               :class="[
                 activeIdx === idx 
-                  ? 'bg-white/[0.03] light:bg-black/[0.03] border-white/[0.06] light:border-black/[0.06] shadow-sm' 
-                  : 'hover:bg-white/[0.015] light:hover:bg-black/[0.015] border-transparent'
+                  ? 'bg-white/[0.03] border-white/[0.06] shadow-sm' 
+                  : 'hover:bg-white/[0.015] border-transparent'
               ]"
             >
               <!-- Timeline Node Container (Width 30px, exactly centered on the 29px axis) -->
@@ -48,7 +48,7 @@
                   :class="[
                     activeIdx === idx 
                       ? 'bg-accent border-accent shadow-[0_0_12px_rgba(45,212,191,0.8)] scale-125' 
-                      : 'bg-[#0a0a0a] light:bg-white border-white/20 light:border-black/20 group-hover:border-accent/50'
+                      : 'bg-[#0a0a0a] border-white/20 group-hover:border-accent/50'
                   ]"
                 ></div>
               </div>
@@ -68,7 +68,7 @@
                     :class="[
                       activeIdx === idx
                         ? 'border-accent/30 text-accent bg-accent/10'
-                        : 'border-white/5 light:border-black/5 text-secondary/40'
+                        : 'border-white/5 text-secondary/40'
                     ]"
                   >
                     {{ exp.status }}
@@ -102,7 +102,7 @@
             <div 
               v-if="activeExp"
               :key="activeExp.id"
-              class="p-8 md:p-12 border border-white/[0.06] light:border-black/[0.06] bg-white/[0.015] light:bg-black/[0.015] backdrop-blur-sm relative overflow-hidden shadow-xl"
+              class="p-8 md:p-12 border border-white/[0.06] bg-white/[0.015] backdrop-blur-sm relative overflow-hidden shadow-xl"
             >
               <!-- Subtle Ambient Glow -->
               <div class="absolute -top-24 -right-24 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -113,7 +113,7 @@
                   <span class="font-mono text-xs text-accent uppercase tracking-widest font-semibold">
                     {{ activeExp.date }}
                   </span>
-                  <span class="font-mono text-[0.65rem] text-secondary/60 border border-white/10 light:border-black/10 px-3 py-1 rounded-full uppercase tracking-wider">
+                  <span class="font-mono text-[0.65rem] text-secondary/60 border border-white/10 px-3 py-1 rounded-full uppercase tracking-wider">
                     {{ activeExp.durationLabel }}
                   </span>
                 </div>
@@ -134,12 +134,12 @@
               </div>
 
               <!-- Tech Badges -->
-              <div v-if="activeExp.techs && activeExp.techs.length" class="pt-6 border-t border-white/[0.04] light:border-black/[0.04]">
+              <div v-if="activeExp.techs && activeExp.techs.length" class="pt-6 border-t border-white/[0.04]">
                 <div class="flex flex-wrap gap-2">
                   <span 
                     v-for="tech in activeExp.techs" 
                     :key="tech"
-                    class="font-mono text-xs text-secondary/90 bg-white/[0.03] light:bg-black/[0.03] px-3 py-1.5 rounded-md border border-white/[0.05] light:border-black/[0.05]"
+                    class="font-mono text-xs text-secondary/90 bg-white/[0.03] px-3 py-1.5 rounded-md border border-white/[0.05]"
                   >
                     {{ tech }}
                   </span>

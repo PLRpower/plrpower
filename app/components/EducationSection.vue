@@ -1,7 +1,7 @@
 <template>
   <section id="education" class="relative mt-32 md:mt-48 px-6 md:px-10 overflow-hidden">
     <!-- Giant background number -->
-    <div class="absolute -top-8 md:-top-12 -left-4 md:left-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] light:text-black/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
+    <div class="absolute -top-8 md:-top-12 -left-4 md:left-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
       04
     </div>
 
@@ -20,14 +20,14 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
         <!-- Primary Block: CESI (8 cols) -->
-        <div class="lg:col-span-8 p-8 md:p-12 border border-white/[0.06] light:border-black/[0.06] bg-white/[0.01] light:bg-black/[0.01] flex flex-col justify-between group hover:border-accent/30 transition-all duration-500 relative overflow-hidden edu-item">
+        <div class="lg:col-span-8 p-8 md:p-12 border border-white/[0.06] bg-white/[0.01] flex flex-col justify-between group hover:border-accent/30 transition-all duration-500 relative overflow-hidden edu-item">
           <!-- Subtle ambient glow on hover -->
           <div class="absolute -top-24 -right-24 w-80 h-80 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-colors duration-700 pointer-events-none"></div>
 
           <div>
             <div class="flex items-center justify-between gap-4 mb-6">
               <span class="font-mono text-xs text-accent tracking-widest uppercase font-semibold">2023 — 2028</span>
-              <span class="font-mono text-[0.65rem] text-secondary/50 border border-white/10 light:border-black/10 px-2.5 py-1 rounded-full">5-Year Master's (BAC+5)</span>
+              <span class="font-mono text-[0.65rem] text-secondary/50 border border-white/10 px-2.5 py-1 rounded-full">5-Year Master's (BAC+5)</span>
             </div>
 
             <h3 class="font-display text-2xl md:text-4xl font-bold text-primary mb-3 leading-tight">
@@ -44,7 +44,7 @@
 
             <div class="flex flex-wrap gap-2">
               <span v-for="tag in ['AI & Machine Learning', 'Federated Learning', 'Embedded Systems', 'Distributed Systems']" :key="tag"
-                    class="font-mono text-xs text-secondary/80 bg-white/[0.03] light:bg-black/[0.03] px-3 py-1.5 rounded-md border border-white/[0.05] light:border-black/[0.05]">
+                    class="font-mono text-xs text-secondary/80 bg-white/[0.03] px-3 py-1.5 rounded-md border border-white/[0.05]">
                 {{ tag }}
               </span>
             </div>
@@ -52,7 +52,7 @@
         </div>
 
         <!-- Secondary Block: High School (4 cols) -->
-        <div class="lg:col-span-4 p-8 md:p-10 border border-white/[0.04] light:border-black/[0.04] bg-white/[0.008] light:bg-black/[0.008] flex flex-col justify-between group hover:border-white/[0.1] transition-all duration-500 edu-item">
+        <div class="lg:col-span-4 p-8 md:p-10 border border-white/[0.04] bg-white/[0.008] flex flex-col justify-between group hover:border-white/[0.1] transition-all duration-500 edu-item">
           <div>
             <div class="flex items-center justify-between gap-4 mb-6">
               <span class="font-mono text-xs text-secondary/50 tracking-widest uppercase">2020 — 2023</span>
@@ -72,9 +72,9 @@
             </p>
           </div>
 
-          <div class="mt-8 pt-6 border-t border-white/[0.04] light:border-black/[0.04] flex flex-wrap gap-2">
-            <span class="font-mono text-xs text-secondary/60 bg-white/[0.02] light:bg-black/[0.02] px-2.5 py-1 rounded-md border border-white/[0.04] light:border-black/[0.04]">Mathematics</span>
-            <span class="font-mono text-xs text-secondary/60 bg-white/[0.02] light:bg-black/[0.02] px-2.5 py-1 rounded-md border border-white/[0.04] light:border-black/[0.04]">Computer Science</span>
+          <div class="mt-8 pt-6 border-t border-white/[0.04] flex flex-wrap gap-2">
+            <span class="font-mono text-xs text-secondary/60 bg-white/[0.02] px-2.5 py-1 rounded-md border border-white/[0.04]">Mathematics</span>
+            <span class="font-mono text-xs text-secondary/60 bg-white/[0.02] px-2.5 py-1 rounded-md border border-white/[0.04]">Computer Science</span>
           </div>
         </div>
 

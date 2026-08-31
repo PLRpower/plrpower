@@ -16,7 +16,10 @@ interface ProjectConfig {
   charSpacing: number;
   charRamp: string;
   tintColor: string;
+  colorMode?: 'monochrome' | 'original';
 }
+
+import { projects as baseProjects } from '~/data/projects';
 
 const defaultRamps = [
   { name: 'High-Detail 16 (Standard)', value: ' .·:;~+=-*#%&$@' },
@@ -36,66 +39,19 @@ const tintPresets = [
 ];
 
 const projects = ref<ProjectConfig[]>([
-  {
-    id: 'federated-learning',
-    name: 'Federated Learning Lab',
-    src: '/images/projects/federated-learning.webp',
-    resolution: 180,
-    invert: true,
-    brightness: 1.05,
-    contrast: 1.25,
-    charSpacing: 0.85,
-    charRamp: ' .·:;~+=-*#%&$@',
-    tintColor: '#2dd4bf'
-  },
-  {
-    id: 'axiom-engine',
-    name: 'Axiom Chess Engine',
-    src: '/images/projects/axiom.webp',
-    resolution: 180,
-    invert: false,
-    brightness: 1.0,
-    contrast: 1.2,
-    charSpacing: 0.85,
-    charRamp: ' .·:;~+=-*#%&$@',
-    tintColor: '#2dd4bf'
-  },
-  {
-    id: 'weather',
-    name: 'Weather Station',
-    src: '/images/projects/weather.jpg',
-    resolution: 180,
-    invert: false,
-    brightness: 1.0,
-    contrast: 1.15,
-    charSpacing: 0.85,
-    charRamp: ' .·:;~+=-*#%&$@',
-    tintColor: '#2dd4bf'
-  },
-  {
-    id: 'search',
-    name: 'Mundo Search',
-    src: '/images/projects/search.jpg',
-    resolution: 180,
-    invert: false,
-    brightness: 1.0,
-    contrast: 1.2,
-    charSpacing: 0.85,
-    charRamp: ' .·:;~+=-*#%&$@',
-    tintColor: '#2dd4bf'
-  },
-  {
-    id: 'hydro',
-    name: 'Hydro Regen',
-    src: '/images/projects/hydro.jpg',
-    resolution: 180,
-    invert: false,
-    brightness: 1.0,
-    contrast: 1.2,
-    charSpacing: 0.85,
-    charRamp: ' .·:;~+=-*#%&$@',
-    tintColor: '#2dd4bf'
-  },
+  ...baseProjects.filter(p => p.image).map(p => ({
+    id: p.id,
+    name: p.title,
+    src: p.image!,
+    resolution: p.resolution ?? 180,
+    invert: p.invert ?? false,
+    brightness: p.brightness ?? 1.0,
+    contrast: p.contrast ?? 1.2,
+    charSpacing: p.charSpacing ?? 0.85,
+    charRamp: p.charRamp ?? ' .·:;~+=-*#%&$@',
+    tintColor: p.tintColor ?? '#2dd4bf',
+    colorMode: p.colorMode ?? 'monochrome'
+  })),
   {
     id: 'profile',
     name: 'Profile Photo',
@@ -106,7 +62,8 @@ const projects = ref<ProjectConfig[]>([
     contrast: 1.15,
     charSpacing: 0.85,
     charRamp: ' .·:;~+=-*#%&$@',
-    tintColor: '#2dd4bf'
+    tintColor: '#2dd4bf',
+    colorMode: 'monochrome'
   }
 ]);
 
@@ -343,8 +300,17 @@ const handleCustomUpload = (e: Event) => {
 
           <!-- Color Tint Presets -->
           <div>
-            <label class="text-xs text-secondary/70 block mb-2">Color Tint</label>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-xs text-secondary/70">Color Mode & Tint</label>
+              <button 
+                @click="activeProject.colorMode = activeProject.colorMode === 'original' ? 'monochrome' : 'original'"
+                class="px-2 py-0.5 text-[10px] font-bold border transition-colors"
+                :class="activeProject.colorMode === 'original' ? 'border-accent bg-accent text-black' : 'border-white/[0.2] bg-white/[0.05] text-white'"
+              >
+                {{ activeProject.colorMode === 'original' ? '🌈 TRUE COLOR (RGB)' : 'MONOCHROME TINT' }}
+              </button>
+            </div>
+            <div class="flex flex-wrap gap-2" :class="{ 'opacity-40 pointer-events-none': activeProject.colorMode === 'original' }">
               <button 
                 v-for="t in tintPresets" 
                 :key="t.name" 
@@ -380,28 +346,32 @@ const handleCustomUpload = (e: Event) => {
               class="px-3 py-1.5 text-xs transition-colors"
               :class="viewMode === 'interactive-hover' ? 'bg-accent text-black font-bold' : 'bg-white/[0.04] text-secondary/70 hover:text-white'"
             >
-              Interactive Hover Test
+              Hover Test
             </button>
             <button 
               @click="viewMode = 'ascii-only'"
               class="px-3 py-1.5 text-xs transition-colors"
               :class="viewMode === 'ascii-only' ? 'bg-accent text-black font-bold' : 'bg-white/[0.04] text-secondary/70 hover:text-white'"
             >
-              ASCII Full Screen
+              ASCII Only
             </button>
           </div>
         </div>
 
         <!-- Mode 1: Side-by-Side Comparison -->
-        <div v-if="viewMode === 'side-by-side'" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div v-if="viewMode === 'side-by-side'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Left: Original Image -->
           <div class="bg-black/60 border border-white/[0.08] p-4 flex flex-col gap-3">
             <div class="flex justify-between items-center text-xs text-secondary/60">
-              <span class="font-bold text-accent">[01] ORIGINAL PHOTO</span>
-              <span>100% RAW</span>
+              <span class="font-bold text-white">[01] SOURCE PHOTO</span>
+              <span>object-cover</span>
             </div>
-            <div class="relative w-full h-[400px] overflow-hidden bg-[#030303] flex items-center justify-center">
-              <img :src="activeProject.src" :alt="activeProject.name" class="w-full h-full object-cover" />
+            <div class="relative w-full h-[400px] overflow-hidden bg-[#030303]">
+              <img 
+                :src="activeProject.src" 
+                :alt="activeProject.name" 
+                class="w-full h-full object-cover"
+              />
             </div>
           </div>
 
@@ -409,11 +379,11 @@ const handleCustomUpload = (e: Event) => {
           <div class="bg-black/60 border border-white/[0.08] p-4 flex flex-col gap-3">
             <div class="flex justify-between items-center text-xs text-secondary/60">
               <span class="font-bold text-accent">[02] LIVE ASCII RENDER</span>
-              <span>{{ activeProject.resolution }} cols // inv: {{ activeProject.invert }}</span>
+              <span>{{ activeProject.resolution }} cols // color: {{ activeProject.colorMode || 'mono' }}</span>
             </div>
             <div class="relative w-full h-[400px] overflow-hidden bg-[#030303]">
               <AsciiImage 
-                :key="`${activeProject.id}-${activeProject.resolution}-${activeProject.invert}-${activeProject.brightness}-${activeProject.contrast}-${activeProject.charSpacing}-${activeProject.charRamp}-${activeProject.tintColor}`"
+                :key="`${activeProject.id}-${activeProject.resolution}-${activeProject.invert}-${activeProject.brightness}-${activeProject.contrast}-${activeProject.charSpacing}-${activeProject.charRamp}-${activeProject.tintColor}-${activeProject.colorMode}`"
                 :src="activeProject.src" 
                 :alt="activeProject.name"
                 :resolution="activeProject.resolution"
@@ -423,6 +393,7 @@ const handleCustomUpload = (e: Event) => {
                 :char-spacing="activeProject.charSpacing"
                 :char-ramp="activeProject.charRamp"
                 :tint-color="activeProject.tintColor"
+                :color-mode="activeProject.colorMode"
                 mode="always-ascii"
               />
             </div>
@@ -436,7 +407,7 @@ const handleCustomUpload = (e: Event) => {
           </div>
           <div class="w-full h-[450px] overflow-hidden relative border border-white/[0.1] group shadow-2xl bg-black">
             <AsciiImage 
-              :key="`${activeProject.id}-${activeProject.resolution}-${activeProject.invert}-${activeProject.brightness}-${activeProject.contrast}-${activeProject.charSpacing}-${activeProject.charRamp}-${activeProject.tintColor}`"
+              :key="`${activeProject.id}-${activeProject.resolution}-${activeProject.invert}-${activeProject.brightness}-${activeProject.contrast}-${activeProject.charSpacing}-${activeProject.charRamp}-${activeProject.tintColor}-${activeProject.colorMode}`"
               :src="activeProject.src" 
               :alt="activeProject.name"
               :resolution="activeProject.resolution"
@@ -446,6 +417,7 @@ const handleCustomUpload = (e: Event) => {
               :char-spacing="activeProject.charSpacing"
               :char-ramp="activeProject.charRamp"
               :tint-color="activeProject.tintColor"
+              :color-mode="activeProject.colorMode"
               mode="default-ascii"
             />
             <div class="absolute bottom-6 left-6 z-20 pointer-events-none">
@@ -460,7 +432,7 @@ const handleCustomUpload = (e: Event) => {
         <!-- Mode 3: ASCII Full Screen -->
         <div v-else class="w-full h-[600px] overflow-hidden relative border border-white/[0.1] bg-black">
           <AsciiImage 
-            :key="`${activeProject.id}-${activeProject.resolution}-${activeProject.invert}-${activeProject.brightness}-${activeProject.contrast}-${activeProject.charSpacing}-${activeProject.charRamp}-${activeProject.tintColor}`"
+            :key="`${activeProject.id}-${activeProject.resolution}-${activeProject.invert}-${activeProject.brightness}-${activeProject.contrast}-${activeProject.charSpacing}-${activeProject.charRamp}-${activeProject.tintColor}-${activeProject.colorMode}`"
             :src="activeProject.src" 
             :alt="activeProject.name"
             :resolution="activeProject.resolution"
@@ -470,6 +442,7 @@ const handleCustomUpload = (e: Event) => {
             :char-spacing="activeProject.charSpacing"
             :char-ramp="activeProject.charRamp"
             :tint-color="activeProject.tintColor"
+            :color-mode="activeProject.colorMode"
             mode="always-ascii"
           />
         </div>
@@ -489,6 +462,7 @@ const handleCustomUpload = (e: Event) => {
   :contrast="{{ activeProject.contrast }}"
   :char-spacing="{{ activeProject.charSpacing }}"
   char-ramp="{{ activeProject.charRamp }}"
+  color-mode="{{ activeProject.colorMode || 'monochrome' }}"
   tint-color="{{ activeProject.tintColor }}"
 /&gt;</code></pre>
         </div>

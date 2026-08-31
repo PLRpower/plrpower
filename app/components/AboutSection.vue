@@ -1,7 +1,7 @@
 <template>
   <section id="about" class="relative mt-32 md:mt-48 px-6 md:px-10 overflow-hidden">
     <!-- Giant background number -->
-    <div class="about-big-number absolute -top-8 md:-top-12 -right-4 md:right-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] light:text-black/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
+    <div class="about-big-number absolute -top-8 md:-top-12 -right-4 md:right-10 font-display text-[20vw] md:text-[15vw] font-extrabold leading-none text-white/[0.015] select-none pointer-events-none z-0" aria-hidden="true">
       01
     </div>
 
@@ -54,7 +54,7 @@
           </p>
 
           <!-- Quick stats -->
-          <div class="flex gap-12 mt-12 pt-8 border-t border-white/[0.04] light:border-black/[0.04]">
+          <div class="flex gap-12 mt-12 pt-8 border-t border-white/[0.04]">
             <div v-for="stat in aboutStats" :key="stat.label" class="flex flex-col">
               <span class="font-display text-3xl font-bold text-primary">{{ stat.value }}</span>
               <span class="font-mono text-[0.6rem] text-secondary/40 tracking-[0.15em] uppercase mt-1">{{ stat.label }}</span>

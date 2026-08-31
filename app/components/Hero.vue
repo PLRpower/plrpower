@@ -24,15 +24,15 @@ if (import.meta.server) {
 
       <div class="flex flex-col items-start text-left animate-fade-in mt-6 md:mt-8" 
            :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '2.2s' }">
-        <h3 class="text-[clamp(1rem,2vw,1.25rem)] font-normal tracking-widest text-primary mt-4">
-          <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline font-normal mr-1.5 leading-none text-accent">An</span>
+        <h3 class="text-[clamp(0.875rem,1.5vw,1.05rem)] font-normal tracking-wider text-primary/90 mt-4">
+          <span class="font-handwriting text-[clamp(1.05rem,2vw,1.35rem)] align-baseline font-normal mr-1.5 leading-none text-accent">An</span>
           AI & Embedded Systems Engineering Apprentice at LINEACT Research Lab · CS Student at CESI
         </h3>
       </div>
       <div class="flex flex-col items-start text-left animate-fade-in" 
            :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '3s' }">
-        <h3 class="text-[clamp(1rem,2vw,1.25rem)] font-normal tracking-widest text-primary mt-4">
-          <span class="font-handwriting text-[clamp(1.2rem,2.5vw,1.6rem)] align-baseline font-normal mr-1.5 leading-none text-accent">Currently seeking</span>
+        <h3 class="text-[clamp(0.875rem,1.5vw,1.05rem)] font-normal tracking-wider text-primary/90 mt-3">
+          <span class="font-handwriting text-[clamp(1.05rem,2vw,1.35rem)] align-baseline font-normal mr-1.5 leading-none text-accent">Currently seeking</span>
           a 3 to 4-month international research / engineering internship starting June–July 2027.
         </h3>
       </div>
@@ -44,17 +44,17 @@ if (import.meta.server) {
           <AsciiOdometerLink text="Download CV" class="text-inherit" />
         </a>
         <a href="https://github.com/PLRpower" target="_blank" rel="noopener noreferrer" 
-           class="group flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] light:border-black/10 light:bg-black/5 font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
+           class="group flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
           <Icon name="uil:github" size="16px" />
           <AsciiOdometerLink text="Github" class="text-inherit" />
         </a>
         <a href="https://www.linkedin.com/in/paul-thomas-strasbourg/" target="_blank" rel="noopener noreferrer" 
-           class="group flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] light:border-black/10 light:bg-black/5 font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
+           class="group flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
           <Icon name="uil:linkedin" size="16px" />
           <AsciiOdometerLink text="LinkedIn" class="text-inherit" />
         </a>
         <a href="mailto:paul.thomas.stras@gmail.com" 
-           class="group flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] light:border-black/10 light:bg-black/5 font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
+           class="group flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
           <Icon name="uil:envelope" size="16px" />
           <AsciiOdometerLink text="Email" class="text-inherit" />
         </a>
@@ -66,7 +66,7 @@ if (import.meta.server) {
            :style="isBot ? { animation: 'none', opacity: 1 } : { 'animation-delay': '4.6s' }">
         <span class="text-[0.6rem] tracking-[0.3em] text-secondary">Scroll</span>
         <div class="w-px h-[60px] bg-gradient-to-b from-accent to-transparent relative overflow-hidden">
-          <div class="absolute top-0 left-0 w-full h-full bg-white light:bg-slate-900 animate-scroll-indicator"></div>
+          <div class="absolute top-0 left-0 w-full h-full bg-white animate-scroll-indicator"></div>
         </div>
       </div>
     </footer>

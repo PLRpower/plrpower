@@ -26,7 +26,7 @@
           :to="'/projects/' + project.id"
           :class="[
             project.gridClass, 
-            'group relative flex flex-col overflow-hidden bg-[#050505] light:bg-white border border-white/[0.05] light:border-black/[0.05] hover:border-accent/40 transition-all duration-500 shadow-xl shadow-black/20 no-underline',
+            'group relative flex flex-col overflow-hidden bg-[#050505] border border-white/[0.05] hover:border-accent/40 transition-all duration-500 shadow-xl shadow-black/20 no-underline',
             { 'md:flex-row': isWideCard(project.gridClass) }
           ]"
         >
@@ -35,12 +35,19 @@
             <AsciiImage 
               :src="project.image" 
               :alt="project.title"
-              class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-1000" 
+              class="w-full h-full object-cover" 
               mode="default-ascii"
-              :resolution="180"
+              :resolution="project.resolution"
               :invert="project.invert"
+              :brightness="project.brightness"
+              :contrast="project.contrast"
+              :char-spacing="project.charSpacing"
+              :char-ramp="project.charRamp"
+              :tint-color="project.tintColor"
+              :color-mode="project.colorMode"
+              :use-original-colors="project.useOriginalColors"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] light:from-[#f8fafc] via-[#050505]/60 light:via-[#f8fafc]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#050505]/85 via-[#050505]/20 to-transparent pointer-events-none"></div>
           </div>
 
           <!-- Split Image for Wide (2x1) or Tall (1x2) Cards -->
@@ -51,11 +58,16 @@
               :alt="project.title"
               class="w-full h-full object-cover" 
               mode="default-ascii"
-              :resolution="180"
+              :resolution="project.resolution"
               :invert="project.invert"
+              :brightness="project.brightness"
+              :contrast="project.contrast"
+              :char-spacing="project.charSpacing"
+              :char-ramp="project.charRamp"
+              :tint-color="project.tintColor"
+              :color-mode="project.colorMode"
+              :use-original-colors="project.useOriginalColors"
             />
-            <!-- Darkening overlay -->
-            <div class="absolute inset-0 bg-[#050505]/30 light:bg-transparent group-hover:opacity-0 transition-opacity duration-700 pointer-events-none"></div>
           </div>
           
           <!-- Background glow for cards without images -->
@@ -73,7 +85,7 @@
               <span class="font-mono text-[0.65rem] font-bold px-2 py-1 bg-accent/10 text-accent rounded-md tracking-wider uppercase">
                 {{ project.category }}
               </span>
-              <div class="w-8 h-8 rounded-full bg-white/[0.03] light:bg-black/[0.03] flex items-center justify-center border border-white/[0.05] light:border-black/[0.05] group-hover:bg-accent group-hover:border-accent transition-colors duration-300"
+              <div class="w-8 h-8 rounded-full bg-white/[0.03] flex items-center justify-center border border-white/[0.05] group-hover:bg-accent group-hover:border-accent transition-colors duration-300"
                    :class="{ 'bg-white/10 text-white': isFeaturedCard(project.gridClass) }">
                 <Icon name="material-symbols:arrow-outward" size="16px" class="text-secondary/50 group-hover:text-black transition-colors duration-300" 
                       :class="{ 'text-white': isFeaturedCard(project.gridClass) }"/>
@@ -95,7 +107,7 @@
               
               <div class="flex flex-wrap gap-2 mt-auto pt-2">
                 <span v-for="tech in project.techs" :key="tech" class="px-2.5 py-1 rounded-md border text-[0.65rem] font-mono"
-                      :class="isFeaturedCard(project.gridClass) ? 'text-white/90 bg-white/10 border-white/10' : 'text-secondary/80 bg-white/[0.03] light:bg-black/[0.03] border-white/[0.05] light:border-black/[0.05]'">
+                      :class="isFeaturedCard(project.gridClass) ? 'text-white/90 bg-white/10 border-white/10' : 'text-secondary/80 bg-white/[0.03] border-white/[0.05]'">
                   {{ tech }}
                 </span>
               </div>
@@ -109,6 +121,8 @@
 </template>
 
 <script setup lang="ts">
+import { projects as allProjects } from '~/data/projects';
+
 useHead({
   title: 'Selected Works | Paul Thomas'
 });
@@ -122,85 +136,4 @@ const getImageClass = (gridClass: string) => {
   }
   return 'h-[45%] border-b border-white/[0.05]';
 };
-
-const allProjects = [
-  {
-    id: 'federated-learning',
-    title: 'Federated Learning Platform',
-    category: 'Research & AI',
-    description: 'Researched and evaluated distributed Federated Learning architectures on Raspberry Pi clusters at LINEACT Laboratory.',
-    techs: ['Python', 'PyTorch / TF', 'Distributed ML', 'Edge AI'],
-    image: '/images/projects/federated-learning.webp',
-    invert: true,
-    gridClass: 'md:col-span-2 lg:col-span-2 lg:row-span-2'
-  },
-  {
-    id: 'axiom-engine',
-    title: 'Axiom Chess Engine & AI',
-    category: 'AI & Algorithms',
-    description: 'A custom chess engine combining classical Alpha-Beta pruning with machine learning-inspired evaluation functions.',
-    techs: ['Python', 'Heuristics', 'Game Tree Search', 'ML'],
-    image: '/images/projects/axiom.webp',
-    gridClass: 'md:col-span-2 lg:col-span-2 lg:row-span-1'
-  },
-  {
-    id: 'embedded-weather-station',
-    title: 'Embedded Weather Station',
-    category: 'Embedded & IoT',
-    description: 'A resilient, Arduino/ESP32-based embedded weather station prototype designed for environmental hazard monitoring.',
-    techs: ['C++', 'Arduino / ESP32', 'Sensors', 'Telemetry'],
-    image: '/images/projects/weather.jpg',
-    gridClass: 'md:col-span-2 lg:col-span-2 lg:row-span-1'
-  },
-  {
-    id: 'mundo-search',
-    title: 'Mundo Search',
-    category: 'Full-Stack & AI',
-    description: 'An innovative search engine leveraging AI to generate interactive mindmaps and concept graphs.',
-    techs: ['TypeScript', 'Vue.js', 'NLP & AI', 'Graph UI'],
-    image: '/images/projects/search.jpg',
-    gridClass: 'md:col-span-1 lg:col-span-1 lg:row-span-2'
-  },
-  {
-    id: 'hydro-regen',
-    title: 'Hydro Regen',
-    category: 'Hackathon Winner',
-    description: 'Award-winning regenerative hydrology mapping platform built by a 10-person team during Aquathon (3rd Place & Jury Award).',
-    techs: ['Vue.js', 'TypeScript', 'Spatial Data', 'Tailwind'],
-    image: '/images/projects/hydro.jpg',
-    gridClass: 'md:col-span-1 lg:col-span-2 lg:row-span-2'
-  },
-  {
-    id: 'a-la-carte',
-    title: 'À la carte — Smart Kitchen',
-    category: 'Mobile & AI',
-    description: 'A smart meal planner and fridge management app that extracts recipes from photos and matches real-time ingredients.',
-    techs: ['TypeScript', 'Vue/Nuxt', 'OCR / Vision', 'REST APIs'],
-    gridClass: 'md:col-span-2 lg:col-span-1 lg:row-span-1'
-  },
-  {
-    id: 'delivery-route-optimization',
-    title: 'Route & Fleet Optimization',
-    category: 'Data Science & OR',
-    description: 'Operations research and graph algorithms solving Vehicle Routing Problems (VRP) with time-window constraints.',
-    techs: ['Python', 'Jupyter', 'Graph Theory', 'Optimization'],
-    gridClass: 'md:col-span-2 lg:col-span-1 lg:row-span-1'
-  },
-  {
-    id: 'conway-game-of-life',
-    title: 'Game of Life Simulation',
-    category: 'C++ & Systems',
-    description: 'High-performance cellular automaton in modern C++20 with OpenMP multi-threading and SOLID architecture.',
-    techs: ['C++20', 'OpenMP', 'Parallel Computing', 'OOP'],
-    gridClass: 'md:col-span-1 lg:col-span-2 lg:row-span-1'
-  },
-  {
-    id: 'minecraft-server',
-    title: 'Exolia Server Infrastructure',
-    category: 'Distributed Systems',
-    description: 'Multiplayer server infrastructure serving 500+ players with asynchronous Netty plugins and Redis synchronization.',
-    techs: ['Java', 'Netty', 'Concurrency', 'Redis / SQL'],
-    gridClass: 'md:col-span-1 lg:col-span-2 lg:row-span-1'
-  }
-];
 </script>

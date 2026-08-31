@@ -2,7 +2,6 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 
 const route = useRoute();
-const colorMode = useColorMode();
 const isScrolled = ref(false);
 const isMobileMenuOpen = ref(false);
 
@@ -59,10 +58,6 @@ watch(() => route.path, () => {
   document.body.classList.remove('no-scroll');
 });
 
-const toggleTheme = () => {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
-};
-
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true });
 });
@@ -117,18 +112,6 @@ onUnmounted(() => {
             />
           </div>
         </nav>
-
-        <!-- Theme Toggle Button -->
-        <ClientOnly>
-          <button
-            @click="toggleTheme"
-            class="relative z-[1010] w-10 h-10 flex items-center justify-center focus:outline-none transition-transform hover:scale-110 ml-2 md:ml-4 text-secondary hover:text-primary"
-            aria-label="Toggle theme"
-          >
-            <Icon v-if="$colorMode.value === 'dark'" name="ph:sun" class="w-5 h-5" />
-            <Icon v-else name="ph:moon" class="w-5 h-5" />
-          </button>
-        </ClientOnly>
 
         <!-- Mobile Hamburger Button -->
         <button

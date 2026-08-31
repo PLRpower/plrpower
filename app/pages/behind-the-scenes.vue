@@ -11,7 +11,7 @@ useHead({
 </script>
 
 <template>
-  <main class="min-h-screen bg-bg text-primary pt-28 pb-36 px-6 md:px-10 selection:bg-accent selection:text-black light:selection:text-white">
+  <main class="min-h-screen bg-bg text-primary pt-28 pb-36 px-6 md:px-10 selection:bg-accent selection:text-black">
     <article class="max-w-[760px] mx-auto font-sans leading-[1.85] text-[1.05rem] text-secondary/90">
       
       <!-- Back Link -->
@@ -54,7 +54,7 @@ useHead({
       </p>
 
       <!-- Live ASCII Banner with Ping-Pong Loop -->
-      <div class="my-10 border border-white/[0.08] light:border-black/[0.08] bg-[#040404] light:bg-slate-900 p-6 md:p-10">
+      <div class="my-10 border border-white/[0.08] bg-[#040404] p-6 md:p-10">
         <div class="flex items-center justify-center">
           <AsciiBanner :animated="true" :ping-pong="true" class="w-full max-w-[680px]" />
         </div>
@@ -171,7 +171,7 @@ useHead({
       </p>
 
       <!-- Final Links -->
-      <div class="mt-14 pt-8 border-t border-white/[0.08] light:border-black/[0.08] flex flex-wrap gap-6 font-mono text-xs">
+      <div class="mt-14 pt-8 border-t border-white/[0.08] flex flex-wrap gap-6 font-mono text-xs">
         <a
           href="https://github.com/PLRpower/portfolio"
           target="_blank"

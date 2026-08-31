@@ -13,6 +13,8 @@ const props = withDefaults(
     charSpacing?: number;
     charRamp?: string;
     tintColor?: string;
+    colorMode?: 'monochrome' | 'original';
+    useOriginalColors?: boolean;
     mode?: 'default-ascii' | 'default-photo' | 'always-ascii';
     groupHover?: boolean;
     hovered?: boolean;
@@ -27,6 +29,8 @@ const props = withDefaults(
     contrast: 1.2,
     charSpacing: 0.85,
     charRamp: ' .·:;~+=-*#%&$@',
+    colorMode: 'monochrome',
+    useOriginalColors: false,
     mode: 'default-ascii',
     groupHover: false,
     hovered: undefined,
@@ -34,7 +38,6 @@ const props = withDefaults(
   }
 );
 
-const colorMode = useColorMode();
 const containerRef = ref<HTMLElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const isHovered = ref(false);
@@ -165,8 +168,6 @@ const drawCachedAscii = () => {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const isLight = colorMode.value === 'light';
-
   for (let y = 0; y < rows; y++) {
     const row = asciiData[y];
     if (!row) continue;
@@ -185,14 +186,29 @@ const drawCachedAscii = () => {
       }
       const alpha = Math.max(0.35, Math.min(1, Math.pow(lum, 0.85) * 1.1));
 
-      if (props.tintColor) {
+      const isOriginalColor = props.useOriginalColors || props.colorMode === 'original' || props.tintColor === 'original';
+
+      if (isOriginalColor) {
+        let r = cell.r;
+        let g = cell.g;
+        let b = cell.b;
+        if (props.invert) {
+          r = 255 - r;
+          g = 255 - g;
+          b = 255 - b;
+        }
+        if (props.brightness !== 1.0) {
+          r = Math.min(255, Math.round(r * props.brightness));
+          g = Math.min(255, Math.round(g * props.brightness));
+          b = Math.min(255, Math.round(b * props.brightness));
+        }
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        ctx.fillText(cell.char, posX, posY);
+      } else if (props.tintColor) {
         ctx.fillStyle = props.tintColor;
         ctx.globalAlpha = alpha;
         ctx.fillText(cell.char, posX, posY);
         ctx.globalAlpha = 1.0;
-      } else if (isLight) {
-        ctx.fillStyle = `rgba(15, 23, 42, ${alpha})`;
-        ctx.fillText(cell.char, posX, posY);
       } else {
         ctx.fillStyle = `rgba(45, 212, 191, ${alpha})`;
         ctx.fillText(cell.char, posX, posY);
@@ -243,11 +259,7 @@ onBeforeUnmount(() => {
   if (resizeObserver) resizeObserver.disconnect();
 });
 
-watch(() => colorMode.value, () => {
-  drawCachedAscii();
-});
-
-watch(() => [props.src, props.invert, props.resolution, props.brightness, props.contrast, props.charSpacing, props.charRamp, props.tintColor], () => {
+watch(() => [props.src, props.invert, props.resolution, props.brightness, props.contrast, props.charSpacing, props.charRamp, props.tintColor, props.colorMode, props.useOriginalColors], () => {
   if (imgElement) {
     isReady.value = false;
     imgElement.src = props.src;

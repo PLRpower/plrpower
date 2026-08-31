@@ -49,13 +49,13 @@ const currentYear = new Date().getFullYear();
 </script>
 
 <template>
-  <footer class="relative z-20 border-t border-white/[0.08] light:border-black/[0.08] bg-[#050505]/95 light:bg-slate-50/95 backdrop-blur-xl overflow-hidden">
+  <footer class="relative z-20 border-t border-white/[0.08] bg-[#050505]/95 backdrop-blur-xl overflow-hidden">
     <!-- Top accent glow line -->
     <div class="h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent"></div>
 
     <div class="max-w-[1400px] mx-auto px-6 md:px-10 pt-14 pb-12">
       <!-- Main Footer Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-14 border-b border-white/[0.06] light:border-black/[0.06]">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-14 border-b border-white/[0.06]">
         
         <!-- Left Column: ASCII Banner, Bio & Live Status (6 cols) -->
         <div class="lg:col-span-6 flex flex-col justify-between gap-6">
@@ -87,7 +87,7 @@ const currentYear = new Date().getFullYear();
                 <Icon name="ph:map-pin" size="14px" class="text-accent" />
                 <span>Strasbourg, France</span>
               </span>
-              <span class="text-white/20 light:text-black/20">•</span>
+              <span class="text-white/20">•</span>
               <ClientOnly>
                 <span class="flex items-center gap-1.5">
                   <Icon name="ph:clock" size="14px" class="text-accent" />
@@ -144,7 +144,7 @@ const currentYear = new Date().getFullYear();
             <div class="flex flex-col gap-2 w-full max-w-[200px]">
               <a
                 href="mailto:paul.thomas.stras@gmail.com"
-                class="flex items-center justify-between px-3 py-2 border border-white/[0.06] light:border-black/[0.06] bg-white/[0.02] light:bg-black/[0.02] font-mono text-xs text-secondary/80 hover:text-accent hover:border-accent/30 hover:bg-accent/[0.04] transition-all duration-300 group"
+                class="flex items-center justify-between px-3 py-2 border border-white/[0.06] bg-white/[0.02] font-mono text-xs text-secondary/80 hover:text-accent hover:border-accent/30 hover:bg-accent/[0.04] transition-all duration-300 group"
               >
                 <span class="flex items-center gap-2">
                   <Icon name="uil:envelope" size="15px" class="group-hover:text-accent transition-colors" />
@@ -157,7 +157,7 @@ const currentYear = new Date().getFullYear();
                 href="https://github.com/PLRpower"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center justify-between px-3 py-2 border border-white/[0.06] light:border-black/[0.06] bg-white/[0.02] light:bg-black/[0.02] font-mono text-xs text-secondary/80 hover:text-accent hover:border-accent/30 hover:bg-accent/[0.04] transition-all duration-300 group"
+                class="flex items-center justify-between px-3 py-2 border border-white/[0.06] bg-white/[0.02] font-mono text-xs text-secondary/80 hover:text-accent hover:border-accent/30 hover:bg-accent/[0.04] transition-all duration-300 group"
               >
                 <span class="flex items-center gap-2">
                   <Icon name="uil:github" size="15px" class="group-hover:text-accent transition-colors" />
@@ -170,7 +170,7 @@ const currentYear = new Date().getFullYear();
                 href="https://www.linkedin.com/in/paul-thomas-strasbourg/"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center justify-between px-3 py-2 border border-white/[0.06] light:border-black/[0.06] bg-white/[0.02] light:bg-black/[0.02] font-mono text-xs text-secondary/80 hover:text-accent hover:border-accent/30 hover:bg-accent/[0.04] transition-all duration-300 group"
+                class="flex items-center justify-between px-3 py-2 border border-white/[0.06] bg-white/[0.02] font-mono text-xs text-secondary/80 hover:text-accent hover:border-accent/30 hover:bg-accent/[0.04] transition-all duration-300 group"
               >
                 <span class="flex items-center gap-2">
                   <Icon name="uil:linkedin" size="15px" class="group-hover:text-accent transition-colors" />

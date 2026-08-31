@@ -10,14 +10,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/seo',
     '@nuxt/fonts',
-    '@nuxtjs/color-mode',
     '@nuxtjs/tailwindcss'
   ],
-  colorMode: {
-    classSuffix: '',
-    preference: 'dark',
-    fallback: 'dark'
-  },
   fonts: {
     families: [
       { name: 'Geist', weights: [400, 500, 600, 700] },

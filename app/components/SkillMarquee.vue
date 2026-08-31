@@ -26,7 +26,7 @@ withDefaults(defineProps<{
         <span 
           v-for="skill in skills" 
           :key="`${repeat}-${skill}`"
-          class="marquee-tag shrink-0 px-5 py-2.5 font-mono text-[0.8rem] tracking-wide rounded-full border border-white/[0.06] bg-white/[0.02] light:border-black/10 light:bg-black/5 text-secondary/70 whitespace-nowrap transition-all duration-300 hover:text-accent hover:border-accent/30 hover:bg-accent/[0.05] hover:shadow-[0_0_20px_rgba(45,212,191,0.1)] cursor-default select-none"
+          class="marquee-tag shrink-0 px-5 py-2.5 font-mono text-[0.8rem] tracking-wide rounded-full border border-white/[0.06] bg-white/[0.02] text-secondary/70 whitespace-nowrap transition-all duration-300 hover:text-accent hover:border-accent/30 hover:bg-accent/[0.05] hover:shadow-[0_0_20px_rgba(45,212,191,0.1)] cursor-default select-none"
         >
           {{ skill }}
         </span>

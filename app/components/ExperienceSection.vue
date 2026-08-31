@@ -128,9 +128,24 @@
                 </p>
 
                 <!-- Description -->
-                <p class="text-sm md:text-base text-secondary/80 leading-relaxed mb-8 max-w-xl">
+                <p class="text-sm md:text-base text-secondary/80 leading-relaxed mb-6 max-w-xl">
                   {{ activeExp.description }}
                 </p>
+
+                <!-- Document Link -->
+                <div v-if="activeExp.document" class="mb-8">
+                  <a 
+                    :href="activeExp.document.url" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2.5 px-4 py-2 border border-accent/30 bg-accent/[0.06] text-accent hover:bg-accent/[0.12] hover:border-accent/60 transition-all duration-300 font-mono text-xs group"
+                  >
+                    <Icon name="uil:file-alt" size="16px" class="group-hover:scale-110 transition-transform" />
+                    <span>{{ activeExp.document.label }}</span>
+                    <span class="text-[10px] opacity-75 font-semibold">[PDF]</span>
+                    <Icon name="material-symbols:arrow-outward" size="14px" class="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                  </a>
+                </div>
               </div>
 
               <!-- Tech Badges -->
@@ -169,7 +184,12 @@ const experiencesData = [
     durationLabel: '3 years',
     status: 'Apprenticeship',
     description: 'R&D in Artificial Intelligence, Embedded Systems, and Distributed Computing. Designing and evaluating a distributed Federated Learning infrastructure running across physical Raspberry Pi clusters and high-performance aggregation servers.',
-    techs: ['Python', 'PyTorch / TF', 'Federated Learning', 'Edge AI', 'MQTT / Sockets', 'Linux IPC', 'Docker Swarm']
+    techs: ['Python', 'PyTorch / TF', 'Federated Learning', 'Edge AI', 'MQTT / Sockets', 'Linux IPC', 'Docker Swarm'],
+    document: {
+      title: 'Mémoire Technique - LINEACT',
+      url: '/THOMAS_Paul_Memoire_Technique_LINEACT.pdf',
+      label: 'Read Mémoire Technique'
+    }
   },
   {
     id: 'lineact-intern',
@@ -180,7 +200,12 @@ const experiencesData = [
     durationLabel: '3 months',
     status: 'Internship',
     description: 'Development of a distributed Federated Learning prototype on Raspberry Pi edge nodes. Benchmarked shared AI models, decentralized communication protocols, and client selection strategies under non-IID data distributions.',
-    techs: ['Python', 'TensorFlow', 'Edge AI', 'TinyML', 'Linux', 'Socket Communication']
+    techs: ['Python', 'TensorFlow', 'Edge AI', 'TinyML', 'Linux', 'Socket Communication'],
+    document: {
+      title: 'Rapport de Stage - LINEACT',
+      url: '/THOMAS_Paul_Rapport_de_Stage.pdf',
+      label: 'Read Rapport de Stage'
+    }
   },
   {
     id: 'studio-osalys',

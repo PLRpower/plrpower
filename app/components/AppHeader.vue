@@ -3,9 +3,11 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 
 const route = useRoute();
 const isScrolled = ref(false);
+const isPastHero = ref(false);
 const isMobileMenuOpen = ref(false);
 
 const isNotHome = computed(() => route.path !== '/' && route.path !== '');
+const showLogo = computed(() => isNotHome.value || isPastHero.value);
 
 const navItems = [
   { name: 'About', href: '#about', num: '01' },
@@ -22,7 +24,9 @@ const handleScroll = () => {
   if (!ticking) {
     ticking = true;
     requestAnimationFrame(() => {
-      isScrolled.value = window.scrollY > 50;
+      const top = window.scrollY;
+      isScrolled.value = top > 50;
+      isPastHero.value = top > 220;
       ticking = false;
     });
   }
@@ -37,6 +41,13 @@ const handleNavClick = () => {
   unblockScroll();
   isMobileMenuOpen.value = false;
   document.body.classList.remove('no-scroll');
+};
+
+const handleLogoClick = () => {
+  handleNavClick();
+  if (route.path === '/' || route.path === '') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 };
 
 const getNavLink = (href: string) => {
@@ -59,6 +70,7 @@ watch(() => route.path, () => {
 });
 
 onMounted(() => {
+  handleScroll();
   window.addEventListener('scroll', handleScroll, { passive: true });
 });
 
@@ -77,21 +89,16 @@ onUnmounted(() => {
   >
     <div class="max-w-[1400px] mx-auto w-full flex items-center justify-between px-6 md:px-10 h-20">
 
-      <!-- Back to Home Link (Non-home pages) -->
+      <!-- ASCII Logo (Scrolled or Non-home pages) -->
       <div class="flex items-center">
         <NuxtLink
-          v-if="isNotHome"
           to="/"
-          class="group inline-flex items-center gap-2 px-3 py-1.5 -ml-3 text-[0.8rem] tracking-[0.08em] text-secondary hover:text-primary transition-colors no-underline"
-          aria-label="Return to home"
-          @click="handleNavClick"
+          class="group block w-44 sm:w-56 md:w-64 transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] focus:outline-none no-underline"
+          :class="showLogo ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 -translate-x-3 pointer-events-none'"
+          aria-label="Paul Thomas — Return to home"
+          @click="handleLogoClick"
         >
-          <Icon name="uil:arrow-left" class="w-4 h-4 text-accent transition-transform duration-300 group-hover:-translate-x-1" />
-          <AsciiOdometerLink
-            as="span"
-            text="Home"
-            class="text-secondary group-hover:text-primary transition-colors"
-          />
+          <AsciiBanner :animated="false" class="!my-0" />
         </NuxtLink>
       </div>
 

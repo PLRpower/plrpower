@@ -1,3 +1,8 @@
+export interface ProjectDocument {
+  title: string;
+  url: string;
+}
+
 export interface ProjectHighlight {
   title: string;
   description: string;
@@ -15,6 +20,7 @@ export interface Project {
   image?: string;
   github?: string;
   demo?: string;
+  documents?: ProjectDocument[];
   highlights?: ProjectHighlight[];
   gridClass: string;
   featured?: boolean;
@@ -49,6 +55,16 @@ export const projects: Project[] = [
     charRamp: ' .·:;~+=-*#%&$@',
     tintColor: '#2dd4bf',
     github: 'https://github.com/PLRpower',
+    documents: [
+      {
+        title: 'Mémoire Technique (LINEACT)',
+        url: '/THOMAS_Paul_Memoire_Technique_LINEACT.pdf'
+      },
+      {
+        title: 'Rapport de Stage (LINEACT)',
+        url: '/THOMAS_Paul_Rapport_de_Stage.pdf'
+      }
+    ],
     featured: true,
     gridClass: 'md:col-span-2 lg:col-span-2 lg:row-span-2',
     highlights: [

@@ -57,13 +57,21 @@ useSchemaOrg([
         </span>
       </div>
 
-      <!-- Action Links (GitHub, Demo) -->
-      <div v-if="project.github" class="mt-8 flex flex-wrap gap-4">
-        <a :href="project.github" target="_blank" rel="noopener noreferrer"
+      <!-- Action Links (GitHub, Demo, Documents) -->
+      <div v-if="project.github || (project.documents && project.documents.length)" class="mt-8 flex flex-wrap gap-3">
+        <a v-if="project.github" :href="project.github" target="_blank" rel="noopener noreferrer"
            class="inline-flex items-center gap-2 px-4 py-2 border border-white/[0.1] bg-white/[0.02] text-primary hover:border-accent hover:text-accent transition-all duration-300 font-mono text-xs">
           <Icon name="uil:github" size="16px" />
           <span>View Source on GitHub</span>
           <Icon name="material-symbols:arrow-outward" size="14px" />
+        </a>
+
+        <a v-for="doc in project.documents" :key="doc.url" :href="doc.url" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-2 px-4 py-2 border border-accent/30 bg-accent/[0.06] text-accent hover:bg-accent/[0.15] hover:border-accent/60 transition-all duration-300 font-mono text-xs group">
+          <Icon name="uil:file-alt" size="16px" class="group-hover:scale-110 transition-transform" />
+          <span>{{ doc.title }}</span>
+          <span class="text-[10px] opacity-75 font-semibold">[PDF]</span>
+          <Icon name="material-symbols:arrow-outward" size="14px" class="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
         </a>
       </div>
     </header>

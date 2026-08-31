@@ -15,24 +15,27 @@ const props = withDefaults(defineProps<{
 });
 
 const rawLines = [
-  "                                                                          ++++++++                                                 +++++++                                                                                                                               ",
-  "++++++++++++++++++++                                                          ++++                 ++++++++++++++++++++++++++++++     ++++                                                                                                                               ",
-  "    ++++#        +++++*                                                       ++++                 +++          +++++         +++     ++++                                                                                                                               ",
-  "    ++++#         #+++++                                                      ++++                 ++           +++++          ++     *+++                                                                                                                               ",
-  "    ++++#          +++++                                                      *+++                 +*           +++++           +     *+++                                                                                                                               ",
-  "    ++++#          +++++                                                      *+++                              +++++                 *+++                                                                                                                               ",
-  "    ++++#          +++++     *+++++++++++       +++++++       +++++++#        *+++                              +++++                 *+++   *+++++++++              +++++++++++          +++++*   *+++++++++     ++++++++++          #+++++++++++           ++++++++++  ",
-  "    ++++#         +++++     ++++      ++++         ++++          ++++#        *+++                              +++++                 *+++ +++     #++++%         #++++       ++++*       #+++++ ++*     #++++* ++*     *++++        ++++*     *+++*       %++*     +++  ",
-  "    ++++#      *++++++      +++%       ++++        ++++          *+++#        *+++                              +++++                 *++++*         ++++        ++++%         *++++        +++++*        #+++++*        #++++       +++*       ++++       +++#      ++  ",
-  "    +++++++++++++++                    ++++        ++++          #+++#        *+++                              +++++                 *++++          ++++       ++++*           #++++       *+++*          ++++*          ++++                  ++++       ++++*         ",
-  "    ++++#                            *+++++        ++++          #+++#        *+++                              +++++                 *+++           ++++      *++++             ++++#      *+++%          ++++           ++++                 +++++       #++++++       ",
-  "    ++++#                        *+++* ++++        ++++          #+++#        *+++                              +++++                 *+++           ++++      *++++             ++++*      *+++           ++++           ++++            #+++* ++++         ++++++++    ",
-  "    ++++#                     ++++     ++++        ++++          *+++#        *+++                              +++++                 *+++           ++++      #++++             +++++      *+++           ++++           ++++         ++++     ++++            +++++++  ",
-  "    ++++#                   +++*       ++++        ++++          ++++#        *+++                              +++++                 *+++           ++++       ++++             ++++       *+++           ++++           ++++       ++++       ++++              *+++++%",
-  "    ++++#                  ++++       +++++        ++++*        *++++*        *+++                              +++++                 *+++           ++++       #++++           ++++*       *+++           ++++           ++++      ++++       %++++       +         +++*",
-  "    ++++*                 %++++      ++++++        #++++       ++#+++*        ++++                             *+++++                 ++++#          ++++%       *++++         ++++         ++++#          ++++%          ++++      ++++      #+*+++%      ++        +++#",
-  "  #+++++++                 +++++++*++* *++++#*+     *+++++*+*+++  ++++       ++++++                          *++++++++*              *+++++         *+++++         *++++*   *++++*         *+++++         *+++++         *+++++     #+++++**+++  ++++*#+%  ++++     +++# ",
-  "+++++++++++++++               *++++*     #++++*         ++++++     +++++++ *++++++++++*                    *++++++++++++++*         +++++++++++    +++++++++++         *+++++++#          ++++++++++*    ++++++++++*    ++++++++++*    *+++++#     ++++*    +  *++++++   "
+  "*******************=:                                                                             .****                   ******************************      *****                                                                                                                                                                       ",
+  "++#+%#############++#**:                                                                          .++##                   =############++#+%###########%      =++##                                                                                                                                                                       ",
+  "+#++-             =##+##*                                                                         .+#+#                                +#++.                  =+#+#                                                                                                                                                                       ",
+  "+++#-                *++#*.                                                                       .#++#                                +++#.                  =#++#                                                                                                                                                                       ",
+  "++#+-                 +#++=                                                                       .++##                                ++#+.                  =++##                                                                                                                                                                       ",
+  "+#++-                 =++##                                                                       .+#+#                                +#++.                  =+#+#                                                                                                                                                                       ",
+  "+++#-                 =+#+#          .************.             ****:                ****:        .#++#                                +++#.                  =#++#    ***********                    .*************               ****=   **********       -*********                  *************                  *************      ",
+  "++#+-                 +#++#        ***%#########++#*-           =#++:                +#++:        .++##                                ++#+.                  =++##  ***########+#**-              .***+%#########+#**=            =++#= **#######++#**   ***#######+#**:            .***%#########+#**.            .***%#########+#**.   ",
+  "+#++-                **++%.      :**+%%         :#++#*          =++#:                +++#:        .+#+#                                +#++.                  =+#+#=*##:        =#++#*            **#%##:         =#++#*=          =+#+#*#=       :#++#****#.       =+#+#=          **+%#=         =+++#-          -*+#%:         -#+##-  ",
+  "+++#-              ***+%#:      :*++%.            =#+#=         =+#+:                ++#+:        .#++#                                +++#.                  =#++#%%             =+##*          **#%%              :#++#*         =#++%%           =+#++%:          :++##.        **+%%            .+#+#.         ++#+:            +%##: ",
+  "++#+#***************#%#%         .-#:             .++##         =#++:                +#++:        .++##                                ++#+.                  =++#%=               +++#-        **#%=                 +#+#-        =++##            .+++#=            =#++#         :=%              =++#=         +#++-            .:    ",
+  "+#++%################.                            .+#+#         =++#:                +++#:        .+#+#                                +#++.                  =+#+#                =+#+=       .*#+#                  :++##        =+#+#             ++#+.            =++##                          -+#+=         .#+##*:                ",
+  "+++#-                                -*************#++#         =+#+:                ++#+:        .#++#                                +++#.                  =#++#                -#++=       =#++#                   +#+#        =#++#             +#++.            =+#+#            .=*************#++=           =##+#******-.        ",
+  "++#+-                            :****############+++##         =#++:                +#++:        .++##                                ++#+.                  =++##                -++#=       +++#=                   +++#.       =++##             +++#.            =#++#         ****%############+++#=              =######+##****.   ",
+  "+#++-                           **#%#-            .+#+#         =++#:                +++#:        .+#+#                                +#++-                  =+#+#                -+#+=       =+#+#                   ++##        =+#+#             ++#+.            =++##       .**#%#:            -+#+=                     .-###+##*: ",
+  "+++#-                          **#+#              :#++#         =+#+=               .*+#+:        .#++#                                +++#-                  =#++#                -#++=       .+++#                  -*#+#        =#++#             +#++.            =+#+#       ++#+:              =#++=          .=              -++##:",
+  "++#+-                          =#++-              +++##         -+++#               ++#++:        .++##                                ++#+-                  =++##                -++#=        *+##*                .*#+%.        =++##             +++#.            =#++#       +#++.             :*++#=        ***#:              =#++-",
+  "+#++-                          =++##             **+#+#          *+##=            .*#+++#:        .+#+#                                +#++-                  =+#+#                -+#+=         *++#*.             -*#+%=         =+#+#             ++#+.            =++##       +++#:            -*++#+=        .+++#:             +++#-",
+  "+++#-                           *++#*-        :**#-+++#-          *++#**:      .=**% ++#+:        .#++#                                +++#-                  =#++#                -#++=          =#++#*=        :=**#%#.          =#++#             +#++.            =+#+#       :#++#*:        -**#=+++#.        :#++#*-         -**+%= ",
+  "++#+-                            -##+#*********#%  :#++#***        :##+##*******##-  +#++:        .++##                                ++#+-                  =++##                -++#=            =##+#*********+%##:            =++##             +++#.            =#++#         *#++#*********#=  =#++#**=       =##+#**********%##-  ",
+  "*###-                               =#########=      .####%           .########=     *###:        .###%                                *###-                  =###%                -###=               -###########.               =###%             *###.            =###%           .##########.      -####=          :###########-     "
 ];
 
 const containerRef = ref<HTMLElement | null>(null);
@@ -42,6 +45,9 @@ const isReady = ref(false);
 const BLOOM_RAMP = ['@', '#', '$', '%', '&', 'W', 'M', '8', '0', 'X', 'Z', '*', '+', '=', '~', ':', '·'];
 const HOVER_RAMP = ['#', '@', '%', '&', 'W', '$', '8', '0', 'X', '+'];
 const AMBIENT_RAMP = ['.', ':', '+', '*', '·'];
+
+const HOVER_RADIUS = 220;
+const PUSH_RADIUS = 50;
 
 let animationFrameId: number;
 let isVisible = true;
@@ -55,6 +61,8 @@ const BLOOM_DURATION = 150; // ms for individual character bloom phase (narrow b
 
 interface CharCellState {
   targetChar: string;
+  deterministicHoverChar: string;
+  activationThreshold: number;
   isSpace: boolean;
   revealStart: number;
   bloomDuration: number;
@@ -62,7 +70,6 @@ interface CharCellState {
   flickerFreq: number;
   flickerPhase: number;
   isFinished: boolean;
-  hoverChar: string | null;
   kineticEnergy: number;
   dispX: number;
   dispY: number;
@@ -86,16 +93,24 @@ const charStates: CharCellState[][] = rawLines.map((line, lIdx) =>
     const revealStart = props.instant ? 0 : (clampedWave * TOTAL_SWEEP_DURATION) + (Math.random() * 20);
     const bloomDuration = props.instant ? 0 : BLOOM_DURATION + (Math.random() * 40);
 
-    // Highly pronounced deterministic visual footprint per character
+    // Deterministic visual fingerprint and alternate character mapping per cell
     const seed = Math.sin(cIdx * 12.9898 + lIdx * 78.233) * 43758.5453;
     const randVal = seed - Math.floor(seed);
     const randVal2 = Math.abs((Math.sin(cIdx * 39.34 + lIdx * 11.78) * 24634.63) % 1);
+    
+    const hoverIndex = Math.floor(randVal * HOVER_RAMP.length);
+    const deterministicHoverChar = HOVER_RAMP[hoverIndex] || '#';
+    // Activation threshold: 100% transform at cursor center (threshold <= 0.8), fewer towards edge
+    const activationThreshold = 0.05 + randVal2 * 0.75;
+
     const satOffset = (randVal - 0.5) * 55; // -27% to +27%
     const lightnessOffset = (randVal2 - 0.5) * 50; // -25% to +25%
     const glowStrength = 0.6 + randVal * 0.8;
 
     return {
       targetChar: char,
+      deterministicHoverChar,
+      activationThreshold,
       isSpace,
       revealStart,
       bloomDuration,
@@ -103,7 +118,6 @@ const charStates: CharCellState[][] = rawLines.map((line, lIdx) =>
       flickerFreq: 0.1 + Math.random() * 0.15,
       flickerPhase: Math.random() * Math.PI * 2,
       isFinished: !!props.instant,
-      hoverChar: null,
       kineticEnergy: 0,
       dispX: 0,
       dispY: 0,
@@ -115,6 +129,16 @@ const charStates: CharCellState[][] = rawLines.map((line, lIdx) =>
     };
   })
 );
+
+// Pre-computed static list of non-space cell indices (0 allocation during rAF runtime)
+const activeCells: { r: number; c: number }[] = [];
+for (let r = 0; r < totalRows; r++) {
+  for (let c = 0; c < maxCols; c++) {
+    if (!charStates[r]?.[c]?.isSpace) {
+      activeCells.push({ r, c });
+    }
+  }
+}
 
 // Mouse and interaction state
 const mouseX = ref(-1000);
@@ -131,6 +155,7 @@ let initialStartTime = 0;
 let dpr = 1;
 
 let nextAmbientGlitchTime = 0;
+let glitchTimeout: any = null;
 
 const draw = (timestamp: number) => {
   if (!isVisible || !asciiCanvas.value) return;
@@ -157,39 +182,48 @@ const draw = (timestamp: number) => {
 
   // Smooth mouse interpolation for fluid magnetic feel
   if (targetMouseX > -100) {
-    mouseX.value += (targetMouseX - mouseX.value) * 0.35;
-    mouseY.value += (targetMouseY - mouseY.value) * 0.35;
+    if (mouseX.value < -100) {
+      mouseX.value = targetMouseX;
+      mouseY.value = targetMouseY;
+    } else {
+      mouseX.value += (targetMouseX - mouseX.value) * 0.35;
+      mouseY.value += (targetMouseY - mouseY.value) * 0.35;
+    }
   } else {
     mouseX.value = -1000;
     mouseY.value = -1000;
+  }
+
+  if (performance.now() - lastMouseTime > 80) {
+    mouseVelocity *= 0.8;
+    if (mouseVelocity < 0.05) mouseVelocity = 0;
   }
 
   const baseRgb = '255, 255, 255';
 
   let stillAnimating = false;
   let hasActiveKineticEnergy = false;
+  let hasActiveGlitch = false;
 
-  // Trigger occasional ambient quantum glitch when idle
-  if (isAnimationFinished.value && timestamp > nextAmbientGlitchTime) {
-    const randomRow = Math.floor(Math.random() * totalRows);
-    const line = charStates[randomRow];
-    if (line) {
-      const nonSpaces = line.filter(c => !c.isSpace);
-      if (nonSpaces.length > 0) {
-        const targetCell = nonSpaces[Math.floor(Math.random() * nonSpaces.length)];
-        if (targetCell) {
-          targetCell.ambientGlitchUntil = timestamp + 140 + Math.random() * 120;
-          targetCell.ambientGlitchChar = AMBIENT_RAMP[Math.floor(Math.random() * AMBIENT_RAMP.length)] || '+';
-        }
+  // Trigger occasional ambient quantum glitch when idle (0 allocations via precomputed activeCells)
+  if (isAnimationFinished.value && timestamp > nextAmbientGlitchTime && activeCells.length > 0) {
+    const chosen = activeCells[Math.floor(Math.random() * activeCells.length)];
+    if (chosen) {
+      const targetCell = charStates[chosen.r]?.[chosen.c];
+      if (targetCell) {
+        targetCell.ambientGlitchUntil = timestamp + 140 + Math.random() * 120;
+        targetCell.ambientGlitchChar = AMBIENT_RAMP[Math.floor(Math.random() * AMBIENT_RAMP.length)] || '+';
+        hasActiveGlitch = true;
       }
     }
-    nextAmbientGlitchTime = timestamp + 600 + Math.random() * 900;
+    nextAmbientGlitchTime = timestamp + 1200 + Math.random() * 2000;
   }
 
   const curMouseX = mouseX.value / dpr;
   const curMouseY = mouseY.value / dpr;
-  const hoverRadius = 42;
+  const hoverRadius = HOVER_RADIUS;
   const hoverRadiusSq = hoverRadius * hoverRadius;
+  const pushRadius = PUSH_RADIUS;
 
   for (let lIdx = 0; lIdx < totalRows; lIdx++) {
     const line = charStates[lIdx];
@@ -211,23 +245,29 @@ const draw = (timestamp: number) => {
       const distSq = dx * dx + dy * dy;
       const isHovered = curMouseX > -100 && distSq < hoverRadiusSq;
 
-      // Magnetic lens repulsion & kinetic dissipation
+      // Magnetic lens repulsion & kinetic dissipation (concentrated in close core)
       if (isHovered) {
         const dist = Math.sqrt(distSq) || 1;
-        const normDist = 1 - (dist / hoverRadius);
-        const force = normDist * normDist * 2.2;
-        state.dispX += ((dx / dist) * force - state.dispX) * 0.3;
-        state.dispY += ((dy / dist) * force - state.dispY) * 0.3;
+        if (dist < pushRadius) {
+          const pushNorm = 1 - (dist / pushRadius);
+          const force = pushNorm * pushNorm * 1.8;
+          state.dispX += ((dx / dist) * force - state.dispX) * 0.3;
+          state.dispY += ((dy / dist) * force - state.dispY) * 0.3;
 
-        // Deposit energy
-        state.kineticEnergy = Math.min(1.0, state.kineticEnergy + 0.35 + mouseVelocity * 0.02);
+          // Only deposit kinetic wake energy in the close core (avoids circular trail stamping)
+          state.kineticEnergy = Math.min(1.0, state.kineticEnergy + pushNorm * 0.2 + mouseVelocity * pushNorm * 0.025);
+        } else {
+          state.dispX += (0 - state.dispX) * 0.15;
+          state.dispY += (0 - state.dispY) * 0.15;
+          state.kineticEnergy *= 0.88;
+        }
       } else {
         state.dispX += (0 - state.dispX) * 0.15;
         state.dispY += (0 - state.dispY) * 0.15;
-        state.kineticEnergy *= 0.91;
+        state.kineticEnergy *= 0.88;
       }
 
-      if (state.kineticEnergy > 0.02) {
+      if (state.kineticEnergy > 0.01) {
         hasActiveKineticEnergy = true;
       }
 
@@ -324,14 +364,16 @@ const draw = (timestamp: number) => {
         }
       }
 
-      // Handle hover & kinetic trail
-      if (isHovered || state.kineticEnergy > 0.1) {
-        if (!state.hoverChar || Math.random() < 0.25) {
-          state.hoverChar = HOVER_RAMP[Math.floor(Math.random() * HOVER_RAMP.length)] || '#';
+      // Handle hover character change (deterministic per cell based on cursor proximity)
+      if (isHovered) {
+        const dist = Math.sqrt(distSq) || 1;
+        const normDist = Math.max(0, 1 - (dist / hoverRadius));
+        
+        if (normDist > state.activationThreshold) {
+          charToDraw = state.deterministicHoverChar;
+        } else {
+          charToDraw = state.targetChar;
         }
-        charToDraw = state.hoverChar;
-      } else {
-        state.hoverChar = null;
       }
 
       // Handle ambient micro-glitch
@@ -340,28 +382,45 @@ const draw = (timestamp: number) => {
         opacity = 0.9;
         waveGlow = 0.6;
         hasActiveKineticEnergy = true;
+        hasActiveGlitch = true;
       }
 
       // Render styles & glowing bloom
       const drawX = charX + state.dispX;
       const drawY = charY + state.dispY;
 
-      if (isHovered || state.kineticEnergy > 0.15 || waveGlow > 0.3) {
-        // Fixed hue (portfolio accent teal/emerald), variation through per-character static properties
-        const baseHue = 172;
-        const hoverIntensity = isHovered ? (1 - Math.sqrt(distSq) / hoverRadius) : state.kineticEnergy;
+      if (isHovered) {
+        const dist = Math.sqrt(distSq) || 1;
+        const t = Math.max(0, 1 - (dist / hoverRadius));
+        // Smoothstep easing for silky continuous radial gradient
+        const easeT = t * t * (3 - 2 * t);
 
-        // Static per-character saturation & lightness offsets + proximity boost
-        const sat = Math.max(35, Math.min(100, 80 + state.satOffset));
-        const lightness = Math.max(26, Math.min(96, 50 + state.lightnessOffset + hoverIntensity * 32));
-
-        const glowAlpha = Math.min(1, Math.max(opacity, waveGlow, state.kineticEnergy, 0.75));
+        // Center (easeT = 1): dark forest green -> Outer perimeter (easeT = 0): pure white
+        const baseHue = 166;
+        const sat = 95 * easeT;
+        const lightness = 100 - 78 * easeT; // 22% at center (dark green) -> 100% at outer edge (white)
+        const glowAlpha = Math.min(1, Math.max(opacity, 0.9));
 
         ctx.fillStyle = `hsla(${baseHue}, ${sat}%, ${lightness}%, ${glowAlpha})`;
-        ctx.shadowColor = `hsla(${baseHue}, ${sat}%, 60%, 0.8)`;
-        ctx.shadowBlur = Math.min(12, (3 + waveGlow * 6 + hoverIntensity * 6) * state.glowStrength);
+
+        if (easeT > 0.35) {
+          ctx.shadowColor = `hsla(${baseHue}, 90%, 20%, ${easeT * 0.5})`;
+          ctx.shadowBlur = Math.min(8, easeT * 6);
+          ctx.fillText(charToDraw, drawX, drawY);
+          ctx.shadowBlur = 0;
+        } else {
+          ctx.fillText(charToDraw, drawX, drawY);
+        }
+      } else if (state.kineticEnergy > 0.05 || waveGlow > 0.3) {
+        // Soft localized kinetic trail dissipation (smoothly fades into white with no circular ring)
+        const energy = Math.max(state.kineticEnergy, waveGlow);
+        const easeK = energy * energy * (3 - 2 * energy);
+        const baseHue = 166;
+        const sat = 95 * easeK;
+        const lightness = 100 - 78 * easeK;
+
+        ctx.fillStyle = `hsla(${baseHue}, ${sat}%, ${lightness}%, ${opacity})`;
         ctx.fillText(charToDraw, drawX, drawY);
-        ctx.shadowBlur = 0;
       } else {
         // Normal crisp settled state
         ctx.fillStyle = `rgba(${baseRgb}, ${opacity})`;
@@ -372,14 +431,38 @@ const draw = (timestamp: number) => {
 
   ctx.restore();
 
-  const isInteracting = mouseX.value > -100;
-  if (stillAnimating || isInteracting || hasActiveKineticEnergy) {
+  const isInteracting = targetMouseX > -100 || mouseX.value > -100;
+  if (stillAnimating || isInteracting || hasActiveKineticEnergy || hasActiveGlitch) {
     animationFrameId = requestAnimationFrame(draw);
   } else {
     isAnimationFinished.value = true;
-    // Keep a lightweight pulse loop running for ambient quantum effects
-    animationFrameId = requestAnimationFrame(draw);
+    // Sleep when completely idle (0% CPU / 0 FPS). Wake up on mouse interaction or scheduled ambient glitch.
+    if (glitchTimeout) clearTimeout(glitchTimeout);
+    const sleepDelay = Math.max(300, nextAmbientGlitchTime - timestamp);
+    glitchTimeout = setTimeout(() => {
+      if (isVisible) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(draw);
+      }
+    }, sleepDelay);
   }
+};
+
+const DENSITY_MAP: Record<string, number> = {
+  '#': 1.0,
+  '%': 0.95,
+  '@': 1.0,
+  '&': 0.95,
+  'W': 0.95,
+  'M': 0.95,
+  '+': 0.85,
+  '=': 0.78,
+  '*': 0.75,
+  '~': 0.72,
+  '-': 0.65,
+  ':': 0.55,
+  '.': 0.45,
+  '·': 0.45,
 };
 
 const drawStatic = () => {
@@ -398,77 +481,134 @@ const drawStatic = () => {
   ctx.save();
   ctx.scale(dpr, dpr);
 
-  ctx.fillStyle = props.color || 'rgba(255, 255, 255, 1)';
-
-  const blockW = Math.max(0.8, charWidth * 0.6);
-  const blockH = Math.max(0.9, lineHeight * 0.6);
-  const offsetX = (charWidth - blockW) / 2;
-  const offsetY = (lineHeight - blockH) / 2;
-
   for (let lIdx = 0; lIdx < totalRows; lIdx++) {
     const line = rawLines[lIdx];
     if (!line) continue;
-    const charY = lIdx * lineHeight + offsetY;
+    const charY = lIdx * lineHeight;
 
     for (let cIdx = 0; cIdx < maxCols; cIdx++) {
       const char = line[cIdx];
       if (!char || char === ' ') continue;
-      const charX = cIdx * charWidth + offsetX;
-      ctx.fillRect(charX, charY, blockW, blockH);
+
+      const charX = cIdx * charWidth;
+      const cx = charX + charWidth * 0.5;
+      const cy = charY + lineHeight * 0.5;
+      const w = charWidth;
+      const h = lineHeight;
+
+      const opacity = DENSITY_MAP[char] ?? 0.8;
+      ctx.fillStyle = props.color || `rgba(255, 255, 255, ${opacity})`;
+
+      const minW = Math.max(0.6, w * 0.28);
+      const minH = Math.max(0.6, h * 0.28);
+
+      switch (char) {
+        case '#':
+        case '@':
+          ctx.fillRect(charX + w * 0.08, charY + h * 0.1, w * 0.84, h * 0.8);
+          break;
+        case '%':
+        case '&':
+        case 'W':
+        case 'M':
+          ctx.fillRect(charX + w * 0.08, charY + h * 0.1, w * 0.84, h * 0.8);
+          break;
+        case '+':
+          // Cross: horizontal bar + vertical bar
+          ctx.fillRect(charX + w * 0.1, cy - minH * 0.5, w * 0.8, minH);
+          ctx.fillRect(cx - minW * 0.5, charY + h * 0.12, minW, h * 0.76);
+          break;
+        case '*':
+          // Asterisk: center + cross
+          ctx.fillRect(charX + w * 0.12, cy - minH * 0.45, w * 0.76, minH * 0.9);
+          ctx.fillRect(cx - minW * 0.45, charY + h * 0.18, minW * 0.9, h * 0.64);
+          break;
+        case '=':
+          // Double bar
+          ctx.fillRect(charX + w * 0.08, cy - h * 0.24, w * 0.84, minH * 0.9);
+          ctx.fillRect(charX + w * 0.08, cy + h * 0.1, w * 0.84, minH * 0.9);
+          break;
+        case '-':
+        case '~':
+          // Single horizontal bar
+          ctx.fillRect(charX + w * 0.08, cy - minH * 0.5, w * 0.84, minH);
+          break;
+        case ':':
+          // Two vertical dots
+          ctx.fillRect(cx - minW * 0.5, charY + h * 0.18, minW, minH * 0.9);
+          ctx.fillRect(cx - minW * 0.5, charY + h * 0.58, minW, minH * 0.9);
+          break;
+        case '.':
+        case '·':
+          // Bottom dot
+          ctx.fillRect(cx - minW * 0.5, charY + h * 0.62, minW, minH * 0.9);
+          break;
+        default:
+          ctx.fillRect(charX + w * 0.1, charY + h * 0.15, w * 0.8, h * 0.7);
+          break;
+      }
     }
   }
 
   ctx.restore();
 };
 
-let canvasRect: DOMRect | null = null;
 let observer: IntersectionObserver | null = null;
 let resizeObserver: ResizeObserver | null = null;
 
-const updateRect = () => {
-  if (asciiCanvas.value) {
-    canvasRect = asciiCanvas.value.getBoundingClientRect();
-  }
-};
-
-let mouseMoveThrottled = false;
-const handleMouseMove = (e: MouseEvent) => {
-  if (!props.animated || mouseMoveThrottled) return;
-  mouseMoveThrottled = true;
+const handleWindowMouseMove = (e: MouseEvent) => {
+  if (!props.animated || !asciiCanvas.value) return;
 
   const canvas = asciiCanvas.value;
-  if (!canvas) { mouseMoveThrottled = false; return; }
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return;
 
-  if (!canvasRect) updateRect();
-  const rect = canvasRect;
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
 
-  if (rect && rect.width > 0 && rect.height > 0) {
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
+  const newX = (e.clientX - rect.left) * scaleX;
+  const newY = (e.clientY - rect.top) * scaleY;
 
-    const newX = (e.clientX - rect.left) * scaleX;
-    const newY = (e.clientY - rect.top) * scaleY;
+  // Generous envelope: allow mouse to move beyond canvas boundary so the 220px gradient fades out naturally
+  const maxEnvelope = (HOVER_RADIUS + 80) * scaleX;
+  const isNear = 
+    newX >= -maxEnvelope &&
+    newX <= canvas.width + maxEnvelope &&
+    newY >= -maxEnvelope &&
+    newY <= canvas.height + maxEnvelope;
 
-    const now = performance.now();
-    if (lastMouseTime > 0) {
-      const dt = Math.max(1, now - lastMouseTime);
-      const dMouseDist = Math.hypot(newX - lastMouseX, newY - lastMouseY);
-      mouseVelocity = Math.min(15, (dMouseDist / dt) * 1.5);
-    }
-    lastMouseX = newX;
-    lastMouseY = newY;
-    lastMouseTime = now;
-
+  if (isNear) {
+    const isFirstEntry = targetMouseX <= -100;
     targetMouseX = newX;
     targetMouseY = newY;
+
+    if (isFirstEntry) {
+      mouseX.value = newX;
+      mouseY.value = newY;
+      lastMouseX = newX;
+      lastMouseY = newY;
+      mouseVelocity = 0;
+    } else {
+      const now = performance.now();
+      if (lastMouseTime > 0) {
+        const dt = Math.max(1, now - lastMouseTime);
+        const dMouseDist = Math.hypot(newX - lastMouseX, newY - lastMouseY);
+        mouseVelocity = Math.min(15, (dMouseDist / dt) * 1.5);
+      }
+      lastMouseX = newX;
+      lastMouseY = newY;
+      lastMouseTime = now;
+    }
 
     if (isAnimationFinished.value) {
       cancelAnimationFrame(animationFrameId);
       animationFrameId = requestAnimationFrame(draw);
     }
+  } else if (targetMouseX > -100) {
+    targetMouseX = -1000;
+    targetMouseY = -1000;
+    mouseVelocity = 0;
   }
-
-  requestAnimationFrame(() => { mouseMoveThrottled = false; });
 };
 
 const handleMouseLeave = () => {
@@ -495,8 +635,6 @@ const updateDimensions = () => {
 
   asciiCanvas.value.style.width = `${width}px`;
   asciiCanvas.value.style.height = `${height}px`;
-
-  updateRect();
 };
 
 let resizeTimeout: any = null;
@@ -557,6 +695,9 @@ onMounted(() => {
 
       observer.observe(asciiCanvas.value);
 
+      window.addEventListener('mousemove', handleWindowMouseMove, { passive: true });
+      window.addEventListener('mouseleave', handleMouseLeave);
+
       setTimeout(() => {
         cancelAnimationFrame(animationFrameId);
         animationFrameId = requestAnimationFrame(draw);
@@ -575,7 +716,10 @@ onBeforeUnmount(() => {
   if (observer) observer.disconnect();
   if (resizeObserver) resizeObserver.disconnect();
   if (resizeTimeout) clearTimeout(resizeTimeout);
+  if (glitchTimeout) clearTimeout(glitchTimeout);
   window.removeEventListener('resize', handleResize);
+  window.removeEventListener('mousemove', handleWindowMouseMove);
+  window.removeEventListener('mouseleave', handleMouseLeave);
 });
 </script>
 
@@ -583,8 +727,7 @@ onBeforeUnmount(() => {
   <div ref="containerRef"
        class="my-2 w-full max-w-[1180px] [contain:layout]" 
        :style="{ opacity: isReady || instant ? 1 : 0, transition: 'opacity 0.8s ease' }"
-       @mousemove.passive="handleMouseMove"
-       @mouseleave="handleMouseLeave">
+       @mousemove.passive="handleWindowMouseMove">
     <div v-if="instant" class="text-white font-mono text-[clamp(0.35rem,0.7vw,0.75rem)] leading-tight select-none pointer-events-none" aria-hidden="true">
       <pre v-for="(line, idx) in rawLines" :key="idx" class="m-0 pre-wrap">{{ line }}</pre>
     </div>

@@ -22,7 +22,7 @@
           <div class="flex items-center gap-4 md:gap-12 w-full">
             <!-- Icon visible on mobile, hidden on desktop (desktop uses hover popup) -->
             <div class="md:hidden w-12 h-12 shrink-0 bg-white/[0.03] flex items-center justify-center border border-white/[0.05]">
-              <NuxtImg :src="award.icon" class="w-7 h-7 object-contain" />
+              <NuxtImg :src="award.icon" :alt="award.title" width="28" height="28" class="w-7 h-7 object-contain" />
             </div>
             <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-12 flex-1">
               <span class="font-mono text-[0.7rem] text-accent/50 tracking-[0.2em] uppercase md:w-24 shrink-0">{{ award.date.includes('&') ? award.date : (award.date.split(' ')[1] || award.date) }}</span>
@@ -39,11 +39,11 @@
         <Teleport to="body">
           <div v-if="activeAward" 
                ref="awardCursorRef"
-               class="fixed pointer-events-none z-50 overflow-hidden border border-white/10 bg-[#080808]/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] items-center gap-5 p-5 w-[340px] hidden md:flex"
+               class="fixed top-0 left-0 pointer-events-none z-50 overflow-hidden border border-white/10 bg-[#080808] shadow-[0_20px_50px_rgba(0,0,0,0.5)] items-center gap-5 p-5 w-[340px] hidden md:flex will-change-transform"
                :class="isHoveringAward ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
-               :style="{ transition: 'opacity 0.2s, transform 0.2s', transform: 'translate(20px, -50%)' }">
+               :style="{ transition: 'opacity 0.2s, transform 0.15s ease-out', transform: `translate3d(${awardCursorPos.x}px, ${awardCursorPos.y}px, 0) translate(20px, -50%)` }">
             <div class="w-16 h-16 shrink-0 bg-white/5 flex items-center justify-center border border-white/5">
-              <NuxtImg :src="activeAward.icon" class="w-10 h-10 object-contain grayscale-[0.2]" />
+              <NuxtImg :src="activeAward.icon" :alt="activeAward.title" width="40" height="40" class="w-10 h-10 object-contain grayscale-[0.2]" />
             </div>
             <div class="flex flex-col gap-1">
               <span class="font-display font-bold text-[0.95rem] text-white leading-tight">{{ activeAward.title }}</span>
@@ -60,16 +60,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const isHoveringAward = ref(false);
 const activeAward = ref<any>(null);
 const awardCursorRef = ref<HTMLElement | null>(null);
+const awardCursorPos = ref({ x: 0, y: 0 });
 
 const updateHoverPos = (e: MouseEvent) => {
-  if (isHoveringAward.value && awardCursorRef.value) {
-    awardCursorRef.value.style.left = `${e.clientX}px`;
-    awardCursorRef.value.style.top = `${e.clientY}px`;
+  if (isHoveringAward.value) {
+    awardCursorPos.value = { x: e.clientX, y: e.clientY };
   }
 };
 
@@ -100,13 +100,15 @@ const awardsData = [
   }
 ];
 
+let triggers: any[] = [];
+
 onMounted(async () => {
   if (import.meta.client) {
     const { gsap } = await import('gsap');
     const { ScrollTrigger } = await import('gsap/ScrollTrigger');
     gsap.registerPlugin(ScrollTrigger);
 
-    ScrollTrigger.batch('.award-item', {
+    triggers = ScrollTrigger.batch('.award-item', {
       onEnter: (elements) => {
         gsap.fromTo(elements, 
           { opacity: 0, y: 30 },
@@ -117,6 +119,10 @@ onMounted(async () => {
       once: true
     });
   }
+});
+
+onBeforeUnmount(() => {
+  triggers.forEach(t => t.kill());
 });
 </script>
 

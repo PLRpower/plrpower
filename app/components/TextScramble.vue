@@ -17,8 +17,7 @@ const props = withDefaults(defineProps<{
 const containerRef = ref<HTMLElement | null>(null)
 const isAnimating = ref(false)
 const isComplete = ref(false)
-const displayChars = ref<string[]>([])
-const charResolved = ref<boolean[]>([])
+const displayText = ref(props.text)
 
 const scramblePool = '!@#$%^&*+=/?~.:;'
 let animationFrameId: number | null = null
@@ -33,35 +32,32 @@ const charTimings = computed(() => {
   })
 })
 
-const initChars = () => {
-  displayChars.value = props.text.split('').map(c => c === ' ' ? ' ' : (scramblePool[Math.floor(Math.random() * scramblePool.length)] || '.'))
-  charResolved.value = props.text.split('').map(c => c === ' ')
-}
-
 const animate = (timestamp: number) => {
   if (!startTime) startTime = timestamp
   const elapsed = timestamp - startTime
 
   let allResolved = true
   const chars = props.text.split('')
+  const result: string[] = []
 
   for (let i = 0; i < chars.length; i++) {
-    if (chars[i] === ' ') continue
+    if (chars[i] === ' ') {
+      result.push(' ')
+      continue
+    }
     
     if (elapsed >= (charTimings.value[i] || 0)) {
-      displayChars.value[i] = chars[i] || ' '
-      charResolved.value[i] = true
+      result.push(chars[i] || ' ')
     } else {
-      displayChars.value[i] = scramblePool[Math.floor(Math.random() * scramblePool.length)] || '.'
+      result.push(scramblePool[Math.floor(Math.random() * scramblePool.length)] || '.')
       allResolved = false
     }
   }
 
-  // Force reactivity
-  displayChars.value = [...displayChars.value]
-  charResolved.value = [...charResolved.value]
+  displayText.value = result.join('')
 
   if (allResolved) {
+    displayText.value = props.text
     isAnimating.value = false
     isComplete.value = true
     return
@@ -78,8 +74,12 @@ const startAnimation = () => {
 }
 
 onMounted(() => {
-  initChars()
-  
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (reduceMotion) {
+    isComplete.value = true
+    return
+  }
+
   if (props.triggerOnScroll && containerRef.value) {
     observer = new IntersectionObserver(
       (entries) => {
@@ -105,18 +105,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <component :is="tag" ref="containerRef" class="text-scramble">
-    <span 
-      v-for="(char, i) in displayChars" 
-      :key="i"
-      class="inline-block transition-colors duration-200"
-      :class="{
-        'w-[0.3em]': char === ' ',
-        'min-w-[0.05em]': char !== ' ',
-        'text-accent/70 font-mono': !charResolved[i] && isAnimating
-      }"
-      :style="{ transitionDelay: charResolved[i] ? '0ms' : `${i * 10}ms` }"
-    >{{ char === ' ' ? '\u00A0' : char }}</span>
+  <component :is="tag" ref="containerRef" class="text-scramble" :class="{ 'text-accent/90 font-mono': isAnimating }">
+    {{ displayText }}
   </component>
 </template>
 

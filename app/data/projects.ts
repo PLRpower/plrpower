@@ -212,7 +212,7 @@ export const projects: Project[] = [
     techs: ['TypeScript', 'Vue.js', 'NLP & AI', 'Graph UI'],
     description: 'An innovative search engine leveraging AI to generate interactive mindmaps and concept graphs.',
     detailDescription: 'An exploratory search engine prototype that transforms conventional linear query results into interactive, structured mindmaps and semantic knowledge graphs.',
-    image: '/images/projects/search.jpg',
+    image: '/images/projects/search.webp',
     github: 'https://github.com/PLRpower/mundo-search',
     gridClass: 'md:col-span-1 lg:col-span-1 lg:row-span-2',
     highlights: [
@@ -235,7 +235,7 @@ export const projects: Project[] = [
     techs: ['Vue.js', 'TypeScript', 'Spatial Data', 'Tailwind'],
     description: 'Award-winning regenerative hydrology mapping platform built by a 10-person team during Aquathon (3rd Place & Jury Award).',
     detailDescription: 'Award-winning interactive mapping and environmental decision-support tool built during the 48h Aquathon hackathon (Won 3rd Place & Jury\'s Favorite Award).',
-    image: '/images/projects/hydro.jpg',
+    image: '/images/projects/hydro.webp',
     github: 'https://github.com/PLRpower/hydro-regen',
     gridClass: 'md:col-span-1 lg:col-span-2 lg:row-span-2',
     highlights: [

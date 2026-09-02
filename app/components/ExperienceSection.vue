@@ -102,7 +102,7 @@
             <div 
               v-if="activeExp"
               :key="activeExp.id"
-              class="p-8 md:p-12 border border-white/[0.06] bg-white/[0.015] backdrop-blur-sm relative overflow-hidden shadow-xl"
+              class="p-8 md:p-12 border border-white/[0.06] bg-[#0c0c0c] relative overflow-hidden shadow-xl"
             >
               <!-- Subtle Ambient Glow -->
               <div class="absolute -top-24 -right-24 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -170,7 +170,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 
 const activeIdx = ref(0);
 
@@ -254,6 +254,7 @@ const experiencesData = [
 ];
 
 const activeExp = computed(() => experiencesData[activeIdx.value] ?? experiencesData[0]!);
+let triggers: any[] = [];
 
 onMounted(async () => {
   if (import.meta.client) {
@@ -261,7 +262,7 @@ onMounted(async () => {
     const { ScrollTrigger } = await import('gsap/ScrollTrigger');
     gsap.registerPlugin(ScrollTrigger);
 
-    ScrollTrigger.batch('.exp-reveal', {
+    triggers = ScrollTrigger.batch('.exp-reveal', {
       onEnter: (elements) => {
         gsap.fromTo(elements, 
           { opacity: 0, y: 25 },
@@ -272,6 +273,10 @@ onMounted(async () => {
       once: true
     });
   }
+});
+
+onBeforeUnmount(() => {
+  triggers.forEach(t => t.kill());
 });
 </script>
 

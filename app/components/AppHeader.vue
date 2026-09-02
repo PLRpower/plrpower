@@ -82,9 +82,9 @@ onUnmounted(() => {
 <template>
   <!-- Main Header -->
   <header
-    class="fixed top-0 left-0 w-full z-[1000] transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+    class="fixed top-0 left-0 w-full z-[1000] transform-gpu transition-[background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
     :class="isScrolled
-      ? 'bg-[var(--header-bg,rgba(3,3,3,0.4))] backdrop-blur-md border-b border-[var(--header-border,rgba(255,255,255,0.06))] shadow-[var(--header-shadow,0_4px_30px_rgba(0,0,0,0.3))] [contain:layout_style]'
+      ? 'bg-[rgba(3,3,3,0.75)] backdrop-blur-md border-b border-[var(--header-border,rgba(255,255,255,0.06))] shadow-[var(--header-shadow,0_4px_30px_rgba(0,0,0,0.3))] [contain:layout_style]'
       : 'bg-transparent border-b border-transparent'"
   >
     <div class="max-w-[1400px] mx-auto w-full flex items-center justify-between px-6 md:px-10 h-20">

@@ -2,13 +2,13 @@
   <div class="selection:bg-accent selection:text-black">
     <Hero />
     
-    <LazyAboutSection />
-    <LazyProjectsSection />
-    <LazyExperienceSection />
-    <LazyEducationSection />
-    <LazySkillsSection />
-    <LazyAwardsSection />
-    <LazyContactSection />
+    <AboutSection />
+    <ProjectsSection />
+    <ExperienceSection />
+    <EducationSection />
+    <SkillsSection />
+    <AwardsSection />
+    <ContactSection />
   </div>
 </template>
 

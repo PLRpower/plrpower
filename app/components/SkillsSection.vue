@@ -24,7 +24,7 @@
             <span class="font-mono text-[0.7rem] tracking-[0.2em] uppercase text-accent mb-4 block font-semibold">Core Expertise</span>
             <h3 class="font-display text-4xl md:text-5xl font-bold text-primary leading-tight mb-6 group-hover:text-accent transition-colors duration-500">AI / ML & Distributed Intelligence</h3>
             <ul class="flex flex-wrap gap-2.5">
-              <li v-for="skill in ['PyTorch', 'TensorFlow', 'Federated Learning', 'Computer Vision (OpenCV)', 'TinyML & Edge AI', 'Scikit-Learn', 'Transformers / LLMs', 'NumPy / Pandas', 'Data Analysis & Metrics']" :key="skill" class="px-4 py-2 bg-[#050505]/60 backdrop-blur-md rounded-lg border border-white/5 text-[0.8rem] text-secondary/90 shadow-lg">{{ skill }}</li>
+              <li v-for="skill in ['PyTorch', 'TensorFlow', 'Federated Learning', 'Computer Vision (OpenCV)', 'TinyML & Edge AI', 'Scikit-Learn', 'Transformers / LLMs', 'NumPy / Pandas', 'Data Analysis & Metrics']" :key="skill" class="px-4 py-2 bg-[#080808] rounded-lg border border-white/5 text-[0.8rem] text-secondary/90 shadow-lg">{{ skill }}</li>
             </ul>
           </div>
         </div>
@@ -91,9 +91,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const ledOn = ref(false);
+let triggers: any[] = [];
 
 onMounted(async () => {
   if (import.meta.client) {
@@ -101,7 +102,7 @@ onMounted(async () => {
     const { ScrollTrigger } = await import('gsap/ScrollTrigger');
     gsap.registerPlugin(ScrollTrigger);
 
-    ScrollTrigger.batch('.skill-card', {
+    triggers = ScrollTrigger.batch('.skill-card', {
       onEnter: (elements) => {
         gsap.fromTo(elements, 
           { opacity: 0, y: 30 },
@@ -112,6 +113,10 @@ onMounted(async () => {
       once: true
     });
   }
+});
+
+onBeforeUnmount(() => {
+  triggers.forEach(t => t.kill());
 });
 </script>
 

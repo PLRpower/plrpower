@@ -49,7 +49,7 @@ const currentYear = new Date().getFullYear();
 </script>
 
 <template>
-  <footer class="relative z-20 border-t border-white/[0.08] bg-[#050505]/95 backdrop-blur-xl overflow-hidden">
+  <footer class="relative z-20 border-t border-white/[0.08] bg-[#050505] overflow-hidden">
     <!-- Top accent glow line -->
     <div class="h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent"></div>
 
@@ -181,14 +181,18 @@ const currentYear = new Date().getFullYear();
 
               <a
                 href="/CV_Paul_Thomas.pdf"
-                download
+                target="_blank"
+                rel="noopener noreferrer"
                 class="flex items-center justify-between px-3 py-2 border border-accent/20 bg-accent/[0.05] font-mono text-xs text-accent hover:bg-accent hover:text-black transition-all duration-300 group"
               >
                 <span class="flex items-center gap-2 font-medium">
-                  <Icon name="uil:file-download" size="15px" />
-                  <span>Download CV</span>
+                  <Icon name="uil:file-alt" size="15px" />
+                  <span>View Resume</span>
                 </span>
-                <span class="text-[10px] opacity-70 group-hover:opacity-100 font-bold">[PDF]</span>
+                <span class="text-[10px] opacity-70 group-hover:opacity-100 font-bold flex items-center gap-1">
+                  <span>[PDF]</span>
+                  <Icon name="material-symbols:arrow-outward" size="12px" class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </span>
               </a>
             </div>
           </div>

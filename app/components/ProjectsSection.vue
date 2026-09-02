@@ -85,9 +85,9 @@
     <!-- Floating Explore Text for Projects (Visible only on Desktop hover) -->
     <ClientOnly>
       <Teleport to="body">
-        <div ref="exploreCursorRef" class="fixed pointer-events-none z-[100] hidden md:flex items-center gap-2 mix-blend-difference"
+        <div ref="exploreCursorRef" class="fixed top-0 left-0 pointer-events-none z-[100] hidden md:flex items-center gap-2 mix-blend-difference will-change-transform"
              :class="isHoveringProject ? 'opacity-100' : 'opacity-0'"
-             :style="{ transition: 'opacity 0.2s', transform: 'translate(24px, -50%) scale(' + (isHoveringProject ? 1 : 0.8) + ')' }">
+             :style="{ transition: 'opacity 0.2s, transform 0.15s ease-out', transform: `translate3d(${cursorPos.x}px, ${cursorPos.y}px, 0) translate(24px, -50%) scale(${isHoveringProject ? 1 : 0.8})` }">
           <span class="font-display font-bold text-xl md:text-2xl text-white uppercase tracking-wider">Explore</span>
           <Icon name="material-symbols:arrow-outward" size="32px" class="text-white" />
         </div>
@@ -98,7 +98,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import { getFeaturedProjects } from '~/data/projects';
+import { getFeaturedProjects, type Project } from '~/data/projects';
+
+interface ProjectSlide extends Partial<Project> {
+  id: string;
+  title: string;
+  isViewAll?: boolean;
+  link?: string;
+}
 
 const horizontalRef = ref<HTMLElement | null>(null);
 const horizontalTrackRef = ref<HTMLElement | null>(null);
@@ -106,15 +113,15 @@ const projectsSectionRef = ref<HTMLElement | null>(null);
 
 const isHoveringProject = ref(false);
 const exploreCursorRef = ref<HTMLElement | null>(null);
+const cursorPos = ref({ x: 0, y: 0 });
 
 const updateHoverPos = (e: MouseEvent) => {
-  if (isHoveringProject.value && exploreCursorRef.value) {
-    exploreCursorRef.value.style.left = `${e.clientX}px`;
-    exploreCursorRef.value.style.top = `${e.clientY}px`;
+  if (isHoveringProject.value) {
+    cursorPos.value = { x: e.clientX, y: e.clientY };
   }
 };
 
-const projectsData = [
+const projectsData: ProjectSlide[] = [
   ...getFeaturedProjects().map(p => ({
     ...p,
     tech: p.tech.replace(/ \| /g, ' · ')
@@ -128,49 +135,45 @@ const projectsData = [
 ];
 
 let scrollTriggerInstance: any = null;
-let horizontalWheelHandler: ((e: WheelEvent) => void) | null = null;
 
-onMounted(async () => {
-  await nextTick();
-  if (import.meta.client && projectsSectionRef.value && horizontalRef.value && horizontalTrackRef.value) {
-    const { gsap } = await import('gsap');
-    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-    gsap.registerPlugin(ScrollTrigger);
+onMounted(() => {
+  if (import.meta.client) {
+    const initScrollTrigger = async () => {
+      if (!projectsSectionRef.value || !horizontalRef.value || !horizontalTrackRef.value) return;
+      const { gsap } = await import('gsap');
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+      gsap.registerPlugin(ScrollTrigger);
 
-    const track = horizontalTrackRef.value;
-    const getTotalScrollWidth = () => track.scrollWidth - window.innerWidth;
+      gsap.ticker.lagSmoothing(500, 16);
 
-    scrollTriggerInstance = gsap.to(track, {
-      x: () => -getTotalScrollWidth(),
-      ease: 'power1.inOut',
-      scrollTrigger: {
-        trigger: projectsSectionRef.value,
-        pin: projectsSectionRef.value,
-        start: 'top 40px',
-        scrub: 1.2,
-        ['end']: () => `+=${getTotalScrollWidth()}`,
-        invalidateOnRefresh: true,
-        fastScrollEnd: true,
-        preventOverlaps: true,
-      }
-    });
+      const track = horizontalTrackRef.value;
+      const getTotalScrollWidth = () => track.scrollWidth - window.innerWidth;
 
-    horizontalWheelHandler = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        e.preventDefault();
-        // noinspection SuspiciousNameCombination
-        const scrollDelta = e.deltaX;
-        window.scrollBy({ top: scrollDelta, behavior: 'auto' });
-      }
+      scrollTriggerInstance = gsap.to(track, {
+        x: () => -getTotalScrollWidth(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: projectsSectionRef.value,
+          pin: true,
+          start: 'top 40px',
+          scrub: 0.35,
+          end: () => `+=${getTotalScrollWidth()}`,
+          invalidateOnRefresh: true,
+          fastScrollEnd: true,
+          preventOverlaps: true,
+        }
+      });
     };
-    projectsSectionRef.value.addEventListener('wheel', horizontalWheelHandler, { passive: false });
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(initScrollTrigger);
+    } else {
+      setTimeout(initScrollTrigger, 100);
+    }
   }
 });
 
 onBeforeUnmount(() => {
-  if (projectsSectionRef.value && horizontalWheelHandler) {
-    projectsSectionRef.value.removeEventListener('wheel', horizontalWheelHandler);
-  }
   if (scrollTriggerInstance) {
     scrollTriggerInstance.scrollTrigger?.kill();
     scrollTriggerInstance.kill();

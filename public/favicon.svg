@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Background Badge -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#0a0a0a" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5"/>
+
+  <!-- Letter P (tight & rounded) -->
+  <path d="M10 16 H23 A9 9 0 0 1 32 25 A9 9 0 0 1 23 34 H16 V48 H10 Z M16 22 H23 A3 3 0 0 1 26 25 A3 3 0 0 1 23 28 H16 Z" fill="#2dd4bf" fill-rule="evenodd"/>
+
+  <!-- Letter T (curved left contour matching P cutout) -->
+  <path d="M29.325 16 H54 V22 H47 V48 H41 V22 H33.583 A11 11 0 0 0 29.325 16 Z" fill="#2dd4bf"/>
+</svg>

@@ -84,7 +84,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, onBeforeUnmount } from 'vue';
+
+let triggers: any[] = [];
 
 onMounted(async () => {
   if (import.meta.client) {
@@ -92,7 +94,7 @@ onMounted(async () => {
     const { ScrollTrigger } = await import('gsap/ScrollTrigger');
     gsap.registerPlugin(ScrollTrigger);
 
-    ScrollTrigger.batch('.edu-item', {
+    triggers = ScrollTrigger.batch('.edu-item', {
       onEnter: (elements) => {
         gsap.fromTo(elements, 
           { opacity: 0, y: 30 },
@@ -103,6 +105,10 @@ onMounted(async () => {
       once: true
     });
   }
+});
+
+onBeforeUnmount(() => {
+  triggers.forEach(t => t.kill());
 });
 </script>
 

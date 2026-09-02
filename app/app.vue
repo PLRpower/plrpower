@@ -1,39 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
 useHead({
-  htmlAttrs: { lang: 'en' },
+  htmlAttrs: { lang: 'en', class: 'bg-[#0a0a0a] text-[#e2e2e2]' },
+  bodyAttrs: { class: 'bg-[#0a0a0a] text-[#e2e2e2]' },
   title: 'Paul Thomas | Portfolio',
   meta: [
-    { name: 'description', content: 'Portfolio of Paul Thomas - Web Developer' }
+    { name: 'description', content: 'Portfolio of Paul Thomas - Computer Science Student & AI/Embedded Engineer' }
   ]
 })
-
-const isBot = ref(false);
-
-if (import.meta.server) {
-  const ua = useRequestHeaders(['user-agent'])['user-agent'] || '';
-  isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(ua);
-} else if (import.meta.client) {
-  isBot.value = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|chrome-lighthouse/i.test(navigator.userAgent);
-}
-
-// Mouse-tracking glow removed — the lerp + rAF loop on 3 fixed elements
-// was causing continuous style recalculations during every mouse move.
-// Static CSS glows provide the same ambient effect without per-frame cost.
 </script>
 
 <template>
   <div class="relative min-h-screen w-full overflow-hidden bg-bg-primary">
-    <template v-if="!isBot">
-      <div class="grain-overlay"></div>
-      <div class="grid-overlay"></div>
-      <div class="glow"></div>
-      <div class="glow-2"></div>
-      <div class="glow-3"></div>
-
-      <div class="vignette"></div>
-    </template>
+    <div class="grain-overlay"></div>
+    <div class="grid-overlay"></div>
+    <div class="glow"></div>
+    <div class="glow-2"></div>
+    <div class="glow-3"></div>
+    <div class="vignette"></div>
     
     <div class="relative z-10 flex flex-col min-h-screen">
       <AppHeader />
@@ -47,4 +30,14 @@ if (import.meta.server) {
 </template>
 
 <style>
+@import "~/assets/css/main.css";
+
+html, body {
+  background-color: #0a0a0a !important;
+  color: #e2e2e2;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 </style>

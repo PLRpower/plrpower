@@ -51,14 +51,23 @@ let rows = 0;
 let imgElement: HTMLImageElement | null = null;
 let resizeObserver: ResizeObserver | null = null;
 let lastAspect = 0;
+let cachedWidth = 0;
+let cachedHeight = 0;
 
 // Pre-compute high-resolution ASCII character map matching exact object-cover crop
-const precomputeAscii = () => {
+const precomputeAscii = (w?: number, h?: number) => {
   if (!imgElement || !imgElement.complete || imgElement.naturalWidth === 0) return;
 
-  const rect = containerRef.value ? containerRef.value.getBoundingClientRect() : null;
-  const containerAspect = (rect && rect.width > 0 && rect.height > 0)
-    ? rect.width / rect.height
+  const width = w || cachedWidth || containerRef.value?.clientWidth || 0;
+  const height = h || cachedHeight || containerRef.value?.clientHeight || 0;
+
+  if (width > 0 && height > 0) {
+    cachedWidth = width;
+    cachedHeight = height;
+  }
+
+  const containerAspect = (width > 0 && height > 0)
+    ? width / height
     : (imgElement.naturalWidth / imgElement.naturalHeight);
 
   lastAspect = containerAspect;
@@ -133,30 +142,36 @@ const precomputeAscii = () => {
   }
 
   isReady.value = true;
-  drawCachedAscii();
+  drawCachedAscii(width, height);
 };
 
 // Paint from pre-computed buffer with strict column spacing
-const drawCachedAscii = () => {
+const drawCachedAscii = (w?: number, h?: number) => {
   if (!canvasRef.value || !containerRef.value || asciiData.length === 0) return;
   const canvas = canvasRef.value;
-  const rect = containerRef.value.getBoundingClientRect();
+  const width = w || cachedWidth || containerRef.value.clientWidth || 0;
+  const height = h || cachedHeight || containerRef.value.clientHeight || 0;
   
-  if (rect.width === 0 || rect.height === 0) return;
+  if (width === 0 || height === 0) return;
 
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
+  const targetW = Math.round(width * dpr);
+  const targetH = Math.round(height * dpr);
+
+  if (canvas.width !== targetW || canvas.height !== targetH) {
+    canvas.width = targetW;
+    canvas.height = targetH;
+  }
 
   if (!ctx) ctx = canvas.getContext('2d', { alpha: true });
   if (!ctx) return;
 
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.scale(dpr, dpr);
-  ctx.clearRect(0, 0, rect.width, rect.height);
+  ctx.clearRect(0, 0, width, height);
 
-  const cellW = rect.width / cols;
-  const cellH = rect.height / rows;
+  const cellW = width / cols;
+  const cellH = height / rows;
 
   // Strict column sizing: glyph advance width is ~0.6 * fontSize in monospace.
   // We clamp fontSize so glyph width never exceeds cellW * charSpacing (leaves crisp column gap).
@@ -225,29 +240,59 @@ const handleMouseLeave = () => {
   isHovered.value = false;
 };
 
+let intersectionObserver: IntersectionObserver | null = null;
+let hasComputed = false;
+
+const triggerPrecompute = () => {
+  if (hasComputed || !imgElement) return;
+  if (imgElement.complete && imgElement.naturalWidth > 0) {
+    hasComputed = true;
+    precomputeAscii();
+  } else {
+    imgElement.onload = () => {
+      hasComputed = true;
+      precomputeAscii();
+    };
+  }
+};
+
 onMounted(() => {
   imgElement = new Image();
   imgElement.crossOrigin = 'anonymous';
   imgElement.src = props.src;
   
-  if (imgElement.complete && imgElement.naturalWidth > 0) {
-    precomputeAscii();
+  if (containerRef.value && typeof IntersectionObserver !== 'undefined') {
+    intersectionObserver = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry?.isIntersecting) {
+        triggerPrecompute();
+        if (intersectionObserver) {
+          intersectionObserver.disconnect();
+          intersectionObserver = null;
+        }
+      }
+    }, { rootMargin: '350px' });
+    intersectionObserver.observe(containerRef.value);
   } else {
-    imgElement.onload = () => {
-      precomputeAscii();
-    };
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(triggerPrecompute);
+    } else {
+      setTimeout(triggerPrecompute, 200);
+    }
   }
 
   if (containerRef.value && typeof ResizeObserver !== 'undefined') {
-    resizeObserver = new ResizeObserver(() => {
-      if (!containerRef.value) return;
-      const rect = containerRef.value.getBoundingClientRect();
-      if (rect.width > 0 && rect.height > 0) {
-        const aspect = rect.width / rect.height;
+    resizeObserver = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry || !hasComputed) return;
+      const width = entry.contentRect.width;
+      const height = entry.contentRect.height;
+      if (width > 0 && height > 0) {
+        const aspect = width / height;
         if (Math.abs(aspect - lastAspect) > 0.03) {
-          precomputeAscii();
+          precomputeAscii(width, height);
         } else {
-          drawCachedAscii();
+          drawCachedAscii(width, height);
         }
       }
     });
@@ -256,16 +301,16 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  if (intersectionObserver) intersectionObserver.disconnect();
   if (resizeObserver) resizeObserver.disconnect();
 });
 
 watch(() => [props.src, props.invert, props.resolution, props.brightness, props.contrast, props.charSpacing, props.charRamp, props.tintColor, props.colorMode, props.useOriginalColors], () => {
   if (imgElement) {
     isReady.value = false;
+    hasComputed = false;
     imgElement.src = props.src;
-    if (imgElement.complete) {
-      precomputeAscii();
-    }
+    triggerPrecompute();
   }
 });
 

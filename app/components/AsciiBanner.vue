@@ -14,6 +14,10 @@ const props = withDefaults(defineProps<{
   pingPong: false,
 });
 
+const emit = defineEmits<{
+  (e: 'ready'): void;
+}>();
+
 const rawLines = [
   "*******************=:                                                                             .****                   ******************************      *****                                                                                                                                                                       ",
   "++#+%#############++#**:                                                                          .++##                   =############++#+%###########%      =++##                                                                                                                                                                       ",
@@ -56,8 +60,8 @@ const maxCols = rawLines[0]?.length || 0;
 const totalRows = rawLines.length;
 
 // Timing parameters for sharp, narrow wave reveal
-const TOTAL_SWEEP_DURATION = 1200; // ms for wave to cross entire banner
-const BLOOM_DURATION = 150; // ms for individual character bloom phase (narrow beam)
+const TOTAL_SWEEP_DURATION = 900; // ms for wave to cross entire banner
+const BLOOM_DURATION = 130; // ms for individual character bloom phase (narrow beam)
 
 interface CharCellState {
   targetChar: string;
@@ -117,7 +121,7 @@ const charStates: CharCellState[][] = rawLines.map((line, lIdx) =>
       clampedWave,
       flickerFreq: 0.1 + Math.random() * 0.15,
       flickerPhase: Math.random() * Math.PI * 2,
-      isFinished: !!props.instant,
+      isFinished: props.instant,
       kineticEnergy: 0,
       dispX: 0,
       dispY: 0,
@@ -177,7 +181,7 @@ const draw = (timestamp: number) => {
   ctx.save();
   ctx.scale(dpr, dpr);
 
-  ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
+  ctx.font = `${fontSize}px "Geist Mono", monospace`;
   ctx.textBaseline = 'top';
 
   // Smooth mouse interpolation for fluid magnetic feel
@@ -225,207 +229,197 @@ const draw = (timestamp: number) => {
   const hoverRadiusSq = hoverRadius * hoverRadius;
   const pushRadius = PUSH_RADIUS;
 
-  for (let lIdx = 0; lIdx < totalRows; lIdx++) {
-    const line = charStates[lIdx];
-    if (!line) continue;
+  const numActive = activeCells.length;
+  for (let i = 0; i < numActive; i++) {
+    const { r: lIdx, c: cIdx } = activeCells[i]!;
+    const state = charStates[lIdx]![cIdx]!;
     const charY = lIdx * lineHeight;
+    const charX = cIdx * charWidth;
+    const dx = charX - curMouseX;
+    const dy = charY - curMouseY;
+    const distSq = dx * dx + dy * dy;
+    const isHovered = curMouseX > -100 && distSq < hoverRadiusSq;
 
-    for (let cIdx = 0; cIdx < maxCols; cIdx++) {
-      const state = line[cIdx];
-      if (!state) continue;
+    // Magnetic lens repulsion & kinetic dissipation (concentrated in close core)
+    if (isHovered) {
+      const dist = Math.sqrt(distSq) || 1;
+      if (dist < pushRadius) {
+        const pushNorm = 1 - (dist / pushRadius);
+        const force = pushNorm * pushNorm * 1.8;
+        state.dispX += ((dx / dist) * force - state.dispX) * 0.3;
+        state.dispY += ((dy / dist) * force - state.dispY) * 0.3;
 
-      if (state.isSpace) {
-        // Empty space: skip
-        continue;
-      }
-
-      const charX = cIdx * charWidth;
-      const dx = charX - curMouseX;
-      const dy = charY - curMouseY;
-      const distSq = dx * dx + dy * dy;
-      const isHovered = curMouseX > -100 && distSq < hoverRadiusSq;
-
-      // Magnetic lens repulsion & kinetic dissipation (concentrated in close core)
-      if (isHovered) {
-        const dist = Math.sqrt(distSq) || 1;
-        if (dist < pushRadius) {
-          const pushNorm = 1 - (dist / pushRadius);
-          const force = pushNorm * pushNorm * 1.8;
-          state.dispX += ((dx / dist) * force - state.dispX) * 0.3;
-          state.dispY += ((dy / dist) * force - state.dispY) * 0.3;
-
-          // Only deposit kinetic wake energy in the close core (avoids circular trail stamping)
-          state.kineticEnergy = Math.min(1.0, state.kineticEnergy + pushNorm * 0.2 + mouseVelocity * pushNorm * 0.025);
-        } else {
-          state.dispX += (0 - state.dispX) * 0.15;
-          state.dispY += (0 - state.dispY) * 0.15;
-          state.kineticEnergy *= 0.88;
-        }
+        // Only deposit kinetic wake energy in the close core (avoids circular trail stamping)
+        state.kineticEnergy = Math.min(1.0, state.kineticEnergy + pushNorm * 0.2 + mouseVelocity * pushNorm * 0.025);
       } else {
         state.dispX += (0 - state.dispX) * 0.15;
         state.dispY += (0 - state.dispY) * 0.15;
         state.kineticEnergy *= 0.88;
       }
+    } else {
+      state.dispX += (0 - state.dispX) * 0.15;
+      state.dispY += (0 - state.dispY) * 0.15;
+      state.kineticEnergy *= 0.88;
+    }
 
-      if (state.kineticEnergy > 0.01) {
-        hasActiveKineticEnergy = true;
-      }
+    if (state.kineticEnergy > 0.01) {
+      hasActiveKineticEnergy = true;
+    }
 
-      let charToDraw = state.targetChar;
-      let opacity = 1.0;
-      let isWaveActive = false;
-      let waveGlow = 0;
+    let charToDraw = state.targetChar;
+    let opacity = 1.0;
+    let isWaveActive = false;
+    let waveGlow = 0;
 
-      if (props.pingPong) {
-        stillAnimating = true;
-        const cycleTime = 4200;
-        const revealDuration = 1200;
-        const holdRevealed = 1000;
-        const dissolveDuration = 1200;
-        const cycleElapsed = elapsed % cycleTime;
+    if (props.pingPong) {
+      stillAnimating = true;
+      const cycleTime = 4200;
+      const revealDuration = 1200;
+      const holdRevealed = 1000;
+      const dissolveDuration = 1200;
+      const cycleElapsed = elapsed % cycleTime;
 
-        if (cycleElapsed < revealDuration) {
-          // Forward sweep reveal
-          const charElapsed = cycleElapsed - state.revealStart;
-          if (charElapsed < 0) {
-            if (!isHovered && state.kineticEnergy < 0.05) continue;
-            opacity = 0;
-          } else if (charElapsed >= state.bloomDuration) {
-            opacity = 1.0;
-          } else {
-            isWaveActive = true;
-            const progress = Math.max(0, Math.min(1, charElapsed / state.bloomDuration));
-            const flicker = Math.sin(timestamp * state.flickerFreq + state.flickerPhase);
-            opacity = flicker > -0.55 ? 0.5 + 0.5 * progress : 0.15;
-            waveGlow = 1 - progress;
-            const rampIdx = Math.floor(Math.random() * BLOOM_RAMP.length);
-            charToDraw = BLOOM_RAMP[rampIdx] || state.targetChar;
-          }
-        } else if (cycleElapsed < revealDuration + holdRevealed) {
-          // Hold visible
-          opacity = 1.0;
-        } else if (cycleElapsed < revealDuration + holdRevealed + dissolveDuration) {
-          // Reverse sweep dissolve
-          const dissolveElapsed = cycleElapsed - (revealDuration + holdRevealed);
-          const reverseStart = ((1 - state.clampedWave) * dissolveDuration) + (Math.random() * 15);
-          const charElapsed = dissolveElapsed - reverseStart;
-
-          if (charElapsed < 0) {
-            opacity = 1.0;
-          } else if (charElapsed >= state.bloomDuration) {
-            if (!isHovered && state.kineticEnergy < 0.05) continue;
-            opacity = 0;
-          } else {
-            isWaveActive = true;
-            const progress = 1 - Math.max(0, Math.min(1, charElapsed / state.bloomDuration));
-            const flicker = Math.sin(timestamp * state.flickerFreq + state.flickerPhase);
-            opacity = flicker > -0.55 ? 0.2 + 0.8 * progress : 0.05;
-            waveGlow = 1 - progress;
-            const rampIdx = Math.floor(Math.random() * BLOOM_RAMP.length);
-            charToDraw = BLOOM_RAMP[rampIdx] || state.targetChar;
-          }
-        } else {
-          // Hold hidden before restart
+      if (cycleElapsed < revealDuration) {
+        // Forward sweep reveal
+        const charElapsed = cycleElapsed - state.revealStart;
+        if (charElapsed < 0) {
           if (!isHovered && state.kineticEnergy < 0.05) continue;
           opacity = 0;
-        }
-      } else {
-        const charElapsed = elapsed - state.revealStart;
-
-        // Not yet reached by reveal wavefront
-        if (charElapsed < 0 && !isHovered && state.kineticEnergy < 0.05) {
-          stillAnimating = true;
-          continue;
-        }
-
-        if (charElapsed >= state.bloomDuration || state.isFinished) {
-          state.isFinished = true;
+        } else if (charElapsed >= state.bloomDuration) {
           opacity = 1.0;
         } else {
-          stillAnimating = true;
           isWaveActive = true;
           const progress = Math.max(0, Math.min(1, charElapsed / state.bloomDuration));
-          
-          // High frequency shutter flicker on the wavefront
           const flicker = Math.sin(timestamp * state.flickerFreq + state.flickerPhase);
-          const flickerOn = flicker > -0.55;
-          
-          if (flickerOn) {
-            opacity = 0.5 + 0.5 * progress;
-          } else {
-            opacity = 0.15;
-          }
-          
-          waveGlow = 1 - progress; // Strong glow at leading edge of wave
-          
-          // Rapid bloom scramble
+          opacity = flicker > -0.55 ? 0.5 + 0.5 * progress : 0.15;
+          waveGlow = 1 - progress;
           const rampIdx = Math.floor(Math.random() * BLOOM_RAMP.length);
           charToDraw = BLOOM_RAMP[rampIdx] || state.targetChar;
         }
-      }
+      } else if (cycleElapsed < revealDuration + holdRevealed) {
+        // Hold visible
+        opacity = 1.0;
+      } else if (cycleElapsed < revealDuration + holdRevealed + dissolveDuration) {
+        // Reverse sweep dissolve
+        const dissolveElapsed = cycleElapsed - (revealDuration + holdRevealed);
+        const reverseStart = ((1 - state.clampedWave) * dissolveDuration) + (Math.random() * 15);
+        const charElapsed = dissolveElapsed - reverseStart;
 
-      // Handle hover character change (deterministic per cell based on cursor proximity)
-      if (isHovered) {
-        const dist = Math.sqrt(distSq) || 1;
-        const normDist = Math.max(0, 1 - (dist / hoverRadius));
-        
-        if (normDist > state.activationThreshold) {
-          charToDraw = state.deterministicHoverChar;
+        if (charElapsed < 0) {
+          opacity = 1.0;
+        } else if (charElapsed >= state.bloomDuration) {
+          if (!isHovered && state.kineticEnergy < 0.05) continue;
+          opacity = 0;
         } else {
-          charToDraw = state.targetChar;
+          isWaveActive = true;
+          const progress = 1 - Math.max(0, Math.min(1, charElapsed / state.bloomDuration));
+          const flicker = Math.sin(timestamp * state.flickerFreq + state.flickerPhase);
+          opacity = flicker > -0.55 ? 0.2 + 0.8 * progress : 0.05;
+          waveGlow = 1 - progress;
+          const rampIdx = Math.floor(Math.random() * BLOOM_RAMP.length);
+          charToDraw = BLOOM_RAMP[rampIdx] || state.targetChar;
         }
-      }
-
-      // Handle ambient micro-glitch
-      if (state.ambientGlitchUntil > timestamp) {
-        charToDraw = state.ambientGlitchChar;
-        opacity = 0.9;
-        waveGlow = 0.6;
-        hasActiveKineticEnergy = true;
-        hasActiveGlitch = true;
-      }
-
-      // Render styles & glowing bloom
-      const drawX = charX + state.dispX;
-      const drawY = charY + state.dispY;
-
-      if (isHovered) {
-        const dist = Math.sqrt(distSq) || 1;
-        const t = Math.max(0, 1 - (dist / hoverRadius));
-        // Smoothstep easing for silky continuous radial gradient
-        const easeT = t * t * (3 - 2 * t);
-
-        // Center (easeT = 1): dark forest green -> Outer perimeter (easeT = 0): pure white
-        const baseHue = 166;
-        const sat = 95 * easeT;
-        const lightness = 100 - 78 * easeT; // 22% at center (dark green) -> 100% at outer edge (white)
-        const glowAlpha = Math.min(1, Math.max(opacity, 0.9));
-
-        ctx.fillStyle = `hsla(${baseHue}, ${sat}%, ${lightness}%, ${glowAlpha})`;
-
-        if (easeT > 0.35) {
-          ctx.shadowColor = `hsla(${baseHue}, 90%, 20%, ${easeT * 0.5})`;
-          ctx.shadowBlur = Math.min(8, easeT * 6);
-          ctx.fillText(charToDraw, drawX, drawY);
-          ctx.shadowBlur = 0;
-        } else {
-          ctx.fillText(charToDraw, drawX, drawY);
-        }
-      } else if (state.kineticEnergy > 0.05 || waveGlow > 0.3) {
-        // Soft localized kinetic trail dissipation (smoothly fades into white with no circular ring)
-        const energy = Math.max(state.kineticEnergy, waveGlow);
-        const easeK = energy * energy * (3 - 2 * energy);
-        const baseHue = 166;
-        const sat = 95 * easeK;
-        const lightness = 100 - 78 * easeK;
-
-        ctx.fillStyle = `hsla(${baseHue}, ${sat}%, ${lightness}%, ${opacity})`;
-        ctx.fillText(charToDraw, drawX, drawY);
       } else {
-        // Normal crisp settled state
-        ctx.fillStyle = `rgba(${baseRgb}, ${opacity})`;
+        // Hold hidden before restart
+        if (!isHovered && state.kineticEnergy < 0.05) continue;
+        opacity = 0;
+      }
+    } else {
+      const charElapsed = elapsed - state.revealStart;
+
+      // Not yet reached by reveal wavefront
+      if (charElapsed < 0 && !isHovered && state.kineticEnergy < 0.05) {
+        stillAnimating = true;
+        continue;
+      }
+
+      if (charElapsed >= state.bloomDuration || state.isFinished) {
+        state.isFinished = true;
+        opacity = 1.0;
+      } else {
+        stillAnimating = true;
+        isWaveActive = true;
+        const progress = Math.max(0, Math.min(1, charElapsed / state.bloomDuration));
+        
+        // High frequency shutter flicker on the wavefront
+        const flicker = Math.sin(timestamp * state.flickerFreq + state.flickerPhase);
+        const flickerOn = flicker > -0.55;
+        
+        if (flickerOn) {
+          opacity = 0.5 + 0.5 * progress;
+        } else {
+          opacity = 0.15;
+        }
+        
+        waveGlow = 1 - progress; // Strong glow at leading edge of wave
+        
+        // Rapid bloom scramble
+        const rampIdx = Math.floor(Math.random() * BLOOM_RAMP.length);
+        charToDraw = BLOOM_RAMP[rampIdx] || state.targetChar;
+      }
+    }
+
+    // Handle hover character change (deterministic per cell based on cursor proximity)
+    if (isHovered) {
+      const dist = Math.sqrt(distSq) || 1;
+      const normDist = Math.max(0, 1 - (dist / hoverRadius));
+      
+      if (normDist > state.activationThreshold) {
+        charToDraw = state.deterministicHoverChar;
+      } else {
+        charToDraw = state.targetChar;
+      }
+    }
+
+    // Handle ambient micro-glitch
+    if (state.ambientGlitchUntil > timestamp) {
+      charToDraw = state.ambientGlitchChar;
+      opacity = 0.9;
+      waveGlow = 0.6;
+      hasActiveKineticEnergy = true;
+      hasActiveGlitch = true;
+    }
+
+    // Render styles & glowing bloom
+    const drawX = charX + state.dispX;
+    const drawY = charY + state.dispY;
+
+    if (isHovered) {
+      const dist = Math.sqrt(distSq) || 1;
+      const t = Math.max(0, 1 - (dist / hoverRadius));
+      // Smoothstep easing for silky continuous radial gradient
+      const easeT = t * t * (3 - 2 * t);
+
+      // Center (easeT = 1): flashy neon cyan/green -> Outer perimeter (easeT = 0): pure white
+      const baseHue = 172;
+      const sat = 100 * easeT;
+      const lightness = 100 - 46 * easeT; // 54% at center (electric neon #0affde / #1affd9) -> 100% at outer edge (white)
+      const glowAlpha = Math.min(1, Math.max(opacity, 0.9));
+
+      ctx.fillStyle = `hsla(${baseHue}, ${sat}%, ${lightness}%, ${glowAlpha})`;
+
+      if (easeT > 0.3) {
+        ctx.shadowColor = `hsla(${baseHue}, 100%, 55%, ${easeT * 0.65})`;
+        ctx.shadowBlur = Math.min(10, easeT * 8);
+        ctx.fillText(charToDraw, drawX, drawY);
+        ctx.shadowBlur = 0;
+      } else {
         ctx.fillText(charToDraw, drawX, drawY);
       }
+    } else if (state.kineticEnergy > 0.05 || waveGlow > 0.3) {
+      // Soft localized kinetic trail dissipation (smoothly fades into white with no circular ring)
+      const energy = Math.max(state.kineticEnergy, waveGlow);
+      const easeK = energy * energy * (3 - 2 * energy);
+      const baseHue = 172;
+      const sat = 100 * easeK;
+      const lightness = 100 - 46 * easeK;
+
+      ctx.fillStyle = `hsla(${baseHue}, ${sat}%, ${lightness}%, ${opacity})`;
+      ctx.fillText(charToDraw, drawX, drawY);
+    } else {
+      // Normal crisp settled state
+      ctx.fillStyle = `rgba(${baseRgb}, ${opacity})`;
+      ctx.fillText(charToDraw, drawX, drawY);
     }
   }
 
@@ -555,16 +549,25 @@ const drawStatic = () => {
 
 let observer: IntersectionObserver | null = null;
 let resizeObserver: ResizeObserver | null = null;
+let cachedCanvasRect: DOMRect | null = null;
+
+const updateCachedRect = () => {
+  if (asciiCanvas.value) {
+    cachedCanvasRect = asciiCanvas.value.getBoundingClientRect();
+  }
+};
 
 const handleWindowMouseMove = (e: MouseEvent) => {
-  if (!props.animated || !asciiCanvas.value) return;
+  if (!props.animated || !isVisible || !asciiCanvas.value) return;
 
-  const canvas = asciiCanvas.value;
-  const rect = canvas.getBoundingClientRect();
-  if (rect.width === 0 || rect.height === 0) return;
+  if (!cachedCanvasRect) {
+    updateCachedRect();
+  }
+  const rect = cachedCanvasRect;
+  if (!rect || rect.width === 0 || rect.height === 0) return;
 
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
+  const scaleX = asciiCanvas.value.width / rect.width;
+  const scaleY = asciiCanvas.value.height / rect.height;
 
   const newX = (e.clientX - rect.left) * scaleX;
   const newY = (e.clientY - rect.top) * scaleY;
@@ -573,9 +576,9 @@ const handleWindowMouseMove = (e: MouseEvent) => {
   const maxEnvelope = (HOVER_RADIUS + 80) * scaleX;
   const isNear = 
     newX >= -maxEnvelope &&
-    newX <= canvas.width + maxEnvelope &&
+    newX <= asciiCanvas.value.width + maxEnvelope &&
     newY >= -maxEnvelope &&
-    newY <= canvas.height + maxEnvelope;
+    newY <= asciiCanvas.value.height + maxEnvelope;
 
   if (isNear) {
     const isFirstEntry = targetMouseX <= -100;
@@ -618,11 +621,10 @@ const handleMouseLeave = () => {
   mouseVelocity = 0;
 };
 
-const updateDimensions = () => {
+const updateDimensions = (widthOverride?: number) => {
   if (!asciiCanvas.value || !containerRef.value) return;
   dpr = window.devicePixelRatio || 1;
-  const rect = containerRef.value.getBoundingClientRect();
-  const width = rect.width || containerRef.value.clientWidth || window.innerWidth;
+  const width = widthOverride || containerRef.value.clientWidth || window.innerWidth;
   if (width === 0) return;
 
   const charWidth = width / maxCols;
@@ -630,11 +632,19 @@ const updateDimensions = () => {
   const lineHeight = fontSize * 1.15;
   const height = totalRows * lineHeight;
 
-  asciiCanvas.value.width = Math.round(width * dpr);
-  asciiCanvas.value.height = Math.round(height * dpr);
+  const newW = Math.round(width * dpr);
+  const newH = Math.round(height * dpr);
+
+  if (asciiCanvas.value.width === newW && asciiCanvas.value.height === newH) {
+    return;
+  }
+
+  asciiCanvas.value.width = newW;
+  asciiCanvas.value.height = newH;
 
   asciiCanvas.value.style.width = `${width}px`;
   asciiCanvas.value.style.height = `${height}px`;
+  updateCachedRect();
 };
 
 let resizeTimeout: any = null;
@@ -642,6 +652,7 @@ const handleResize = () => {
   if (resizeTimeout) clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
     updateDimensions();
+    updateCachedRect();
     if (!props.animated) {
       drawStatic();
     } else if (isAnimationFinished.value) {
@@ -651,18 +662,34 @@ const handleResize = () => {
   }, 100);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  if (typeof document !== 'undefined' && document.fonts?.ready) {
+    try {
+      await Promise.race([
+        document.fonts.ready,
+        new Promise((resolve) => setTimeout(resolve, 250)),
+      ]);
+    } catch {
+      // ignore
+    }
+  }
+
   const init = () => {
     if (asciiCanvas.value && containerRef.value) {
       updateDimensions();
+      updateCachedRect();
 
       if (!props.animated) {
         drawStatic();
         isReady.value = true;
+        emit('ready');
 
         if (typeof ResizeObserver !== 'undefined') {
-          resizeObserver = new ResizeObserver(() => {
-            updateDimensions();
+          resizeObserver = new ResizeObserver((entries) => {
+            const entry = entries[0];
+            const w = entry?.contentRect?.width;
+            updateDimensions(w);
+            updateCachedRect();
             drawStatic();
           });
           resizeObserver.observe(containerRef.value);
@@ -671,8 +698,11 @@ onMounted(() => {
       }
 
       if (typeof ResizeObserver !== 'undefined') {
-        resizeObserver = new ResizeObserver(() => {
-          updateDimensions();
+        resizeObserver = new ResizeObserver((entries) => {
+          const entry = entries[0];
+          const w = entry?.contentRect?.width;
+          updateDimensions(w);
+          updateCachedRect();
           if (isAnimationFinished.value) {
             cancelAnimationFrame(animationFrameId);
             animationFrameId = requestAnimationFrame(draw);
@@ -686,6 +716,9 @@ onMounted(() => {
         if (!entry) return;
         const wasVisible = isVisible;
         isVisible = entry.isIntersecting;
+        if (isVisible) {
+          updateCachedRect();
+        }
 
         if (isVisible && !wasVisible) {
           cancelAnimationFrame(animationFrameId);
@@ -697,14 +730,23 @@ onMounted(() => {
 
       window.addEventListener('mousemove', handleWindowMouseMove, { passive: true });
       window.addEventListener('mouseleave', handleMouseLeave);
+      window.addEventListener('scroll', updateCachedRect, { passive: true });
 
-      setTimeout(() => {
+      if (props.delay) {
+        setTimeout(() => {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = requestAnimationFrame(draw);
+          isReady.value = true;
+          emit('ready');
+        }, props.delay);
+      } else {
         cancelAnimationFrame(animationFrameId);
         animationFrameId = requestAnimationFrame(draw);
         isReady.value = true;
-      }, props.instant ? 0 : (props.delay || 0));
+        emit('ready');
+      }
     } else {
-      setTimeout(init, 50);
+      setTimeout(init, 20);
     }
   };
   init();
@@ -720,18 +762,18 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
   window.removeEventListener('mousemove', handleWindowMouseMove);
   window.removeEventListener('mouseleave', handleMouseLeave);
+  window.removeEventListener('scroll', updateCachedRect);
 });
 </script>
 
 <template>
   <div ref="containerRef"
-       class="my-2 w-full max-w-[1180px] [contain:layout]" 
-       :style="{ opacity: isReady || instant ? 1 : 0, transition: 'opacity 0.8s ease' }"
+       class="my-2 w-full max-w-[1180px] [contain:layout] aspect-[13166/2415]" 
        @mousemove.passive="handleWindowMouseMove">
     <div v-if="instant" class="text-white font-mono text-[clamp(0.35rem,0.7vw,0.75rem)] leading-tight select-none pointer-events-none" aria-hidden="true">
       <pre v-for="(line, idx) in rawLines" :key="idx" class="m-0 pre-wrap">{{ line }}</pre>
     </div>
-    <canvas v-else ref="asciiCanvas" class="w-full h-auto block"></canvas>
+    <canvas v-else ref="asciiCanvas" class="w-full h-full block"></canvas>
   </div>
 </template>
 

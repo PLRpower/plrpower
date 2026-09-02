@@ -55,7 +55,7 @@
         <!-- Right Column: Elevated Contact Form Card (7 cols) -->
         <div class="lg:col-span-7 relative">
           <!-- Outer Card with sharp corners and subtle glow -->
-          <div class="relative border border-white/[0.08] bg-[#0c0c0c]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 shadow-2xl shadow-black/40 overflow-hidden transition-all duration-500 hover:border-accent/25">
+          <div class="relative border border-white/[0.08] bg-[#0c0c0c] p-6 sm:p-8 md:p-10 shadow-2xl shadow-black/40 overflow-hidden transition-all duration-500 hover:border-accent/25">
             
             <!-- Ambient Glow -->
             <div class="absolute -top-24 -right-24 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>

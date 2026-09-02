@@ -148,7 +148,7 @@ useHead({
 
       <ul class="list-disc pl-6 mb-6 space-y-3">
         <li>
-          <strong>Single Ticker Synchronization:</strong> Lenis inertial momentum scrolling hooks directly into <code class="font-mono text-xs text-accent">gsap.ticker</code>, eliminating frame desynchronization and redundant animation frame callbacks.
+          <strong>Native Hardware Scroll & GSAP Sync:</strong> Native asynchronous browser scrolling combined with GSAP ScrollTrigger eliminates frame desynchronization and unnecessary main-thread overhead.
         </li>
         <li>
           <strong>Static OKLab Glow Meshes:</strong> Removing per-frame mouse-tracking style recalculations in favor of static OKLab gradients, preventing GPU compositing bottlenecks.

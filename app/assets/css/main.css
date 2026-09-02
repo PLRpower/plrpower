@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-primary: var(--bg-color);
-  --color-primary: var(--text-primary);
-  --color-secondary: var(--text-secondary);
-  --color-accent: var(--accent-color);
-  --color-accent-secondary: var(--accent-secondary);
-  --color-accent-warm: var(--accent-warm);
-  --color-accent-cyan: var(--accent-cyan);
+  --color-bg-primary: #0a0a0a;
+  --color-primary: #e2e2e2;
+  --color-secondary: rgba(255, 255, 255, 0.4);
+  --color-accent: #2dd4bf;
+  --color-accent-secondary: #6366f1;
+  --color-accent-warm: #f59e0b;
+  --color-accent-cyan: #22d3ee;
   
   --font-sans: 'Geist', system-ui, sans-serif;
   --font-mono: 'Geist Mono', monospace;
@@ -24,6 +24,46 @@
   --blur-3xl: 64px;
 }
 
+:root {
+  --bg-color: #0a0a0a;
+  --bg-surface: #121212;
+  --text-primary: #e2e2e2;
+  --text-secondary: rgba(255, 255, 255, 0.4);
+  --accent-color: #2dd4bf;       /* Teal */
+  --accent-secondary: #6366f1;   /* Indigo / Purple */
+  --accent-warm: #f59e0b;        /* Amber */
+  --accent-cyan: #22d3ee;        /* Cyan */
+  --grid-color: rgba(255, 255, 255, 0.06);
+  --glow-emerald: rgba(45, 212, 191, 0.06);
+  --glow-indigo: rgba(99, 102, 241, 0.05);
+  --glow-warm: rgba(245, 158, 11, 0.03);
+  --selection-text: #000;
+  
+  --glow-1-c1: rgba(45, 212, 191, 0.04);
+  --glow-1-c2: rgba(45, 212, 191, 0.015);
+  --glow-2-c1: rgba(99, 102, 241, 0.035);
+  --glow-2-c2: rgba(99, 102, 241, 0.015);
+  --glow-3-c1: rgba(34, 211, 238, 0.03);
+  --glow-3-c2: rgba(34, 211, 238, 0.012);
+  --glow-4-c1: rgba(245, 158, 11, 0.025);
+  
+  --vignette-color: rgba(0, 0, 0, 0.6);
+  
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-border-hover: rgba(45, 212, 191, 0.15);
+  --glass-bg-hover: rgba(255, 255, 255, 0.05);
+  --glass-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04), 0 4px 24px -1px rgba(0, 0, 0, 0.3);
+  --glass-shadow-hover: inset 0 1px 0 0 rgba(255, 255, 255, 0.06), 0 8px 40px -4px rgba(0, 0, 0, 0.4), 0 0 60px -12px rgba(45, 212, 191, 0.06);
+  
+  --header-bg: rgba(3, 3, 3, 0.4);
+  --header-border: rgba(255, 255, 255, 0.06);
+  --header-shadow: 0 1px 0 0 rgba(45, 212, 191, 0.04), 0 4px 30px rgba(0, 0, 0, 0.3);
+  --panel-bg: rgba(3, 3, 3, 0.85);
+  --panel-border: rgba(255, 255, 255, 0.06);
+  --panel-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
@@ -38,46 +78,6 @@
 }
 
 @layer base {
-  :root {
-    --bg-color: #0a0a0a;
-    --bg-surface: #121212;
-    --text-primary: #e2e2e2;
-    --text-secondary: rgba(255, 255, 255, 0.4);
-    --accent-color: #2dd4bf;       /* Teal */
-    --accent-secondary: #6366f1;   /* Indigo / Purple */
-    --accent-warm: #f59e0b;        /* Amber */
-    --accent-cyan: #22d3ee;        /* Cyan */
-    --grid-color: rgba(255, 255, 255, 0.06);
-    --glow-emerald: rgba(45, 212, 191, 0.06);
-    --glow-indigo: rgba(99, 102, 241, 0.05);
-    --glow-warm: rgba(245, 158, 11, 0.03);
-    --selection-text: #000;
-    
-    --glow-1-c1: rgba(45, 212, 191, 0.04);
-    --glow-1-c2: rgba(45, 212, 191, 0.015);
-    --glow-2-c1: rgba(99, 102, 241, 0.035);
-    --glow-2-c2: rgba(99, 102, 241, 0.015);
-    --glow-3-c1: rgba(34, 211, 238, 0.03);
-    --glow-3-c2: rgba(34, 211, 238, 0.012);
-    --glow-4-c1: rgba(245, 158, 11, 0.025);
-    
-    --vignette-color: rgba(0, 0, 0, 0.6);
-    
-    --glass-bg: rgba(255, 255, 255, 0.04);
-    --glass-border: rgba(255, 255, 255, 0.06);
-    --glass-border-hover: rgba(45, 212, 191, 0.15);
-    --glass-bg-hover: rgba(255, 255, 255, 0.05);
-    --glass-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04), 0 4px 24px -1px rgba(0, 0, 0, 0.3);
-    --glass-shadow-hover: inset 0 1px 0 0 rgba(255, 255, 255, 0.06), 0 8px 40px -4px rgba(0, 0, 0, 0.4), 0 0 60px -12px rgba(45, 212, 191, 0.06);
-    
-    --header-bg: rgba(3, 3, 3, 0.4);
-    --header-border: rgba(255, 255, 255, 0.06);
-    --header-shadow: 0 1px 0 0 rgba(45, 212, 191, 0.04), 0 4px 30px rgba(0, 0, 0, 0.3);
-    --panel-bg: rgba(3, 3, 3, 0.85);
-    --panel-border: rgba(255, 255, 255, 0.06);
-    --panel-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
-  }
-
   /* ─── Reset ─────────────────────────────────────────────────────────── */
 
   * {
@@ -110,22 +110,7 @@
     height: 100vh !important;
   }
 
-  /* ─── Lenis ─────────────────────────────────────────────────────────── */
-  html.lenis, html.lenis body {
-    height: auto;
-  }
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
-  .lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
-  }
-  .lenis.lenis-stopped {
-    overflow: hidden;
-  }
-  .lenis.lenis-scrolling iframe {
-    pointer-events: none;
-  }
+
 }
 
 /* ─── Background · Dots Grid Overlay ────────────────────────────────── */
@@ -140,8 +125,9 @@
   pointer-events: none;
   background-image: radial-gradient(circle, var(--grid-color) 1px, rgba(255, 255, 255, 0) 1px);
   background-size: 48px 48px;
-  /* mask-image removed for performance during zoom */
   opacity: 0.65;
+  transform: translateZ(0);
+  contain: strict;
 }
 
 /* ─── Background · Grain Texture ────────────────────────────────────── */
@@ -154,14 +140,12 @@
   height: 100%;
   z-index: 3;
   pointer-events: none;
-  opacity: 0.015; /* Réduit pour un grain plus subtil */
-  /* Uses a 256x256 static PNG file instead of base64 to prevent visible tiling, 
-     while keeping the zero-math guarantee during zoom. */
+  opacity: 0.015;
   /*noinspection CssUnknownTarget*/
   background-image: url("/noise.png");
   background-size: 256px 256px;
   background-repeat: repeat;
-  /* mix-blend-mode: overlay; removed to save GPU compositing cost */
+  transform: translateZ(0);
   contain: strict;
 }
 
@@ -174,15 +158,15 @@
   width: 65vw;
   height: 65vw;
   background: radial-gradient(
-    circle in oklab,
+    circle,
     var(--glow-1-c1) 0%,
     var(--glow-1-c2) 25%,
     rgba(45, 212, 191, 0) 55%
   );
   pointer-events: none;
   z-index: 2;
-  contain: layout style;
-  /* will-change + animation removed — 3 glows animating was eating GPU */
+  transform: translateZ(0);
+  contain: strict;
 }
 
 .glow-2 {
@@ -192,14 +176,15 @@
   width: 55vw;
   height: 55vw;
   background: radial-gradient(
-    circle in oklab,
+    circle,
     var(--glow-2-c1) 0%,
     var(--glow-2-c2) 25%,
     rgba(99, 102, 241, 0) 55%
   );
   pointer-events: none;
   z-index: 2;
-  contain: layout style;
+  transform: translateZ(0);
+  contain: strict;
 }
 
 .glow-3 {
@@ -209,14 +194,15 @@
   width: 45vw;
   height: 45vw;
   background: radial-gradient(
-    circle in oklab,
+    circle,
     var(--glow-3-c1) 0%,
     var(--glow-3-c2) 25%,
     rgba(34, 211, 238, 0) 55%
   );
   pointer-events: none;
   z-index: 2;
-  contain: layout style;
+  transform: translateZ(0);
+  contain: strict;
 }
 
 /* Third ambient glow — warm undertone top-left (static) */
@@ -229,11 +215,12 @@
   height: 40vw;
   border-radius: 50%;
   background: radial-gradient(
-    circle in oklab,
+    circle,
     var(--glow-4-c1) 0%,
     rgba(245, 158, 11, 0) 55%
   );
-  /* animation removed — was adding yet another composited layer */
+  transform: translateZ(0);
+  pointer-events: none;
 }
 
 /* ─── Background · Vignette ─────────────────────────────────────────── */
@@ -244,9 +231,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(ellipse at center in oklab, rgba(0, 0, 0, 0) 40%, var(--vignette-color) 100%);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, var(--vignette-color) 100%);
   pointer-events: none;
   z-index: 5;
+  transform: translateZ(0);
+  contain: strict;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════

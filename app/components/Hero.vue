@@ -60,7 +60,7 @@ onBeforeUnmount(() => {
           <Icon name="uil:linkedin" size="16px" />
           <AsciiOdometerLink text="LinkedIn" class="text-inherit" />
         </a>
-        <a href="mailto:paul.thomas.stras@gmail.com" 
+        <a href="mailto:contact@pthomas.fr" 
            class="group flex items-center gap-2 px-4 py-2.5 border border-white/[0.04] bg-white/[0.01] font-mono text-[0.75rem] text-secondary/60 no-underline hover:text-accent hover:border-accent/15 hover:bg-accent/[0.03] transition-all duration-300">
           <Icon name="uil:envelope" size="16px" />
           <AsciiOdometerLink text="Email" class="text-inherit" />

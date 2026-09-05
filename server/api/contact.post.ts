@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     // unless you verify a domain.
     await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
-      to: 'paul.thomas.stras@gmail.com',
+      to: 'contact@pthomas.fr',
       subject: `New Message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
       replyTo: email,

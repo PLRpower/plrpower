@@ -143,7 +143,7 @@ const currentYear = new Date().getFullYear();
             <!-- Social & Documents Links Grid -->
             <div class="flex flex-col gap-2 w-full max-w-[220px]">
               <a
-                href="mailto:paul.thomas.stras@gmail.com"
+                href="mailto:contact@pthomas.fr"
                 class="flex items-center justify-between px-3 py-2 border border-white/[0.06] bg-white/[0.02] font-mono text-xs text-secondary/80 hover:text-accent hover:border-accent/30 hover:bg-accent/[0.04] transition-all duration-300 group"
               >
                 <span class="flex items-center gap-2">

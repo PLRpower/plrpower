@@ -29,9 +29,9 @@
           <div class="flex flex-col gap-6 pt-8 border-t border-white/[0.05]">
             <div class="flex flex-col gap-1.5">
               <span class="font-mono text-[0.65rem] text-secondary/40 tracking-[0.2em] uppercase font-semibold">Direct Email</span>
-              <a href="mailto:paul.thomas.stras@gmail.com" 
+              <a href="mailto:contact@pthomas.fr" 
                  class="font-display text-xl sm:text-2xl font-bold text-primary hover:text-accent transition-colors duration-300 break-words no-underline">
-                paul.thomas.stras@gmail.com
+                contact@pthomas.fr
               </a>
             </div>
 

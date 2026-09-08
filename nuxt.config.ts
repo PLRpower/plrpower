@@ -33,8 +33,8 @@ export default defineNuxtConfig({
   },
   site: {
     url: 'https://paul-thomas.vercel.app',
-    name: 'Paul Thomas — Portfolio',
-    description: 'Computer Science student specializing in AI & Machine Learning, Embedded Systems, and Application Development.'
+    name: 'Paul Thomas — AI & Embedded Systems Engineer',
+    description: 'CS engineering student & apprentice researcher at LINEACT Laboratory in AI, Embedded Systems and Federated Learning. Seeking an international internship for 2027.'
   },
   app: {
     head: {

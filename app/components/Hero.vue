@@ -20,30 +20,31 @@ onBeforeUnmount(() => {
        :class="{ 'is-ready': isReady }">
     <main class="w-full flex-grow flex flex-col justify-start pt-[12vh] items-start text-left max-md:pt-[10vh]">
 
-      <div class="hero-item" style="--delay: 0.05s;">
-        <div class="font-handwriting text-[clamp(1.5rem,4vw,2.2rem)] tracking-wider text-accent">
+      <div class="hero-intro">
+        <span class="font-handwriting text-[clamp(1.5rem,4vw,2.2rem)] tracking-wider text-accent block">
           Hello, I am
-        </div>
+        </span>
+        <h1 class="sr-only">Paul Thomas — AI & Embedded Systems Engineer, CS Student & Researcher</h1>
       </div>
 
       <AsciiBanner @ready="isReady = true" />
 
       <div class="hero-item flex flex-col items-start text-left mt-6 md:mt-8" 
-           style="--delay: 0.70s;">
-        <h3 class="text-[clamp(0.875rem,1.5vw,1.05rem)] font-normal tracking-wider text-primary/90 mt-4">
+           style="--delay: 0.30s;">
+        <h2 class="text-[clamp(0.875rem,1.5vw,1.05rem)] font-normal tracking-wider text-primary/90 mt-4">
           <span class="font-handwriting text-[clamp(1.05rem,2vw,1.35rem)] align-baseline font-normal mr-1.5 leading-none text-accent">An</span>
-          AI & Embedded Systems Engineering Apprentice at LINEACT Research Lab · CS Student at CESI
-        </h3>
+          AI & Embedded Systems Engineering Apprentice at LINEACT Research Laboratory · CS Student at CESI
+        </h2>
       </div>
       <div class="hero-item flex flex-col items-start text-left" 
-           style="--delay: 0.90s;">
-        <h3 class="text-[clamp(0.875rem,1.5vw,1.05rem)] font-normal tracking-wider text-primary/90 mt-3">
+           style="--delay: 0.45s;">
+        <p class="text-[clamp(0.875rem,1.5vw,1.05rem)] font-normal tracking-wider text-primary/90 mt-3">
           <span class="font-handwriting text-[clamp(1.05rem,2vw,1.35rem)] align-baseline font-normal mr-1.5 leading-none text-accent">Currently seeking</span>
-          a 3 to 4-month international research / engineering internship starting June–July 2027.
-        </h3>
+          a 3 to 4-month international research & engineering internship in Machine Learning & Federated Learning starting June–July 2027.
+        </p>
       </div>
 
-      <div class="hero-item mt-10 flex flex-wrap gap-3" style="--delay: 1.10s;">
+      <div class="hero-item mt-10 flex flex-wrap gap-3" style="--delay: 0.60s;">
         <a href="/CV_Paul_Thomas.pdf" target="_blank" rel="noopener noreferrer" 
            class="group flex items-center gap-2 px-4 py-2.5 border border-[#2dd4bf]/30 bg-[#2dd4bf]/[0.08] text-[#2dd4bf] font-mono text-[0.75rem] no-underline hover:bg-[#2dd4bf]/[0.15] hover:border-[#2dd4bf]/50 hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] hover:-translate-y-0.5 transition-all duration-300">
           <Icon name="uil:file-alt" size="16px" />
@@ -70,7 +71,7 @@ onBeforeUnmount(() => {
 
     <footer class="flex justify-center items-center">
       <div class="hero-item flex flex-col items-center gap-[15px]" 
-           style="--delay: 1.30s;">
+           style="--delay: 0.70s;">
         <span class="text-[0.6rem] tracking-[0.3em] text-secondary">Scroll</span>
         <div class="w-px h-[60px] bg-gradient-to-b from-accent to-transparent relative overflow-hidden">
           <div class="absolute top-0 left-0 w-full h-full bg-white animate-scroll-indicator"></div>
@@ -91,16 +92,26 @@ onBeforeUnmount(() => {
   animation: scrollIndicator 2s cubic-bezier(0.15, 0.41, 0.69, 0.94) infinite;
 }
 
+.hero-intro {
+  opacity: 1;
+}
+
 .hero-item {
   opacity: 0;
 }
 
 .is-ready .hero-item {
-  animation: fadeIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) var(--delay, 0s) both;
+  animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) var(--delay, 0s) forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

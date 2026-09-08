@@ -2,9 +2,9 @@
 useHead({
   htmlAttrs: { lang: 'en', class: 'bg-[#0a0a0a] text-[#e2e2e2]' },
   bodyAttrs: { class: 'bg-[#0a0a0a] text-[#e2e2e2]' },
-  title: 'Paul Thomas | Portfolio',
+  title: 'Paul Thomas | AI / ML & Embedded Systems Engineer & Student',
   meta: [
-    { name: 'description', content: 'Portfolio of Paul Thomas - Computer Science Student & AI/Embedded Engineer' }
+    { name: 'description', content: 'CS engineering student & apprentice researcher at LINEACT Laboratory in AI, Embedded Systems and Machine Learning.' }
   ]
 })
 </script>

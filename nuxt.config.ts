@@ -9,8 +9,8 @@ export default defineNuxtConfig({
     inlineStyles: false
   },
   modules: [
-    '@vercel/analytics',
-    '@vercel/speed-insights',
+    '@vercel/analytics/nuxt',
+    '@vercel/speed-insights/nuxt',
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxtjs/seo',

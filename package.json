@@ -15,14 +15,13 @@
     "@nuxtjs/robots": "^5.7.1",
     "@nuxtjs/seo": "^4.0.2",
     "@nuxtjs/sitemap": "^7.6.0",
-    "@resvg/resvg-js": "^2.6.2",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "gsap": "^3.15.0",
     "nuxt": "^4.4.2",
-    "nuxt-og-image": "^6.7.2",
     "nuxt-schema-org": "^5.0.10",
     "nuxt-site-config": "^3.2.21",
     "resend": "^6.9.4",
-    "satori": "^0.26.0",
     "vue": "^3.5.30",
     "vue-router": "^5.0.3"
   },
@@ -32,6 +31,8 @@
     "@nuxt/fonts": "^0.14.0",
     "@nuxtjs/tailwindcss": "^7.0.0-beta.1",
     "@types/node": "^25.5.0",
-    "tailwindcss": "^4.3.2"
+    "tailwindcss": "^4.3.2",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^2.2.12"
   }
 }

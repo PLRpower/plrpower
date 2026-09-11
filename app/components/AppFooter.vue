@@ -66,17 +66,17 @@ const currentYear = new Date().getFullYear();
             </div>
             
             <p class="text-sm text-secondary/70 leading-relaxed max-w-md font-sans">
-              Computer Science student specializing in AI / Machine Learning, Embedded Systems, and Web Engineering.
+              Computer Science student specializing in AI / Machine Learning and Embedded Systems Engineering.
             </p>
           </div>
 
           <!-- Live Status & Location Badge -->
           <div class="inline-flex flex-col gap-2.5 pt-2">
             <!-- Internship Availability (rounded) -->
-            <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs w-fit">
+            <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent font-mono text-xs w-fit">
               <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
               </span>
               <span>Available for Internship • June–July 2027</span>
             </div>
@@ -180,7 +180,7 @@ const currentYear = new Date().getFullYear();
               </a>
 
               <a
-                href="/CV_Paul_Thomas.pdf"
+                href="/Paul_Thomas_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center justify-between px-3 py-2 border border-accent/20 bg-accent/[0.05] font-mono text-xs text-accent hover:bg-accent hover:text-black transition-all duration-300 group"

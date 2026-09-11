@@ -45,7 +45,7 @@ onBeforeUnmount(() => {
       </div>
 
       <div class="hero-item mt-10 flex flex-wrap gap-3" style="--delay: 0.60s;">
-        <a href="/CV_Paul_Thomas.pdf" target="_blank" rel="noopener noreferrer" 
+        <a href="/Paul_Thomas_Resume.pdf" target="_blank" rel="noopener noreferrer" 
            class="group flex items-center gap-2 px-4 py-2.5 border border-[#2dd4bf]/30 bg-[#2dd4bf]/[0.08] text-[#2dd4bf] font-mono text-[0.75rem] no-underline hover:bg-[#2dd4bf]/[0.15] hover:border-[#2dd4bf]/50 hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] hover:-translate-y-0.5 transition-all duration-300">
           <Icon name="uil:file-alt" size="16px" />
           <AsciiOdometerLink text="View Resume" class="text-inherit" />

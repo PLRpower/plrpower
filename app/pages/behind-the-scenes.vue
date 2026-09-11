@@ -28,10 +28,8 @@ useHead({
       <!-- Post Meta -->
       <div class="flex items-center gap-3 font-mono text-xs text-secondary/50 mb-3 uppercase tracking-widest">
         <span>Engineering Write-Up</span>
-        <span>•</span>
+        <span>|</span>
         <span>Paul Thomas</span>
-        <span>•</span>
-        <span>Nuxt 3 & 2D Canvas</span>
       </div>
 
       <!-- Article Title -->
@@ -59,7 +57,7 @@ useHead({
           <AsciiBanner :animated="true" :ping-pong="true" class="w-full max-w-[680px]" />
         </div>
         <p class="font-mono text-[0.7rem] text-secondary/50 text-center mt-6 tracking-wide">
-          ▲ Real-time render: continuous bidirectional loop (Forward Reveal → Hold → Reverse Dissolve → Hold). Hover with mouse to interact.
+          Real-time render, hover with mouse to interact.
         </p>
       </div>
 
@@ -78,21 +76,6 @@ useHead({
       <p class="mb-6">
         During the bloom phase, the character undergoes high-frequency shutter oscillation by sampling glyphs across a density ramp (<code class="font-mono text-xs text-accent">@, #, $, %, &, W, M, 8, 0, X, Z, *, +, =, ~, :</code>) with deterministic per-character color and saturation offsets until the leading edge settles.
       </p>
-
-      <h3 class="font-display text-xl font-bold text-primary mt-8 mb-4">
-        Reverse Sweep & Ping-Pong State Machine
-      </h3>
-
-      <p class="mb-6">
-        To achieve a seamless, continuous back-and-forth loop without memory allocations or Garbage Collector spikes, the animation loop partitions a fixed 4200 ms cycle into deterministic phases:
-      </p>
-
-      <ul class="list-disc pl-6 mb-6 space-y-2">
-        <li><strong>0 ms → 1200 ms (Forward Sweep):</strong> Left-to-right wavefront reveal with high-frequency shutter scrambling.</li>
-        <li><strong>1200 ms → 2200 ms (Resolved Hold):</strong> Fully settled state where all characters remain static.</li>
-        <li><strong>2200 ms → 3400 ms (Reverse Dissolve):</strong> Inverse wavefront sweep calculated via <code class="font-mono text-xs text-accent">(1 - clampedWave)</code>, dissolving characters back into empty space.</li>
-        <li><strong>3400 ms → 4200 ms (Hidden Hold):</strong> Idle rest interval before seamlessly repeating the cycle.</li>
-      </ul>
 
       <h3 class="font-display text-xl font-bold text-primary mt-8 mb-4">
         Cursor Interaction & Kinetic Dissipation Physics
@@ -173,7 +156,7 @@ useHead({
       <!-- Final Links -->
       <div class="mt-14 pt-8 border-t border-white/[0.08] flex flex-wrap gap-6 font-mono text-xs">
         <a
-          href="https://github.com/PLRpower/portfolio"
+          href="https://github.com/PLRpower/plrpower"
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-1.5 text-accent hover:underline"

@@ -78,13 +78,13 @@ useSchemaOrg([
 
     <!-- Project image -->
     <div class="mb-16 animate-project-in" style="animation-delay: 0.2s;" v-if="project.image">
-      <div class="relative w-full overflow-hidden border border-white/[0.06] bg-white/[0.98] group">
+      <div class="relative w-full overflow-hidden border border-white/[0.06] bg-[#050505] group">
         <div class="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-[#14b8a6]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 pointer-events-none"></div>
         <div class="p-8 md:p-12 flex justify-center items-center">
           <AsciiImage 
             :src="project.image" 
             :alt="project.title" 
-            class="max-w-full h-auto min-h-[300px]"
+            class="w-full aspect-video min-h-[300px]"
             mode="default-ascii"
             :resolution="project.resolution"
             :invert="project.invert"

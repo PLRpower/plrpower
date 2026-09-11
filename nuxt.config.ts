@@ -9,12 +9,17 @@ export default defineNuxtConfig({
     inlineStyles: false
   },
   modules: [
+    '@vercel/analytics',
+    '@vercel/speed-insights',
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxtjs/seo',
     '@nuxt/fonts',
     '@nuxtjs/tailwindcss'
   ],
+  ogImage: {
+    enabled: false
+  },
   image: {
     format: ['webp'],
     quality: 80,

@@ -75,6 +75,12 @@
               </div>
 
               <template v-else>
+                <!-- Honeypot (bot trap) -->
+                <div class="hidden" aria-hidden="true">
+                  <label for="contact_website">Do not fill this</label>
+                  <input type="text" id="contact_website" name="website" tabindex="-1" autocomplete="off" />
+                </div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <!-- Name Field -->
                   <div class="flex flex-col gap-2">
@@ -161,10 +167,20 @@ const submitStatus = ref<'success' | 'error' | null>(null);
 const handleContactSubmit = async (e: Event) => {
   const form = e.target as HTMLFormElement;
   const formData = new FormData(form);
+  const website = formData.get('website');
+
+  // Client-side drop if bot filled honeypot
+  if (website) {
+    submitStatus.value = 'success';
+    form.reset();
+    return;
+  }
+
   const payload = {
     name: formData.get('name'),
     email: formData.get('email'),
-    message: formData.get('message')
+    message: formData.get('message'),
+    website
   };
 
   isSubmitting.value = true;

@@ -398,9 +398,9 @@ const draw = (timestamp: number) => {
 
       ctx.fillStyle = `hsla(${baseHue}, ${sat}%, ${lightness}%, ${glowAlpha})`;
 
-      if (easeT > 0.3) {
+      if (easeT > 0.3 && dpr <= 1) {
         ctx.shadowColor = `hsla(${baseHue}, 100%, 55%, ${easeT * 0.65})`;
-        ctx.shadowBlur = Math.min(10, easeT * 8);
+        ctx.shadowBlur = Math.min(6, easeT * 6);
         ctx.fillText(charToDraw, drawX, drawY);
         ctx.shadowBlur = 0;
       } else {
@@ -430,15 +430,17 @@ const draw = (timestamp: number) => {
     animationFrameId = requestAnimationFrame(draw);
   } else {
     isAnimationFinished.value = true;
-    // Sleep when completely idle (0% CPU / 0 FPS). Wake up on mouse interaction or scheduled ambient glitch.
+    // Sleep when completely idle (0% CPU / 0 FPS). Wake up on mouse interaction or scheduled ambient glitch when visible.
     if (glitchTimeout) clearTimeout(glitchTimeout);
-    const sleepDelay = Math.max(300, nextAmbientGlitchTime - timestamp);
-    glitchTimeout = setTimeout(() => {
-      if (isVisible) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = requestAnimationFrame(draw);
-      }
-    }, sleepDelay);
+    if (isVisible) {
+      const sleepDelay = Math.max(500, nextAmbientGlitchTime - timestamp);
+      glitchTimeout = setTimeout(() => {
+        if (isVisible) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = requestAnimationFrame(draw);
+        }
+      }, sleepDelay);
+    }
   }
 };
 
@@ -723,6 +725,9 @@ onMounted(async () => {
         if (isVisible && !wasVisible) {
           cancelAnimationFrame(animationFrameId);
           animationFrameId = requestAnimationFrame(draw);
+        } else if (!isVisible && wasVisible) {
+          cancelAnimationFrame(animationFrameId);
+          if (glitchTimeout) clearTimeout(glitchTimeout);
         }
       }, { threshold: 0.1 });
 

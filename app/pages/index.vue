@@ -37,7 +37,7 @@ useHead({
         name: 'Paul Thomas',
         jobTitle: 'AI & Embedded Systems Engineering Student & Apprentice Researcher',
         description: 'CS engineering student and apprentice researcher at LINEACT Laboratory specializing in Artificial Intelligence, Machine Learning, Embedded Systems, and Federated Learning.',
-        url: 'https://paul-thomas.vercel.app',
+        url: 'https://pthomas.fr',
         sameAs: [
           'https://github.com/PLRpower',
           'https://www.linkedin.com/in/paul-thomas-strasbourg/'

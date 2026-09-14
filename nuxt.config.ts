@@ -4,7 +4,13 @@
 // noinspection JSUnusedGlobalSymbols
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/']
+    }
+  },
   features: {
     inlineStyles: false
   },
@@ -26,18 +32,18 @@ export default defineNuxtConfig({
   },
   fonts: {
     defaults: {
-      preload: true,
+      preload: false,
       subsets: ['latin']
     },
     families: [
-      { name: 'Geist', weights: [400, 500, 600, 700] },
-      { name: 'Geist Mono', weights: [400, 500] },
-      { name: 'Space Grotesk', weights: [500, 600, 700] },
-      { name: 'Caveat', weights: [400] }
+      { name: 'Geist', weights: [400, 500, 600, 700], preload: true },
+      { name: 'Geist Mono', weights: [400, 500], preload: true },
+      { name: 'Caveat', weights: [400], preload: true },
+      { name: 'Space Grotesk', weights: [500, 600, 700], preload: false }
     ]
   },
   site: {
-    url: 'https://paul-thomas.vercel.app',
+    url: 'https://pthomas.fr',
     name: 'Paul Thomas — AI & Embedded Systems Engineer',
     description: 'CS engineering student & apprentice researcher at LINEACT Laboratory in AI, Embedded Systems and Federated Learning. Seeking an international internship for 2027.'
   },

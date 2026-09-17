@@ -19,6 +19,8 @@ const props = withDefaults(
     groupHover?: boolean;
     hovered?: boolean;
     imageClass?: string;
+    loading?: 'lazy' | 'eager';
+    fetchpriority?: 'high' | 'low' | 'auto';
   }>(),
   {
     alt: '',
@@ -35,6 +37,8 @@ const props = withDefaults(
     groupHover: false,
     hovered: undefined,
     imageClass: '',
+    loading: 'lazy',
+    fetchpriority: 'auto',
   }
 );
 
@@ -244,7 +248,11 @@ let intersectionObserver: IntersectionObserver | null = null;
 let hasComputed = false;
 
 const triggerPrecompute = () => {
-  if (hasComputed || !imgElement) return;
+  if (hasComputed) return;
+  if (!imgElement) {
+    imgElement = new Image();
+    imgElement.crossOrigin = 'anonymous';
+  }
   if (imgElement.complete && imgElement.naturalWidth > 0) {
     hasComputed = true;
     precomputeAscii();
@@ -253,15 +261,16 @@ const triggerPrecompute = () => {
       hasComputed = true;
       precomputeAscii();
     };
+    if (imgElement.src !== props.src) {
+      imgElement.src = props.src;
+    }
   }
 };
 
 onMounted(() => {
-  imgElement = new Image();
-  imgElement.crossOrigin = 'anonymous';
-  imgElement.src = props.src;
-  
-  if (containerRef.value && typeof IntersectionObserver !== 'undefined') {
+  if (props.loading === 'eager') {
+    triggerPrecompute();
+  } else if (containerRef.value && typeof IntersectionObserver !== 'undefined') {
     intersectionObserver = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry?.isIntersecting) {
@@ -306,12 +315,12 @@ onBeforeUnmount(() => {
 });
 
 watch(() => [props.src, props.invert, props.resolution, props.brightness, props.contrast, props.charSpacing, props.charRamp, props.tintColor, props.colorMode, props.useOriginalColors], () => {
+  isReady.value = false;
+  hasComputed = false;
   if (imgElement) {
-    isReady.value = false;
-    hasComputed = false;
     imgElement.src = props.src;
-    triggerPrecompute();
   }
+  triggerPrecompute();
 });
 
 const canvasDynamicClass = computed(() => {
@@ -363,7 +372,9 @@ const imgDynamicClass = computed(() => {
       :alt="alt"
       class="w-full h-full object-cover transition-opacity duration-500 ease-in-out pointer-events-none"
       :class="[imgDynamicClass, imageClass]"
-      loading="lazy"
+      :loading="loading"
+      :fetchpriority="fetchpriority"
+      decoding="async"
     />
   </div>
 </template>

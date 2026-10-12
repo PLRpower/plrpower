@@ -12,7 +12,7 @@
           <span class="font-handwriting text-2xl text-accent/80">Education</span>
         </div>
         <h2 class="font-display text-[clamp(2.2rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-tight text-primary">
-          <SectionTitleReveal text="Academic Background" />
+          <SectionTitleReveal text="Academic background" />
         </h2>
       </div>
 

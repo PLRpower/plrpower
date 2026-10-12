@@ -1,0 +1,176 @@
+# Paul Thomas — Comprehensive Engineering & Research Profile
+
+## 1. Identity & Contact Information
+- Full Name: Paul Thomas
+- Current Position: Computer Science Engineering Student & Apprentice Research Engineer
+- Affiliation: LINEACT CESI Research Laboratory (Strasbourg, France) & CESI Graduate School of Engineering
+- Email: contact@pthomas.fr
+- Portfolio: https://pthomas.fr
+- GitHub: https://github.com/PLRpower
+- LinkedIn: https://www.linkedin.com/in/paul-thomas-strasbourg/
+- Target Goal: 3 to 4-month international internship starting June–July 2027 in AI, Embedded Systems, or Distributed Computing.
+
+## 2. Academic & Professional Background
+- **LINEACT Laboratory (CESI Research)**: Apprentice Research Engineer (Oct 2024 – Present, Strasbourg, FR). Focus on distributed Federated Learning frameworks across physical heterogeneous micro-clusters (Raspberry Pi 4 / 5, NVIDIA Jetson, Linux aggregation servers), latency analysis, gradient compression, and non-IID time-series convergence under network constraints.
+- **CESI Graduate School of Engineering**: Master of Science / Diplôme d'Ingénieur in Computer Science (2022 – 2027). Specializations in algorithms, systems engineering, machine learning, embedded architectures, and low-level networks.
+
+## 3. Core Technical Skills
+- **Languages**: Python, C, C++ (C++20), C# (.NET 10), TypeScript, JavaScript, Java, Kotlin, PHP 8+, SQL, Bash, PowerShell.
+- **Machine Learning & AI**: PyTorch, TensorFlow, Scikit-learn, Hugging Face LeRobot, PennyLane, Qiskit, OpenCV, YOLO (YOLO Pose / YOLO 12-class), Federated Learning (FedAvg, FedProx), Edge AI.
+- **Embedded & Hardware**: Arduino (AVR ATmega328 bare-metal), Raspberry Pi 4/5, NVIDIA Jetson, ROS 2, LiDAR SLAM, Nav2, SO-ARM101 robotic arm, BME280, GPS, I2C, SPI, UART, Timer ISRs.
+- **Systems & Web**: Nuxt 3, Vue 3, React 18, Vite, Node.js, Next.js, Supabase, Tailwind CSS, Docker, Docker Swarm, Redis, MySQL, Eloquent ORM, Spigot / Forge, Netty, HikariCP, GSAP, WebSockets, MQTT.
+- **Operations Research & Math**: PuLP / CBC (Branch and Cut), Integer Linear Programming (ILP), Miller-Tucker-Zemlin (MTZ) constraints, Genetic Algorithms (Order Crossover OX), NetworkX, Dijkstra, Graph Theory.
+
+---
+
+## 4. Complete Project Directory & Engineering Details
+
+### 1. Edge Federated Learning Platform
+- **URL**: https://pthomas.fr/projects/federated-learning
+- **GitHub**: https://github.com/PLRpower
+- **Stack**: Python, TensorFlow, Docker Swarm, WebSockets, MQTT
+- **Description**: Designed, implemented, and evaluated a distributed Federated Learning (FL) testbed platform at LINEACT CESI Research Laboratory across a heterogeneous 20-node cluster (Raspberry Pi 4/5, NVIDIA Jetson, Linux servers). Integrated asynchronous WebSocket and MQTT pipelines for model weight deltas, benchmarking edge convergence on non-IID time-series sensor data under bandwidth limits and node dropout constraints.
+- **Documents**: Technical Research Memo (https://pthomas.fr/THOMAS_Paul_Memoire_Technique_LINEACT.pdf), Internship Report (https://pthomas.fr/THOMAS_Paul_Rapport_de_Stage.pdf).
+
+### 2. Axiom Chess: Spatial Computing & HCI Ecosystem
+- **URL**: https://pthomas.fr/projects/axiom-chess
+- **GitHub**: https://github.com/PLRpower/axiom-chess
+- **Stack**: PyTorch, OpenCV, YOLO (Pose & 12-Class), Python, Augmented Reality
+- **Description**: An augmented chess ecosystem combining computer vision, AI evaluation, and projection-based augmented reality structured in three modules:
+  1. `axiom_engine`: Minimax Alpha-Beta search evaluating board states with a trained SGD linear regressor across 7 normalized heuristics (Material, King safety, Center control, Pressure, Development, Square control, Mobility).
+  2. `axiom_vision`: Computer vision pipeline using YOLO Pose (phase_a2.pt) for 4-corner board homography and a 12-class YOLO model (phase3.pt) with bottom-center anchor projection, temporal move stability, and PGN export.
+  3. `axiom_light`: Augmented reality projection mapping dynamic moves, legal paths, and danger zones directly onto the physical board using camera-projector homography and sub-millimeter nudge offsets.
+
+### 3. Mundo Browser: High-Performance Desktop & Privacy Engine
+- **URL**: https://pthomas.fr/projects/mundo-browser
+- **GitHub**: https://github.com/PLRpower/mundo-browser
+- **Stack**: C#, .NET 10, Microsoft WebView2, WPF-UI Fluent Design, EcoMode
+- **Description**: Fast, modern desktop web browser engineered from scratch on .NET 10 and WebView2. Features:
+  - Native dual-pane Split-View (horizontal/vertical) with persistent session restoration.
+  - In-process ad-blocking powered by compiled .NET 10 FrozenSet<string> domain lookup with zero remote telemetry.
+  - Automatic cookie banner dismissal.
+  - EcoMode memory manager dynamically suspending idle background tabs, reclaiming up to 1,328 MB RAM (19.4%) in 35-tab sessions while consuming just 1.09% idle CPU.
+  - Empirically benchmarked across 10 hardware machines against Chrome, Edge, and Brave.
+
+### 4. Delivery Route Optimization for Smart Multimodal Mobility
+- **URL**: https://pthomas.fr/projects/vehicle-route-optimization
+- **GitHub**: https://github.com/PLRpower/delivery-route-optimization
+- **Stack**: Python, PuLP / CBC Solver, NetworkX, Genetic Algorithms, Pandas
+- **Description**: Operations research logistics platform developed with CesiCDP for an ADEME call for projects. Formulates and solves the Traveling Salesman Problem with Precedence Constraints and Incomplete Graphs (TSP-CP), an NP-Hard problem on weighted graphs G = (V, E, c) with road closures and DAG delivery precedences.
+- **Algorithms Compared**:
+  1. Exact Integer Linear Programming (PuLP/CBC branch-and-cut with Miller-Tucker-Zemlin subtour elimination constraints).
+  2. Greedy Heuristic with 2-level backtracking ("relance") using precomputed Dijkstra shortest paths.
+  3. Evolutionary Genetic Algorithm using Order Crossover (OX) and penalty functions, tuned across population sweeps (5,000 population, 20-50% mutation).
+
+### 5. Conway's Game of Life: Advanced C++20 & Parallel Engine
+- **URL**: https://pthomas.fr/projects/conway-game-of-life
+- **GitHub**: https://github.com/PLRpower/conway-game-of-life
+- **Stack**: C++20, OpenMP, SFML, CMake, SOLID Architecture
+- **Description**: High-performance cellular automaton in C++20 demonstrating clean OOP, SOLID design, and parallel optimization.
+  - Decoupled architecture: JeuDeLaVie, Grille, Cellule, Fichier, Affichage.
+  - Polymorphic display: Minimalist text console vs hardware-accelerated SFML 2D GUI with dynamic screen auto-resizing.
+  - OpenMP loop parallelization over contiguous grid memory buffers.
+  - Toroidal grid wrapping with modular arithmetic, fixed-state obstacle cells, and double-buffered state synchronization.
+  - 16 technical UML diagrams, code implementations, and simulation captures documented in the repository.
+
+### 6. WorldWide Weather Watcher (3W): Maritime IoT Station
+- **URL**: https://pthomas.fr/projects/embedded-weather-station
+- **GitHub**: https://github.com/PLRpower/embedded-weather-station
+- **Stack**: C++, Arduino UNO R3, AVR ATmega328, BME280, GPS, SysML & UML
+- **Description**: Resilient maritime embedded weather station prototype built for startup THS to predict and prevent cyclones at sea.
+  - Systems engineering: Comprehensive SysML "Bête à cornes", "Pieuvre" interaction diagrams, and UML activity/component/use-case modeling.
+  - 4 Operational Modes: Standard (10m logging), Economy (battery saving), Maintenance (safe SD hot-swap buffer flushing), and Configuration (boot CLI console).
+  - Non-blocking execution using hardware interrupts and Timer ISRs on 8-bit AVR hardware with 2 KB SRAM.
+  - FAT32 SD card file rotation preventing data corruption during power loss.
+
+### 7. Hydro Regen: Regenerative Hydrology Platform
+- **URL**: https://pthomas.fr/projects/hydro-regen
+- **GitHub**: https://github.com/PLRpower/hydro-regen
+- **Awards**: 3rd Place Overall & "Coup de Cœur" Jury Award from the Office International de l'Eau (OiEau) at Aquathon 2024.
+- **Stack**: Nuxt.js, Vue 3, Leaflet, OpenStreetMap, Tailwind CSS
+- **Description**: Interactive geospatial decision-support tool built in 48 hours within a 10-person interdisciplinary team of engineers, hydrologists, and environmental specialists. Implements Prof. Karl Matthias Wantzen's regenerative hydrology principles, enabling users to explore watershed boundaries ("bassins versants"), draw custom intervention polygons, and simulate ecological water retention interventions.
+
+### 8. À la carte — Modern Kitchen Operating System
+- **URL**: https://pthomas.fr/projects/a-la-carte
+- **Live Demo**: https://a-la-carte-app.vercel.app/
+- **GitHub**: https://github.com/PLRpower/a-la-carte
+- **Stack**: React 18, Vite, TypeScript, Tailwind CSS, Supabase (PostgreSQL, RLS, Storage), Deno Edge Functions, Google Gemini API, Stripe, PWA
+- **Description**: Unified collaborative kitchen OS for families. Features:
+  - Private family workspace with real-time multi-user synchronization via Supabase PostgreSQL Row-Level Security (`public.is_shared_with_me`).
+  - Multi-modal recipe ingestion: manual input, Google Gemini AI chef suggestion from current fridge stock, one-click URL web scraper, and camera OCR vision scanner for physical cookbook cards.
+  - Curated catalogue of 108 verified recipes with thematic Starter Packs.
+  - Aisle-optimized shopping lists with optimistic TanStack Query cache updates.
+  - Offline-capable installable Progressive Web App.
+
+### 9. RobotKraft — Autonomous Robotic Arm
+- **URL**: https://pthomas.fr/projects/robotkraft
+- **GitHub**: https://github.com/PLRpower/robotkraft-participant
+- **Stack**: Python 3.12, Hugging Face LeRobot, PyTorch, Docker, SO-ARM101
+- **Description**: Physical AI manipulation system developed during RobotKraft (3-day robotics hackathon by Alsace Digitale at InnovLab Strasbourg). Leveraged Hugging Face LeRobot and multi-camera computer vision (InnoMaker U20CAM wrist camera, OAK-D Lite depth scene camera) to train imitation learning policies on a physical dual SO-ARM101 robotic arm (leader/follower setup) under Docker containerization.
+
+### 10. Avenird: Digital Sovereignty & NIRD Platform
+- **URL**: https://pthomas.fr/projects/avenird
+- **Live Demo**: https://avenird.vercel.app/
+- **GitHub**: https://github.com/PLRpower/Avenird
+- **Stack**: React, Vite, JavaScript, SCSS, GSAP, Lenis, Google Gemini API
+- **Description**: Educational web platform developed in 15 hours overnight for Nuit de l'Info 2025 ("Le Village Numérique Résistant"). Promotes digital sovereignty and hardware reuse in schools. Features:
+  - TruthBot AI Model Arena for side-by-side Gemini API querying.
+  - Subversive anti-ergonomic contact form with cascading React logic switches.
+  - Playable retro Snake game easter egg.
+  - Hybrid 8-bit retro-modern aesthetics with GSAP animations.
+
+### 11. Intern Rift — Web4All Platform
+- **URL**: https://pthomas.fr/projects/intern-rift
+- **Live Demo**: https://projet-web-alpha.vercel.app
+- **GitHub**: https://github.com/PLRpower/intern-rift
+- **Stack**: PHP 8+, Custom MVC, Eloquent ORM (Illuminate/Database), MySQL, Twig, PSR-12
+- **Description**: Centralized internship search platform engineered with a handcrafted PHP MVC framework without external monolithic frameworks. Features Role-Based Access Control (RBAC) for Admins, Coordinators, and Students, company evaluation ratings, wishlist management, direct CV uploads with UUID sanitization, and administrative KPI tracking dashboards.
+
+### 12. TIDES — Climate Misinformation Detector
+- **URL**: https://pthomas.fr/projects/tides
+- **GitHub**: https://github.com/PLRpower/tides
+- **Stack**: Nuxt 3, Vue.js, Tailwind CSS, TypeScript, GSAP, AOS
+- **Description**: Educational web tool built in 15h for Nuit de l'Info 2023 for the Réseau Action Climat challenge. Exposes greenwashing corporate marketing through an immersive landing page, a satirical anti-UX parody page (`contact.vue`), and hackathon team tributes.
+
+### 13. Exolia Ecosystem Architecture
+- **URL**: https://pthomas.fr/projects/exolia
+- **GitHub**: https://github.com/PLRpower/exolia
+- **Stack**: Java, Kotlin, Gradle Monorepo, Spigot, Forge, Netty, HikariCP
+- **Description**: Distributed multiplayer gaming ecosystem monorepo. Spans Forge 1.12.2 coremod framework injections, Forge 1.16.5 custom rendering pipelines, high-throughput Spigot server plugins using HikariCP asynchronous MySQL connection pooling, and a standalone Java desktop launcher with automated updates.
+
+### 14. Variational Quantum Classifiers (QML)
+- **URL**: https://pthomas.fr/projects/variational-quantum-classifiers
+- **GitHub**: https://github.com/PLRpower
+- **Stack**: PennyLane, PyTorch, Qiskit, Quantum Computing
+- **Description**: Research and engineering of hybrid quantum-classical neural networks (VQC). Integrates parameterized quantum circuits with classical backpropagation, analyzes barren plateaus, and evaluates noise robustness on multidimensional data under noisy quantum simulation backends.
+
+### 15. Custom Search Robot: Autonomous Indoor Mapping
+- **URL**: https://pthomas.fr/projects/custom-search-robot
+- **GitHub**: https://github.com/PLRpower
+- **Stack**: ROS 2, LiDAR SLAM, YOLO, Nav2, Embedded Linux
+- **Description**: Autonomous mobile search robot engineered for GPS-denied indoor reconnaissance. Employs LiDAR SLAM mapping, Nav2 autonomous path planning, and embedded YOLO computer vision for target recognition.
+
+### 16. Mundo Search: AI Mindmap Search Engine
+- **URL**: https://pthomas.fr/projects/mundo-search
+- **GitHub**: https://github.com/PLRpower/mundo-search
+- **Stack**: TypeScript, Next.js, Tailwind CSS, Generative AI
+- **Description**: Next-generation search engine that synthesizes search queries into interactive visual concept mindmaps and knowledge trees rather than traditional flat result lists.
+
+### 17. Web Projects Monorepo
+- **URL**: https://pthomas.fr/projects/web-projects
+- **GitHub**: https://github.com/PLRpower/web-projects
+- **Stack**: TypeScript, Vue, Node.js, React
+- **Description**: Centralized monorepo consolidating production web apps, campus platforms (`cesi-arena`, `cesi-drop`, `kompas`, `portfolio-studio-cesi`), and financial backend services (`tnptrading`).
+
+### 18. Computer Science & Algorithms Collection
+- **URL**: https://pthomas.fr/projects/python-cs-courses
+- **GitHub**: https://github.com/PLRpower/python-cs-courses
+- **Stack**: Python, Django, Pygame, Data Structures, Algorithms
+- **Description**: Curated portfolio of algorithms and systems: Django library management system, Lotka-Volterra predator-prey simulation in Pygame, constraint-satisfaction Sudoku solver, and algorithmic modules (BSTs, Graph traversal, Cryptography, Turing machines).
+
+---
+
+## 5. Regulatory, Compliance & Privacy Information
+- Legal notice: https://pthomas.fr/legal
+- Host: Vercel Inc. (San Francisco, CA, USA)
+- Cookie Policy: Zero tracking cookies. Cookie-free privacy-respecting metrics (Vercel Analytics). Fully compliant with EU GDPR and French CNIL standards without requiring consent banners.

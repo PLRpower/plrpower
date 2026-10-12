@@ -20,7 +20,7 @@
               <SectionTitleReveal text="Let's talk." />
             </h2>
 
-            <p class="text-secondary/70 text-base md:text-lg leading-relaxed mb-10">
+            <p class="text-secondary/70 text-sm md:text-base leading-relaxed mb-10">
               Currently seeking a <span class="text-accent font-medium">3 to 4-month international internship</span> starting June–July 2027. Have an exciting research idea, AI/embedded engineering opportunity, or want to collaborate? Send a message or reach out directly.
             </p>
           </div>
@@ -37,16 +37,16 @@
 
             <div class="flex flex-wrap gap-3">
               <a href="https://github.com/PLRpower" target="_blank" rel="noopener noreferrer" 
-                 class="flex items-center gap-2 px-4 py-2.5 border border-white/[0.06] bg-white/[0.02] font-mono text-[0.75rem] text-secondary/70 no-underline hover:text-accent hover:border-accent/20 hover:bg-accent/[0.03] transition-all duration-300">
+                 class="group flex items-center gap-2 px-4 py-2.5 border border-white/[0.06] bg-white/[0.02] font-mono text-[0.75rem] text-secondary/70 no-underline hover:text-accent hover:border-accent/20 hover:bg-accent/[0.03] hover:-translate-y-0.5 transition-all duration-300">
                 <Icon name="uil:github" size="16px" />
-                <span>GitHub</span>
-                <Icon name="material-symbols:arrow-outward" size="12px" class="opacity-60" />
+                <AsciiOdometerLink text="GitHub" class="text-inherit" />
+                <Icon name="material-symbols:arrow-outward" size="12px" class="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </a>
               <a href="https://www.linkedin.com/in/paul-thomas-strasbourg/" target="_blank" rel="noopener noreferrer" 
-                 class="flex items-center gap-2 px-4 py-2.5 border border-white/[0.06] bg-white/[0.02] font-mono text-[0.75rem] text-secondary/70 no-underline hover:text-accent hover:border-accent/20 hover:bg-accent/[0.03] transition-all duration-300">
+                 class="group flex items-center gap-2 px-4 py-2.5 border border-white/[0.06] bg-white/[0.02] font-mono text-[0.75rem] text-secondary/70 no-underline hover:text-accent hover:border-accent/20 hover:bg-accent/[0.03] hover:-translate-y-0.5 transition-all duration-300">
                 <Icon name="uil:linkedin" size="16px" />
-                <span>LinkedIn</span>
-                <Icon name="material-symbols:arrow-outward" size="12px" class="opacity-60" />
+                <AsciiOdometerLink text="LinkedIn" class="text-inherit" />
+                <Icon name="material-symbols:arrow-outward" size="12px" class="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </a>
             </div>
           </div>
@@ -131,17 +131,24 @@
                 </div>
                 
                 <!-- Action Row -->
-                <div class="pt-2">
+                <div class="pt-2 flex flex-col gap-3">
                   <button 
                     type="submit" 
                     :disabled="isSubmitting"
-                    class="flex items-center justify-center gap-3 py-3.5 px-8 rounded-md font-mono text-sm cursor-pointer transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group/btn bg-accent/[0.08] border border-accent/30 text-accent hover:bg-accent hover:text-black hover:shadow-[0_0_20px_rgba(45,212,191,0.25)] hover:-translate-y-0.5 active:translate-y-0 font-medium"
+                    class="group inline-flex items-center justify-center gap-2.5 px-6 py-3 border border-accent/30 bg-accent/[0.08] text-accent hover:bg-accent/[0.15] hover:border-accent/50 hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] hover:-translate-y-0.5 active:translate-y-0 font-mono text-[0.85rem] cursor-pointer transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none w-fit"
                   >
-                    <span v-if="!isSubmitting">Send Message</span>
+                    <AsciiOdometerLink v-if="!isSubmitting" text="Send Message" class="text-inherit" />
                     <span v-else>Sending...</span>
-                    <Icon v-if="!isSubmitting" name="ph:paper-plane-right-bold" size="16px" class="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                    <Icon v-if="!isSubmitting" name="ph:paper-plane-right-bold" size="16px" class="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                     <Icon v-else name="line-md:loading-twotone-loop" size="18px" />
                   </button>
+
+                  <p class="font-mono text-[11px] text-secondary/50 leading-relaxed">
+                    Submitted data is processed solely to respond to your inquiry (GDPR).
+                    <span class="block">
+                      View the <NuxtLink to="/legal#en-privacy" class="text-accent/80 hover:text-accent underline">Legal Notice & Privacy Policy</NuxtLink>.
+                    </span>
+                  </p>
                 </div>
                 
                 <!-- Error alert -->

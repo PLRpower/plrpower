@@ -138,10 +138,10 @@
                     :href="activeExp.document.url" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2.5 px-4 py-2 border border-accent/30 bg-accent/[0.06] text-accent hover:bg-accent/[0.12] hover:border-accent/60 transition-all duration-300 font-mono text-xs group"
+                    class="group inline-flex items-center gap-2.5 px-4 py-2 border border-accent/30 bg-accent/[0.06] text-accent hover:bg-accent/[0.12] hover:border-accent/60 hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] hover:-translate-y-0.5 transition-all duration-300 font-mono text-xs no-underline"
                   >
                     <Icon name="uil:file-alt" size="16px" class="group-hover:scale-110 transition-transform" />
-                    <span>{{ activeExp.document.label }}</span>
+                    <AsciiOdometerLink :text="activeExp.document.label" class="text-inherit" />
                     <span class="text-[10px] opacity-75 font-semibold">[PDF]</span>
                     <Icon name="material-symbols:arrow-outward" size="14px" class="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   </a>
@@ -188,7 +188,7 @@ const experiencesData = [
     document: {
       title: 'Mémoire Technique - LINEACT',
       url: '/THOMAS_Paul_Memoire_Technique_LINEACT.pdf',
-      label: 'Read Mémoire Technique'
+      label: 'Read Technical Report'
     }
   },
   {
@@ -204,7 +204,7 @@ const experiencesData = [
     document: {
       title: 'Rapport de Stage - LINEACT',
       url: '/THOMAS_Paul_Rapport_de_Stage.pdf',
-      label: 'Read Rapport de Stage'
+      label: 'Read Technical Report'
     }
   },
   {

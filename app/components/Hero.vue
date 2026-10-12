@@ -33,14 +33,14 @@ onBeforeUnmount(() => {
            style="--delay: 0.30s;">
         <h2 class="text-[clamp(0.875rem,1.5vw,1.05rem)] font-normal tracking-wider text-primary/90 mt-4">
           <span class="font-handwriting text-[clamp(1.05rem,2vw,1.35rem)] align-baseline font-normal mr-1.5 leading-none text-accent">An</span>
-          AI & Embedded Systems Engineering Apprentice at LINEACT Research Laboratory · CS Student at CESI
+          ML/AI & Embedded Systems Engineering Apprentice at LINEACT Research Laboratory · CS Student at CESI
         </h2>
       </div>
       <div class="hero-item flex flex-col items-start text-left" 
            style="--delay: 0.45s;">
         <p class="text-[clamp(0.875rem,1.5vw,1.05rem)] font-normal tracking-wider text-primary/90 mt-3">
           <span class="font-handwriting text-[clamp(1.05rem,2vw,1.35rem)] align-baseline font-normal mr-1.5 leading-none text-accent">Currently seeking</span>
-          a 3 to 4-month international research & engineering internship in Machine Learning & Federated Learning starting June–July 2027.
+          a 3 to 4-month international research/engineering internship starting June–July 2027.
         </p>
       </div>
 

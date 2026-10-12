@@ -12,9 +12,18 @@
             <div class="mb-6">
               <span class="font-handwriting text-2xl text-accent/80">Projects</span>
             </div>
-            <h2 class="font-display text-[clamp(2.2rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-tight text-primary">
-              <SectionTitleReveal text="Selected work" />
-            </h2>
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+              <h2 class="font-display text-[clamp(2.2rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-tight text-primary">
+                <SectionTitleReveal text="Selected work" />
+              </h2>
+              <NuxtLink 
+                to="/projects"
+                class="group inline-flex items-center gap-2 px-4 py-2 border border-accent/30 bg-accent/[0.04] text-accent hover:bg-accent/[0.12] hover:border-accent/60 hover:shadow-[0_0_15px_rgba(45,212,191,0.15)] hover:-translate-y-0.5 font-mono text-[0.8rem] tracking-wider transition-all duration-300 no-underline self-start sm:self-end mb-1"
+              >
+                <AsciiOdometerLink text="View all projects" class="text-inherit" />
+                <Icon name="material-symbols:arrow-forward" size="16px" class="transition-transform duration-300 group-hover:translate-x-1" />
+              </NuxtLink>
+            </div>
           </div>
         </div>
 
@@ -36,7 +45,7 @@
                 <AsciiImage 
                   v-if="project.image"
                   :src="project.image" 
-                  :alt="project.title" 
+                  :alt="`${project.title} — ${project.label}`" 
                   class="w-full h-full object-cover" 
                   mode="default-ascii"
                   :resolution="project.resolution"
@@ -97,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { getFeaturedProjects, type Project } from '~/data/projects';
 
 interface ProjectSlide extends Partial<Project> {
@@ -124,7 +133,7 @@ const updateHoverPos = (e: MouseEvent) => {
 const projectsData: ProjectSlide[] = [
   ...getFeaturedProjects().map(p => ({
     ...p,
-    tech: p.tech.replace(/ \| /g, ' · ')
+    tech: p.tech.split(' | ').slice(0, 3).join(' · ')
   })),
   {
     id: 'view-all',

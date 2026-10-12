@@ -9,16 +9,16 @@
           <Icon name="uil:arrow-left" size="16px" class="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to home
         </NuxtLink>
-        <h1 class="font-display text-[clamp(3rem,8vw,6rem)] font-extrabold leading-[1.05] tracking-tight text-primary mb-6">
-          Selected<br>Works
+        <h1 class="font-display text-[clamp(2rem,7vw,6rem)] font-extrabold leading-[1.05] tracking-tight text-primary mb-6">
+          Selected Works
         </h1>
-        <p class="text-xl text-secondary/70 max-w-2xl leading-relaxed">
+        <p class="text-xl text-secondary/70 leading-relaxed">
           A showcase of my projects across AI, Embedded Systems, and Web Engineering.
         </p>
       </div>
 
       <!-- Bento Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[320px]">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[320px] grid-flow-dense">
         
         <NuxtLink 
           v-for="project in allProjects" 
@@ -34,7 +34,7 @@
           <div v-if="project.image && isFeaturedCard(project.gridClass)" class="absolute inset-0 z-0">
             <AsciiImage 
               :src="project.image" 
-              :alt="project.title"
+              :alt="`${project.title} — ${project.label}`"
               class="w-full h-full object-cover" 
               mode="default-ascii"
               :resolution="project.resolution"
@@ -46,16 +46,17 @@
               :tint-color="project.tintColor"
               :color-mode="project.colorMode"
               :use-original-colors="project.useOriginalColors"
+              :group-hover="true"
             />
             <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#050505]/85 via-[#050505]/20 to-transparent pointer-events-none"></div>
           </div>
 
-          <!-- Split Image for Wide (2x1) or Tall (1x2) Cards -->
-          <div v-else-if="project.image" class="relative flex-shrink-0 overflow-hidden bg-black w-full" 
+          <!-- Split Image for Wide (2x1) Cards -->
+          <div v-else-if="project.image && isWideCard(project.gridClass)" class="relative flex-shrink-0 overflow-hidden bg-black w-full" 
                :class="getImageClass(project.gridClass)">
             <AsciiImage 
               :src="project.image" 
-              :alt="project.title"
+              :alt="`${project.title} — ${project.label}`"
               class="w-full h-full object-cover" 
               mode="default-ascii"
               :resolution="project.resolution"
@@ -67,6 +68,7 @@
               :tint-color="project.tintColor"
               :color-mode="project.colorMode"
               :use-original-colors="project.useOriginalColors"
+              :group-hover="true"
             />
           </div>
           
@@ -76,11 +78,11 @@
           </div>
 
           <!-- Content Section -->
-          <div class="relative z-10 flex flex-col flex-grow p-6 md:p-8"
+          <div class="relative z-10 flex flex-col flex-grow p-6 md:p-8" 
                :class="{ 'justify-end h-full': isFeaturedCard(project.gridClass) }">
             
             <!-- Top part of content -->
-            <div class="flex items-center justify-between mb-4" 
+            <div class="flex items-center justify-between mb-3" 
                  :class="{ 'absolute top-8 right-8 left-8': isFeaturedCard(project.gridClass) }">
               <span class="font-mono text-[0.65rem] font-bold px-2 py-1 bg-accent/10 text-accent rounded-md tracking-wider uppercase">
                 {{ project.category }}
@@ -94,19 +96,16 @@
 
             <!-- Bottom part of content -->
             <div :class="isFeaturedCard(project.gridClass) ? 'mt-auto' : 'flex flex-col flex-grow'">
-              <h2 class="font-display text-2xl md:text-3xl font-bold mb-3"
-                  :class="isFeaturedCard(project.gridClass) ? 'text-white' : 'text-primary'">{{ project.title }}</h2>
+              <h2 class="font-display font-bold leading-tight mb-3" 
+                  :class="getTitleClass(project.gridClass)">{{ project.title }}</h2>
               
               <p class="text-sm leading-relaxed mb-6" 
-                 :class="[
-                    project.gridClass.includes('row-span-1') && !project.gridClass.includes('col-span-2') ? 'line-clamp-2' : 'line-clamp-4',
-                    isFeaturedCard(project.gridClass) ? 'text-white/70 max-w-[80%]' : 'text-secondary/70 flex-grow'
-                 ]">
+                 :class="getDescriptionClass(project.gridClass)">
                 {{ project.description }}
               </p>
               
               <div class="flex flex-wrap gap-2 mt-auto pt-2">
-                <span v-for="tech in project.techs" :key="tech" class="px-2.5 py-1 rounded-md border text-[0.65rem] font-mono"
+                <span v-for="tech in project.techs" :key="tech" class="px-2.5 py-1 rounded-md border text-[0.65rem] font-mono" 
                       :class="isFeaturedCard(project.gridClass) ? 'text-white/90 bg-white/10 border-white/10' : 'text-secondary/80 bg-white/[0.03] border-white/[0.05]'">
                   {{ tech }}
                 </span>
@@ -127,13 +126,33 @@ useHead({
   title: 'Selected Works | Paul Thomas'
 });
 
-const isFeaturedCard = (gridClass: string) => gridClass.includes('col-span-2') && gridClass.includes('row-span-2');
-const isWideCard = (gridClass: string) => gridClass.includes('col-span-2') && gridClass.includes('row-span-1');
+const isFeaturedCard = (gridClass: string) => gridClass.includes('lg:col-span-2') && gridClass.includes('row-span-2');
+const isWideCard = (gridClass: string) => gridClass.includes('lg:col-span-2') && gridClass.includes('row-span-1');
 
 const getImageClass = (gridClass: string) => {
   if (isWideCard(gridClass)) {
     return 'md:w-[45%] h-[200px] md:h-full border-r border-white/[0.05]';
   }
   return 'h-[45%] border-b border-white/[0.05]';
+};
+
+const getTitleClass = (gridClass: string) => {
+  if (isFeaturedCard(gridClass)) {
+    return 'text-white text-2xl md:text-3xl';
+  }
+  if (isWideCard(gridClass)) {
+    return 'text-primary text-2xl md:text-3xl';
+  }
+  return 'text-primary text-xl md:text-2xl';
+};
+
+const getDescriptionClass = (gridClass: string) => {
+  if (isFeaturedCard(gridClass)) {
+    return 'line-clamp-4 text-white/70 max-w-[80%]';
+  }
+  if (isWideCard(gridClass)) {
+    return 'line-clamp-4 text-secondary/70 flex-grow';
+  }
+  return 'line-clamp-3 text-secondary/70 flex-grow';
 };
 </script>

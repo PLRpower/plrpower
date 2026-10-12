@@ -22,7 +22,7 @@
           <div class="about-photo relative group">
             <AsciiImage 
               src="/images/other/profile.webp" 
-              alt="Paul Thomas" 
+              alt="Paul Thomas — CS Engineering Student & Apprentice Researcher in AI & Embedded Systems" 
               class="w-full aspect-[3/4] object-cover"
               mode="default-photo"
               :resolution="200"
@@ -43,13 +43,13 @@
 
         <!-- Text column -->
         <div class="md:col-span-7 md:col-start-6 md:pt-12">
-          <p class="about-text text-[clamp(1rem,2vw,1.2rem)] leading-[2] text-secondary/80">
+          <p class="about-text text-[clamp(0.875rem,1.5vw,1.05rem)] leading-[2] text-secondary/80">
             I am a Computer Science engineering student at <span class="text-primary font-medium">CESI</span> and an Apprentice Research Engineer at <span class="text-primary font-medium">LINEACT Laboratory</span>. My work centers on distributed machine learning and Edge AI, specifically designing and benchmarking <span class="text-accent font-medium">Federated Learning</span> architectures deployed across physical clusters of resource-constrained devices.
           </p>
-          <p class="about-text text-[clamp(1rem,2vw,1.2rem)] leading-[2] text-secondary/80 mt-6">
+          <p class="about-text text-[clamp(0.875rem,1.5vw,1.05rem)] leading-[2] text-secondary/80 mt-6">
             I operate at the intersection of mathematical modeling, algorithmic theory, and systems engineering. Whether optimizing low-level firmware in <span class="text-primary font-medium">C/C++</span>, training deep learning models in <span class="text-primary font-medium">PyTorch</span>, or architecting scalable full-stack applications with <span class="text-primary font-medium">TypeScript</span> and <span class="text-primary font-medium">Docker</span>, I prioritize computational efficiency, fault-tolerance, and clean architecture.
           </p>
-          <p class="about-text text-[clamp(1rem,2vw,1.2rem)] leading-[2] text-secondary/80 mt-6">
+          <p class="about-text text-[clamp(0.875rem,1.5vw,1.05rem)] leading-[2] text-secondary/80 mt-6">
             From winning awards in rapid-prototyping hackathons to tackling complex combinatorial optimization problems, I thrive on transforming abstract research into robust, real-world systems. I am currently seeking a <span class="text-accent font-medium">3 to 4-month international research or engineering internship starting June–July 2027</span> to collaborate on cutting-edge challenges in AI, autonomous systems, and distributed computing.
           </p>
 

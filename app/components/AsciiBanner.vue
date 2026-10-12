@@ -773,7 +773,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div ref="containerRef"
-       class="my-2 w-full max-w-[1180px] [contain:layout] aspect-[13166/2415]" 
+       class="my-2 w-full max-w-[1180px] [contain:layout] aspect-[3886/483] flex items-center justify-center" 
        @mousemove.passive="handleWindowMouseMove">
     <div v-if="instant" class="text-white font-mono text-[clamp(0.35rem,0.7vw,0.75rem)] leading-tight select-none pointer-events-none" aria-hidden="true">
       <pre v-for="(line, idx) in rawLines" :key="idx" class="m-0 pre-wrap">{{ line }}</pre>

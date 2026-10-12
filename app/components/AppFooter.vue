@@ -200,10 +200,17 @@ const currentYear = new Date().getFullYear();
 
       </div>
 
-      <!-- Bottom Bar: Copyright & How it was built link -->
+      <!-- Bottom Bar: Copyright, Legal & How it was built link -->
       <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-secondary/50">
-        <div>
+        <div class="flex flex-wrap items-center gap-3">
           <span>© {{ currentYear }} Paul Thomas</span>
+          <span class="text-white/20 hidden sm:inline">•</span>
+          <NuxtLink
+            to="/legal"
+            class="text-secondary/60 hover:text-accent transition-colors duration-200"
+          >
+            Legal & Privacy / Mentions Légales
+          </NuxtLink>
         </div>
 
         <div>

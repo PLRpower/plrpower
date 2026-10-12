@@ -5,10 +5,17 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
+  experimental: {
+    appManifest: false,
+    payloadExtraction: false
+  },
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/']
+      routes: ['/', '/legal', '/mentions-legales']
+    },
+    devStorage: {
+      'cache:nuxt:payload': { driver: 'memory' }
     }
   },
   features: {
@@ -61,7 +68,8 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-        { rel: 'alternate icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'alternate icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'alternate', type: 'text/markdown', href: '/llms.txt', title: 'LLM Context' }
       ]
     }
   },
@@ -72,7 +80,8 @@ export default defineNuxtConfig({
         '@vue/devtools-core',
         '@vue/devtools-kit',
         'gsap',
-        'gsap/ScrollTrigger'
+        'gsap/ScrollTrigger',
+        '@unhead/schema-org/vue'
       ]
     }
   }

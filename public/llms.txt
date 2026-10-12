@@ -1,0 +1,45 @@
+# Paul Thomas — Portfolio & Engineering Context
+
+> Computer Science Engineering Student & Apprentice Researcher in AI, Embedded Systems, and Federated Learning.
+
+## Summary
+- **Name**: Paul Thomas
+- **Role**: CS Engineering Student (CESI Graduate School of Engineering) & Apprentice Research Engineer (LINEACT CESI Laboratory)
+- **Location**: Strasbourg, France
+- **Contact**: contact@pthomas.fr
+- **Website**: https://pthomas.fr
+- **GitHub**: https://github.com/PLRpower
+- **LinkedIn**: https://www.linkedin.com/in/paul-thomas-strasbourg/
+- **Availability**: Seeking a 3 to 4-month international internship starting June–July 2027 in AI, Embedded Systems, or Distributed Computing.
+
+## Key Focus Areas
+- **Distributed AI & Federated Learning**: Designing, implementing, and evaluating decentralized collaborative machine learning architectures across physical edge device clusters (Raspberry Pi 4/5, NVIDIA Jetson, Linux aggregation servers).
+- **Embedded Systems & Low-Level**: Firmware engineering in C/C++, AVR ATmega328 bare-metal, ROS 2, Linux kernels, real-time sensor ingestion, non-blocking Timer ISRs, serial/MQTT/WebSocket protocols.
+- **Full-Stack, Systems & Operations Research**: Scalable systems in C# (.NET 10), Python, PyTorch, C++20, TypeScript, Nuxt 3, React, Docker Swarm, and combinatorial optimization solvers (PuLP/CBC, Genetic Algorithms).
+
+## All Projects & Engineering Artifacts
+- **Edge Federated Learning Platform**: Distributed ML testbed on a 20-node physical cluster at LINEACT Laboratory. (https://pthomas.fr/projects/federated-learning)
+- **Axiom Chess**: Spatial computing and AR chess ecosystem combining YOLO computer vision, hybrid Minimax ML engine, and dynamic AR board projection. (https://pthomas.fr/projects/axiom-chess)
+- **Mundo Browser**: High-performance desktop browser built on .NET 10 and WebView2 with native split-view, in-process ad-blocking (FrozenSet), and EcoMode memory manager. (https://pthomas.fr/projects/mundo-browser)
+- **Delivery Route Optimization (TSP-CP)**: Operations research platform solving Traveling Salesman Problems with Precedence Constraints using exact ILP (PuLP/CBC), heuristics, and Genetic Algorithms. (https://pthomas.fr/projects/vehicle-route-optimization)
+- **Conway's Game of Life**: High-performance C++20 cellular automaton with OpenMP multi-threading, SFML/Console dual rendering, and SOLID architecture. (https://pthomas.fr/projects/conway-game-of-life)
+- **WorldWide Weather Watcher (3W)**: Resilient maritime embedded weather station on Arduino UNO R3 with SysML modeling, 4 state-machine operational modes, and FAT32 fail-safe SD rotation. (https://pthomas.fr/projects/embedded-weather-station)
+- **Hydro Regen**: Award-winning regenerative hydrology mapping platform (3rd Place & Jury's Favorite from Office International de l'Eau at Aquathon 2024). (https://pthomas.fr/projects/hydro-regen)
+- **À la carte**: Modern collaborative kitchen operating system with multi-modal AI (camera OCR, Gemini suggestions, URL scraper) and Supabase PostgreSQL RLS. (https://pthomas.fr/projects/a-la-carte)
+- **RobotKraft — Autonomous Robotic Arm**: Embodied AI and imitation learning on physical SO-ARM101 arms using Hugging Face LeRobot and Docker. (https://pthomas.fr/projects/robotkraft)
+- **Avenird**: Digital sovereignty and open-source education platform built in 15h for Nuit de l'Info 2025, featuring TruthBot AI Arena and anti-ergonomic UI. (https://pthomas.fr/projects/avenird)
+- **Intern Rift — Web4All**: Handcrafted PHP 8+ MVC architecture without frameworks, Eloquent ORM, and Role-Based Access Control. (https://pthomas.fr/projects/intern-rift)
+- **TIDES**: Satirical greenwashing detector and interactive web experience built in 15h for Nuit de l'Info 2023. (https://pthomas.fr/projects/tides)
+- **Exolia Ecosystem Architecture**: Distributed gaming infrastructure monorepo with Spigot high-throughput HikariCP backend, Forge coremods, and Java launcher. (https://pthomas.fr/projects/exolia)
+- **Variational Quantum Classifiers (QML)**: Hybrid quantum-classical neural networks using PennyLane, Qiskit, and PyTorch. (https://pthomas.fr/projects/variational-quantum-classifiers)
+- **Custom Search Robot**: Autonomous mobile robot with LiDAR SLAM, Nav2 path planning, and embedded YOLO vision in GPS-denied spaces. (https://pthomas.fr/projects/custom-search-robot)
+- **Mundo Search**: AI-powered search engine synthesizing queries into interactive visual concept mindmaps. (https://pthomas.fr/projects/mundo-search)
+- **Web Projects Monorepo**: Centralized monorepo of web applications, campus platforms, and financial trading APIs. (https://pthomas.fr/projects/web-projects)
+- **Computer Science & Algorithms Collection**: Curated collection of CS algorithms, Lotka-Volterra simulations, backtracking Sudoku, and Django systems. (https://pthomas.fr/projects/python-cs-courses)
+
+## Documents & Research
+- **Resume (PDF)**: https://pthomas.fr/Paul_Thomas_Resume.pdf
+- **Technical Research Memo (LINEACT)**: https://pthomas.fr/THOMAS_Paul_Memoire_Technique_LINEACT.pdf
+- **Internship Report (LINEACT)**: https://pthomas.fr/THOMAS_Paul_Rapport_de_Stage.pdf
+- **Comprehensive LLM Context**: https://pthomas.fr/llms-full.txt
+- **Legal & Privacy**: https://pthomas.fr/legal

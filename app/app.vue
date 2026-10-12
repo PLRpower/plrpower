@@ -21,9 +21,9 @@ useHead({
     <div class="relative z-10 flex flex-col min-h-screen">
       <AppHeader />
       <NuxtRouteAnnouncer />
-      <div class="flex-grow">
+      <main class="flex-grow" role="main">
         <NuxtPage />
-      </div>
+      </main>
       <AppFooter />
     </div>
   </div>

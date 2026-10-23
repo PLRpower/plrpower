@@ -1,28 +1,31 @@
-![Paul Thomas](./paul-thomas.svg)
+![Paul Thomas](./public/paul-thomas.svg)
 
 <h1 align="center">Hi, I'm Paul Thomas</h1>
 
 <p align="center">
-  Engineering student and research apprentice at LINEACT (Strasbourg, France)<br>
-  Currently seeking a 3 to 4-month International Internship for Summer 2027
+  Engineering student & research apprentice at LINEACT (Strasbourg, France)<br>
+  Seeking a 3 to 4-month international internship for Summer 2027
 </p>
 
 ### About me
 
-I am an apprentice research engineer driven by figuring out how complex systems work under the hood, especially where solid engineering and algorithmic creativity meet real-world constraints.
+I am a French engineering student and research apprentice at LINEACT in Strasbourg.
 
-Lately, most of my time has been spent on :
-* **Distributed Edge AI (LINEACT Apprenticeship) :** As part of my engineering apprenticeship, I'm setting up decentralized training platforms on small physical clusters (Raspberry Pi and Jetson boards). I focus on communication overhead, decentralized aggregation, and analyzing model convergence under realistic, constrained local network conditions.
-* **Axiom Chess :** An ongoing passion project at the crossroads of computer vision and spatial tracking. It detects boards in real time, overlays moves with AR projection, and runs a custom Alpha-Beta neural engine.
-* **Custom Web Browser :** Building a dedicated desktop browser from scratch using C# and embedded Chromium to explore engine internals and process management.
-* **Quantum Machine Learning :** Experimenting with hybrid quantum-classical neural networks (VQC) using PennyLane and Qiskit, mainly looking into barren plateaus and circuit behavior on noisy backends.
-* **Autonomous Robotics (TurtleBot3) :** Developing an autonomous indoor navigation and visual pipeline to map my apartment and reliably locate everyday targets, like my keys, using onboard SLAM and object detection.
-* **Full-Stack & Web Interfaces :** Crafting responsive web apps and tools across various modern stacks (mostly TypeScript/JavaScript, with a strong soft spot for Vue.js).
+I started programming in 2016, exploring different areas along the way: web development, Python scripting, embedded systems, and machine learning. Today, I enjoy building projects where software interacts closely with real-world systems and hardware—from distributed Edge AI clusters to computer vision and desktop tools.
+
+### Projects
+
+* **Distributed Edge AI (LINEACT Apprenticeship)**: Setting up decentralized training platforms on physical clusters (Raspberry Pi & Jetson boards), analyzing communication overhead, aggregation, and convergence under constrained networks.
+* **[Axiom Chess](https://github.com/PLRpower/axiom-chess)**: An augmented reality chess system that tracks physical chessboards in real time with computer vision (YOLO), projects legal moves and hints directly onto the board, and evaluates positions with a custom Alpha-Beta neural engine. ([Details](https://pthomas.fr/projects/axiom-chess))
+* **[Mundo Browser](https://github.com/PLRpower/mundo-browser)**: A fast, lightweight desktop browser built using C# and Microsoft WebView2. Engineered for privacy, split-view multitasking, and smart memory management. ([Details](https://pthomas.fr/projects/mundo-browser))
+* **[Quantum Machine Learning](https://pthomas.fr/projects/variational-quantum-classifiers)**: Research and implementation of hybrid quantum-classical neural networks (VQC) using PennyLane, Qiskit, and PyTorch, studying noise robustness and barren plateaus.
+* **Autonomous Robotics (TurtleBot3)**: Developing an indoor navigation and visual pipeline with onboard SLAM and object detection to map environments and locate targets.
+* **[Full-Stack & Web Interfaces](https://github.com/PLRpower/web-projects)**: Modern web apps, interactive interfaces, and tools built with TypeScript, Vue.js / Nuxt, and Python. ([Portfolio](https://pthomas.fr))
 
 ### Tech I enjoy working with
 
 <p align="left">
-<a href="https://www.python.org" target="_blank" rel="noreferrer">
+  <a href="https://www.python.org" target="_blank" rel="noreferrer">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/>
   </a>
   <a href="https://pytorch.org/" target="_blank" rel="noreferrer">
@@ -55,7 +58,7 @@ Lately, most of my time has been spent on :
   <a href="https://www.linux.org/" target="_blank" rel="noreferrer">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40"/>
   </a>
- <a href="https://www.docker.com/" target="_blank" rel="noreferrer">
+  <a href="https://www.docker.com/" target="_blank" rel="noreferrer">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" alt="docker" width="40" height="40"/>
   </a>
   <a href="https://git-scm.com/" target="_blank" rel="noreferrer">
@@ -64,7 +67,7 @@ Lately, most of my time has been spent on :
   <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="40" height="40"/>
   </a>
- <a href="https://nodejs.org" target="_blank" rel="noreferrer">
+  <a href="https://nodejs.org" target="_blank" rel="noreferrer">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="nodejs" width="40" height="40"/>
   </a>
   <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noreferrer">
@@ -78,9 +81,8 @@ Lately, most of my time has been spent on :
   </a>
 </p>
 
-
 ### Get in touch
 
-* **Email:** [contact@pthomas.fr](mailto:contact@pthomas.fr)
+* **Website:** [pthomas.fr](https://pthomas.fr)
 * **LinkedIn:** [linkedin.com/in/paul-thomas-cs](https://linkedin.com/in/paul-thomas-cs)
-* **Portfolio:** [pthomas.fr](https://pthomas.fr)
+* **Email:** [contact@pthomas.fr](mailto:contact@pthomas.fr)

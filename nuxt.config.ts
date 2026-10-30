@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     payloadExtraction: false
   },
   nitro: {
+    compressPublicAssets: true,
     prerender: {
       crawlLinks: true,
       routes: ['/', '/legal', '/mentions-legales']
@@ -17,6 +18,14 @@ export default defineNuxtConfig({
     devStorage: {
       'cache:nuxt:payload': { driver: 'memory' }
     }
+  },
+  routeRules: {
+    '/': { headers: { 'cache-control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800' } },
+    '/legal': { headers: { 'cache-control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800' } },
+    '/mentions-legales': { headers: { 'cache-control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800' } },
+    '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+    '/images/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+    '/fonts/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } }
   },
   features: {
     inlineStyles: false
@@ -43,8 +52,9 @@ export default defineNuxtConfig({
       subsets: ['latin']
     },
     families: [
-      { name: 'Geist', weights: [400, 500, 600, 700], preload: true },
-      { name: 'Geist Mono', weights: [400, 500], preload: true },
+      { name: 'Geist', weights: [400], preload: true },
+      { name: 'Geist', weights: [500, 600, 700], preload: false },
+      { name: 'Geist Mono', weights: [400, 500], preload: false },
       { name: 'Caveat', weights: [400], preload: true },
       { name: 'Space Grotesk', weights: [500, 600, 700], preload: false }
     ]

@@ -30,8 +30,6 @@ useHead({
 </template>
 
 <style>
-@import "~/assets/css/main.css";
-
 html, body {
   background-color: #0a0a0a !important;
   color: #e2e2e2;
